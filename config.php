@@ -49,6 +49,143 @@ $THEME->prescsscallback = 'theme_boost_union_child_get_pre_scss';
 // We need to duplicate the rendererfactory even if it is set to the same value as in Boost Union.
 // The theme_config::get_renderer() method needs it to be directly in the theme_config object.
 $THEME->rendererfactory = 'theme_overridden_renderer_factory';
+$THEME->layouts = [
+    // Most backwards compatible layout without the blocks.
+    'base' => [
+        'file' => 'drawers.php',
+        'regions' => [],
+    ],
+    // Standard layout with blocks.
+    'standard' => [
+        'file' => 'drawers.php',
+        'regions' => array_merge(theme_boost_union_get_block_regions('standard'), ['header', 'content-upper']),
+        'defaultregion' => 'side-pre',
+    ],
+    // Main course page.
+    'course' => [
+        'file' => 'drawers.php',
+        'regions' => theme_boost_union_get_block_regions('course'),
+        'defaultregion' => 'side-pre',
+        'options' => ['langmenu' => true],
+    ],
+    'coursecategory' => [
+        'file' => 'drawers.php',
+        'regions' => theme_boost_union_get_block_regions('coursecategory'),
+        'defaultregion' => 'side-pre',
+    ],
+    // Part of course, typical for modules - default page layout if $cm specified in require_login().
+    'incourse' => [
+        'file' => 'drawers.php',
+        'regions' => theme_boost_union_get_block_regions('incourse'),
+        'defaultregion' => 'side-pre',
+    ],
+    // The site home page.
+    'frontpage' => [
+        'file' => 'drawers.php',
+        'regions' => theme_boost_union_get_block_regions('frontpage'),
+        'defaultregion' => 'side-pre',
+        'options' => ['nonavbar' => true],
+    ],
+    // Server administration scripts.
+    'admin' => [
+        'file' => 'drawers.php',
+        'regions' => theme_boost_union_get_block_regions('admin'),
+        'defaultregion' => 'side-pre',
+    ],
+    // My courses page.
+    'mycourses' => [
+        'file' => 'drawers.php',
+        'regions' => ['side-pre'],
+        'defaultregion' => 'side-pre',
+        'options' => ['nonavbar' => true],
+    ],
+    // My dashboard page.
+    'mydashboard' => [
+        'file' => 'drawers.php',
+        'regions' => theme_boost_union_get_block_regions('mydashboard'),
+        'defaultregion' => 'side-pre',
+        'options' => ['nonavbar' => true, 'langmenu' => true],
+    ],
+    // My public page.
+    'mypublic' => [
+        'file' => 'drawers.php',
+        'regions' => theme_boost_union_get_block_regions('mypublic'),
+        'defaultregion' => 'side-pre',
+    ],
+    'login' => [
+        'file' => 'login.php',
+        'regions' => [],
+        'options' => ['langmenu' => true],
+    ],
+
+    // Pages that appear in pop-up windows - no navigation, no blocks, no header and bare activity header.
+    'popup' => [
+        'file' => 'columns1.php',
+        'regions' => [],
+        'options' => [
+            'nofooter' => true,
+            'nonavbar' => true,
+            'activityheader' => [
+                'notitle' => true,
+                'nocompletion' => true,
+                'nodescription' => true
+            ]
+        ]
+    ],
+    // No blocks and minimal footer - used for legacy frame layouts only!
+    'frametop' => [
+        'file' => 'columns1.php',
+        'regions' => [],
+        'options' => [
+            'nofooter' => true,
+            'nocoursefooter' => true,
+            'activityheader' => [
+                'nocompletion' => true
+            ]
+        ],
+    ],
+    // Embeded pages, like iframe/object embeded in moodleform - it needs as much space as possible.
+    'embedded' => [
+        'file' => 'embedded.php',
+        'regions' => ['side-pre'],
+        'defaultregion' => 'side-pre',
+    ],
+    // Used during upgrade and install, and for the 'This site is undergoing maintenance' message.
+    // This must not have any blocks, links, or API calls that would lead to database or cache interaction.
+    // Please be extremely careful if you are modifying this layout.
+    'maintenance' => [
+        'file' => 'maintenance.php',
+        'regions' => [],
+    ],
+    // Should display the content and basic headers only.
+    'print' => [
+        'file' => 'columns1.php',
+        'regions' => [],
+        'options' => ['nofooter' => true, 'nonavbar' => false, 'noactivityheader' => true],
+    ],
+    // The pagelayout used when a redirection is occuring.
+    'redirect' => [
+        'file' => 'embedded.php',
+        'regions' => [],
+    ],
+    // The pagelayout used for reports.
+    'report' => [
+        'file' => 'drawers.php',
+        'regions' => theme_boost_union_get_block_regions('report'),
+        'defaultregion' => 'side-pre',
+    ],
+    // The pagelayout used for safebrowser and securewindow.
+    'secure' => [
+        'file' => 'secure.php',
+        'regions' => ['side-pre'],
+        'defaultregion' => 'side-pre',
+        'options' => [
+            'activityheader' => [
+                'notitle' => false,
+            ],
+        ],
+    ]
+];
 
 // Lastly, we replicate some settings from Boost Union at runtime into Boost Union Child's settings.
 // This becomes necessary if Moodle core code accesses a theme setting at $this->page->theme->settings->*.
