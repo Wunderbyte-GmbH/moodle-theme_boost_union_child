@@ -1,0 +1,30 @@
+<div class="row">
+  {{#videos}}
+  <div class="col-md-4 my-4 align-items-stretch">
+    <div class="card mb-2 search-data-element h-100 p-2">
+        {{{video}}}
+      <div class="card-body">
+        <h2 class="mt-2">{{title}}</h2>
+        <div class="d-flex row">
+          <div class="col-md-12 text-right small"><b>{{displaydate}}</b></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {{/videos}}
+</div>
+
+<script>
+function loadYouTubeVideo(el, id) {
+  const container = el.parentElement;
+  const iframe = document.createElement('iframe');
+  iframe.setAttribute('allowfullscreen', '');
+  iframe.setAttribute('allow', 'autoplay; encrypted-media');
+  iframe.setAttribute('frameborder', '0');
+  iframe.className = 'w-100';
+  iframe.style.aspectRatio = '16/9';
+  iframe.src = 'https://www.youtube.com/embed/' + id + '?autoplay=1&rel=0';
+  container.innerHTML = '';
+  container.appendChild(iframe);
+}
+</script>

@@ -95,7 +95,7 @@ $THEME->layouts = [
     // My courses page.
     'mycourses' => [
         'file' => 'drawers.php',
-        'regions' => ['side-pre'],
+        'regions' => ['side-pre', 'outside-top', 'outside-bottom'],
         'defaultregion' => 'side-pre',
         'options' => ['nonavbar' => true],
     ],
