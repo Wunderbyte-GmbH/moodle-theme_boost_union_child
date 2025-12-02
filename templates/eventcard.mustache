@@ -1,0 +1,43 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+    Distributed under the GNU GPL v3 or later.
+}}
+
+{{!
+    @template local_yourplugin/coursecard
+    Template for displaying a single course card.
+    Context variables:
+    * image - course image URL
+    * category - course category or tag
+    * title - course title
+    * duration - estimated time string (e.g. "1 ora")
+    * progress - numeric percentage (e.g. 25)
+}}
+{{#events}}
+<div class="card mb-3 border-0" style="max-width: 780px;">
+  <div class="row g-0 align-items-center">
+    <div class="col-md-12">
+      <div class="card-body">
+          <span class="w-semibold mb-2 px-2 py-1">
+            {{category}}
+          </span>
+
+        <h5 class="card-title fw-bold mb-3">{{coursename}}</h5>
+
+        <div class="text-muted small d-flex align-items-center gap-2">
+          <i class="bi bi-clock"></i>
+          <span>{{duration}}</span>
+          <span class="mx-1">|</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{{/events}}
+
+<style>
+    .img-container {
+    overflow: hidden;
+    height: 300px;
+    }
+</style>
