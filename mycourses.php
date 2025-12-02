@@ -27,7 +27,7 @@ require_login();
 
 $context = context_system::instance();
 $PAGE->set_context($context);
-$PAGE->set_pagelayout('mydashboard');
+$PAGE->set_pagelayout('standard');
 
 $PAGE->set_url('/theme/boost_union_child/mycourses.php');
 

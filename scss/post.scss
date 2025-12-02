@@ -3,3 +3,330 @@
  * Add your SCSS code here.
  * It will be added on top of Boost Union's SCSS code.
  ***************************************************************/
+
+/** Videos and Centered Images **/
+ .video-thumbnail, .centered-image, .video-container iframe {
+    border-radius: 0px;
+ }
+
+.card.video-card {
+  border-bottom-right-radius: 16px;
+}
+
+.rr-16 {
+   border-bottom-right-radius: 16px;
+}
+
+.modal-content {
+  border-radius: 0;
+}
+
+textarea, input, .form-control,
+.modal-dialog[tabindex="0"].focus .modal-content,
+.modal-dialog[tabindex="0"]:focus .modal-content {
+  border-radius: 0;
+}
+
+.agenas .searchbackground {
+   background: url([[pix:theme|backgroundsearch]]) no-repeat center center;
+   background-size: cover;
+   min-height: 25em;
+
+}
+
+.wunderbyteTableSearch.agenas {
+   width: 100%;
+   max-width: 600px;
+   margin: 0 auto;
+   display: flex !important;
+   gap: 0;
+   
+   input.search {
+       flex: 1;
+       height: 50px;
+       border-radius: 4px 0 0 4px;
+       padding: 0 1.5rem;
+   }
+   
+   .searchbutton {
+       height: 50px;
+       border-radius: 0 4px 4px 0;
+       padding: 0 2rem;
+       background: #0063A6;
+       margin-left: 0 !important;
+   }
+}
+.agenas {
+   .wunderbyte_table_container.showontop .filterheader {
+      background: #E1EAF9;
+   }
+
+   .wunderbyte_table_components {
+      background: #E1EAF9;
+   }
+
+   .single-card-element {
+      border: none;
+      box-shadow: 0px 4px 24px 0px rgba(0, 0, 0, 0.02);
+      position: relative;
+      overflow: visible;
+
+      // Wrapper for image area with overlay
+      .card-image-wrapper {
+         position: relative;
+         
+         .card-image-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 5;
+            pointer-events: none;
+         }
+      }
+      
+      // Ensure image displays properly
+      .local-wunderbyte-table-card-image {
+         display: block;
+      }
+
+      // Button positioned over image area
+      .local-wunderbyte-table-card-mainarea {
+         position: absolute;
+         top: 0;
+         left: 0;
+         right: 0;
+         height: 220px;
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         opacity: 0;
+         transition: opacity 0.3s ease;
+         z-index: 10;
+      }
+
+      &:hover {
+         .card-image-overlay {
+            opacity: 1;
+         }
+
+         .local-wunderbyte-table-card-mainarea {
+            opacity: 1;
+         }
+      }
+   }
+
+   .backgroundtable.wunderbyteTableClass {
+      background: #EFF3F4
+   }
+
+   li[title="Bookings"] {
+         display: none;
+   }
+   .showdates {
+      display: none
+   }
+
+   .local-wunderbyte-table-card-mainarea {
+      .booking-button-mainarea {
+         padding: 12px;
+      }
+   }
+
+   .local-wunderbyte-table-card-image-and-body-area {
+
+      color: rgba(51, 51, 51, 1);
+      .text a{
+         color: rgba(51, 51, 51, 1)
+      }
+      .cardbody {
+         padding-top: 1.5em;
+         padding-bottom: 0.5em;
+         padding-left: 1em;
+         padding-right: 1em;
+      }
+   }
+
+   .local-wunderbyte-table-card-image {
+      height: 220px;
+      object-fit: cover;
+   }
+   .wunderbyte-table-grid {
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    padding: 10px;
+    gap: 20px; 
+   }
+   .filter-header {
+      padding: 10px;
+   }
+   .showontop .wunderbyteTableFilter.row {
+      justify-content: space-between;
+   }
+   .wunderbyte_table_container .wunderbyteTableFilter .dropdownMenuButton {
+    width: 350px;
+    height: 44px;
+    color: rgba(92, 111, 130, 1)
+   }
+
+   @media screen and (max-width: 991px) {
+    .wunderbyte_table_container .wunderbyteTableFilter .dropdownMenuButton {
+        max-width: 100%;
+        width: 100%;
+      }
+   }
+
+   .dropdown-menu {
+      border-radius: 0;
+   }
+   .cardcompetency {
+      margin-left: 1em;
+      margin-right: 1em;
+      margin-top: 10px;
+      .cardcompetencytag {
+         background: rgba(187, 255, 233, 1);
+         color: rgba(51, 51, 51, 1);
+         padding: 4px;
+      }
+   }
+   .carddurata {
+      margin-left: 1em;
+      margin-right: 1em;
+      color: rgba(51, 51, 51, 1);
+      position: absolute;
+      bottom: 10px
+   }
+   .footer {
+      padding-bottom: 3rem;
+   }
+}
+
+// Booking Option Description View Styling
+.booking-option-agenas {
+   .course-image-wrapper {
+      img {
+         width: 100%;
+         height: auto;
+      }
+   }
+   
+   .course-overview-box {
+      background: #0063A6;
+      color: white;
+      padding: 24px;
+      
+      .overview-title {
+         font-size: 1.25rem;
+         font-weight: 600;
+         margin-bottom: 20px;
+         border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+         padding-bottom: 12px;
+      }
+      
+      .overview-item {
+         margin-bottom: 16px;
+         
+         .overview-label {
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 4px;
+         }
+         
+         .overview-value {
+            font-size: 0.9rem;
+            opacity: 0.95;
+         }
+         
+         &:last-child {
+            margin-bottom: 0;
+         }
+      }
+   }
+   
+   .course-title {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: #333;
+   }
+   
+   .course-description {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: #666;
+      margin-bottom: 2rem;
+   }
+   
+   .learning-objectives-section {
+      margin-top: 2rem;
+      
+      .learning-objectives-title {
+         font-size: 1.5rem;
+         font-weight: 600;
+         margin-bottom: 1rem;
+         color: #333;
+      }
+      
+      .learning-objectives-list {
+         .learning-objective-item {
+            background: #E1EAF9;
+            padding: 16px;
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+            color: #333;
+            
+            &:last-child {
+               margin-bottom: 0;
+            }
+         }
+      }
+   }
+   
+   .btn-outline-secondary {
+      border-color: #ccc;
+      color: #666;
+      
+      &:hover {
+         background: #f5f5f5;
+         border-color: #999;
+      }
+   }
+}
+
+#page-mod-booking-optionview {
+   #region-main, #topofscroll, #page-content {
+      background: transparent;
+   }
+}
+
+#page-theme-boost_union_child-allcourses #topofscroll {
+   display: none !important;
+}
+
+#page-theme-boost_union_child-allcourses  #theme-block-region-outside-top #block-region-outside-top .card-body {
+   padding: 0 !important;
+}
+#page-theme-boost_union_child-allcourses #theme-block-region-outside-top .content.mt-3 {
+   margin: 0px !important;
+}
+
+// Page mycourses adjustments
+#page-theme-boost_union_child-mycourses #theme-block-region-outside-top #block-region-outside-top section.card {
+   background: url([[pix:theme|backgroundsearch]]) no-repeat center center;
+   background-size: cover;
+   min-height: 25em;
+}
+
+#page-theme-boost_union_child-mycourses #topofscroll {
+  padding: 0;
+  margin: 0;
+  max-width: 100%;
+  min-height: 100%
+}
+
+#page-theme-boost_union_child-mycourses  .block_html.block.card.mb-3 {
+  margin: 0 !important;
+}

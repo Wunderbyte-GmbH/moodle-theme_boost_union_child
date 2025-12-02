@@ -46,4 +46,29 @@ $shortcodes = [
         'wraps' => false,
         'description' => 'bcunewnews',
     ],
+    'bcuusername' => [
+        'callback' => 'theme_boost_union_child\shortcodes::bcuusername',
+        'wraps' => false,
+        'description' => 'bcuusername',
+    ],
+    'bcuevents' => [
+        'callback' => 'theme_boost_union_child\shortcodes::bcuevents',
+        'wraps' => false,
+        'description' => 'bcuevents',
+    ],
+    'bcusubito' => [
+        'callback' => 'theme_boost_union_child\shortcodes::bcusubito',
+        'wraps' => false,
+        'description' => 'bcusubito',
+    ],
+    'bcuseguire' => [
+        'callback' => 'theme_boost_union_child\shortcodes::bcuseguire',
+        'wraps' => false,
+        'description' => 'bcuseguire',
+    ],
+    'bcunuovo' => [
+        'callback' => 'theme_boost_union_child\shortcodes::bcunuovo',
+        'wraps' => false,
+        'description' => 'bcunuovo',
+    ],
 ];

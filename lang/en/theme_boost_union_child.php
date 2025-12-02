@@ -54,3 +54,13 @@ $string['extrascssinheritancesetting_desc'] = 'With this setting, you control if
 
 // Privacy API.
 $string['privacy:metadata'] = 'The Boost Union Child theme does not store any personal data about any user.';
+
+// Search page strings.
+$string['searchheadertext'] = 'Tutti i corsi';
+$string['searchsubheadertext'] = 'Trova subito il corso di aggiornamento che ti serve: usa la ricerca qui sotto o i filtri per orientarti tra i contenuti.';
+$string['searchplaceholder'] = 'Cerca corsi...';
+$string['searchbutton'] = 'Cerca';
+
+// Filter strings.
+$string['filterselect'] = 'Seleziona';
+$string['filterby'] = 'Filtra per';

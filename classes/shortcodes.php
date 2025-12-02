@@ -33,10 +33,32 @@ use context_course;
 use moodle_url;
 use core_course\external\course_summary_exporter;
 use Throwable;
+use mod_booking\shortcodes_handler;
+use mod_booking\booking;
+use mod_booking\table\bookingoptions_wbtable;
+use cache_helper;
+use context_module;
+use context_system;
+use Exception;
+use html_writer;
+use local_wunderbyte_table\filters\types\datepicker;
+use local_wunderbyte_table\filters\types\intrange;
+use local_wunderbyte_table\filters\types\standardfilter;
+use local_wunderbyte_table\wunderbyte_table;
+use mod_booking\form\dynamicdeputyselect;
+use mod_booking\local\shortcode_filterfield;
+use mod_booking\output\booked_users;
+use mod_booking\customfield\booking_handler;
+use mod_booking\local\modechecker;
+use mod_booking\output\view;
+use mod_booking\singleton_service;
+use mod_booking\table\bulkoperations_table;
+use mod_booking\output\renderer;
 
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/local/wb_news/lib.php');
+require_once($CFG->dirroot . '/mod/booking/lib.php');
 
 /**
  * Deals with local_shortcodes regarding booking.
@@ -203,18 +225,75 @@ class shortcodes {
 
         require_login();
         
-        $data = [
-            'image' => 'https://agenastest.wunderbyte.at/pluginfile.php/36/course/overviewfiles/risorsa71.jpg',
-            'category' => 'Aggiornamento',
-            'date' => '10/11/2025',
-            'title' => 'Nuove funzionalità disponibili nella piattaforma LMS',
-            'text' => 'Abbiamo introdotto nuove funzionalità per migliorare la tua esperienza di formazione online. Ora puoi accedere più facilmente ai contenuti e monitorare i tuoi progressi.'
-        ]; 
-        $news = [
-            'news' => [ $data, $data ]
+        $records = $DB->get_records_sql('SELECT n.*
+                                        FROM {local_wb_news} n
+                                    ORDER BY n.timecreated DESC', [], 0, 3);
+
+        $templatecontext = [
+            'news' => array_values($records),
         ];
 
-        return $OUTPUT->render_from_template('theme_boost_union_child/newscards', $news);
+        return $OUTPUT->render_from_template('theme_boost_union_child/newscards', $templatecontext);
+    }
+
+    public static function bcuusername($shortcode, $args, $content, $env, $next) {
+        global $DB, $USER;
+
+        require_login();
+
+        return fullname($USER);
+    }
+
+    public static function bcuevents($shortcode, $args, $content, $env, $next) {
+        global $USER, $OUTPUT;
+
+        require_login();
+
+        $onlyactive = true;
+        $fields = 'id,shortname,fullname,summary,summaryformat,category,visible,startdate,enddate';
+        $sort = 'fullname ASC';
+        $courses = enrol_get_users_courses($USER->id, $onlyactive, $fields, $sort);
+
+        if (empty($courses)) {
+            return get_string('nocourses', 'moodle');
+        }
+
+        $fs = get_file_storage();
+        $items = [];
+
+        foreach ($courses as $c) {
+            $context = context_course::instance($c->id);
+            $courseimage = course_summary_exporter::get_course_image($c);
+
+            if (!$courseimage) {
+                $courseimage = $OUTPUT->get_generated_image_for_id($data->id);
+            }            
+            $catname = '';
+            if (!empty($c->category)) {
+                $cat = \core_course_category::get($c->category, IGNORE_MISSING);
+                if ($cat) {
+                    $catname = $cat->get_formatted_name();
+                }
+            }
+
+            $items[] = [
+                'id'            => $c->id,
+                'coursename'    => $c->fullname,
+                'summary'       => format_text($c->summary ?? '', $c->summaryformat ?? FORMAT_HTML, ['context' => $context]),
+                'viewurl'       => (new moodle_url('/course/view.php', ['id' => $c->id]))->out(false),
+                'courseimage'   => $courseimage,
+                'categoryname'  => $catname,
+                'visible'       => (int)$c->visible,
+                'hasprogress'   => false,
+                'progress'      => 0,
+                'showshortname' => true,
+            ];
+        }
+
+        $out = '';
+        $out .= $OUTPUT->render_from_template('theme_boost_union_child/eventcard', ['courses' => $items]);
+
+        return $out;
     }
 
     public static function bcumycourses($shortcode, $args, $content, $env, $next) {
@@ -239,8 +318,8 @@ class shortcodes {
             $courseimage = course_summary_exporter::get_course_image($c);
 
             if (!$courseimage) {
-                $courseimage = $OUTPUT->image_url('course/default', 'theme')->out(true);
-            }
+                $courseimage = $OUTPUT->get_generated_image_for_id($data->id);
+            }            
             $catname = '';
             if (!empty($c->category)) {
                 $cat = \core_course_category::get($c->category, IGNORE_MISSING);
@@ -251,7 +330,7 @@ class shortcodes {
 
             $items[] = [
                 'id'            => $c->id,
-                'coursename'      => $c->fullname,
+                'coursename'    => $c->fullname,
                 'summary'       => format_text($c->summary ?? '', $c->summaryformat ?? FORMAT_HTML, ['context' => $context]),
                 'viewurl'       => (new moodle_url('/course/view.php', ['id' => $c->id]))->out(false),
                 'courseimage'   => $courseimage,
@@ -264,10 +343,191 @@ class shortcodes {
         }
 
         $out = '';
-        foreach ($items as $item) {
-            $out .= $OUTPUT->render_from_template('theme_boost_union_child/coursecardhorizontal', ['courses' => $items]);
+        $out .= $OUTPUT->render_from_template('theme_boost_union_child/coursecardhorizontal', ['courses' => $items]);
+
+        return $out;
+    }
+
+    public static function bcusubito($shortcode, $args, $content, $env, $next) {
+        global $OUTPUT;
+
+        require_login();
+
+        $args['futureonly'] = 1;
+        [$coursehtml, $count] = self::get_my_courselistdata($shortcode, $args, $content, $env, $next);
+        if ($courses &&  $count > 1) {
+            $count = $count . ' ' . get_string('courses', 'moodle');
+        } else {
+            $count = $count . ' ' . get_string('course', 'moodle');
         }
 
+        $templatecontext = [
+            'title' => 'Inizia subito',
+            'count' => $count,
+            'courses' => $coursehtml,
+        ];
+        $out = $OUTPUT->render_from_template('theme_boost_union_child/mycourses', $templatecontext); 
+
+        return $out;
+    }
+
+    public static function get_my_courselistdata($shortcode, $args, $content, $env, $next) {
+        global $USER, $PAGE, $CFG;
+        $requiredargs = [];
+        //$error = shortcodes_handler::validatecondition($shortcode, $args, true, $requiredargs);
+        if ($error['error'] === 1) {
+            return $error['message'];
+        }
+
+        if (isset($args['userid']) && !empty($args['userid'])) {
+            $userid = $args['userid'];
+        } else {
+            $userid = $USER->id;
+        }
+        $wherearray = [];
+        $course = $PAGE->course;
+        $pageurl = $course->shortname . $PAGE->url->out();
+        $tablename = ($userid . 'mycourses');
+        $table = new bookingoptions_wbtable($tablename);
+        if (!empty($args['cmid'])) {
+            $booking = singleton_service::get_instance_of_booking_settings_by_cmid((int)$args['cmid']);
+            $wherearray['bookingid'] = (int)$booking->id;
+        }
+
+        // Additional where condition for both card and list views.
+
+        if (!empty($args['completed'])) {
+            $wherearray['completed'] = 1;
+        }
+
+        $statusarray = [MOD_BOOKING_STATUSPARAM_BOOKED];
+        if (!empty($args['statuswaitinglist'])) {
+            $statusarray[] = MOD_BOOKING_STATUSPARAM_WAITINGLIST;
+        }
+
+        [$fields, $from, $where, $params, $filter] =
+                booking::get_options_filter_sql(
+                    0,
+                    0,
+                    '',
+                    null,
+                    null,
+                    [],
+                    $wherearray,
+                    $userid,
+                    $statusarray,
+                    $additionalwhere
+                );
+        if (!empty($args['futureonly'])) {
+            $startoftoday = strtotime('today midnight');
+            $where .= " AND coursestarttime > $startoftoday ";
+        }
+        $table->set_filter_sql($fields, $from, $where, $filter, $params);
+        $possibleoptions = [
+            "description",
+            "statusdescription",
+            "attachment",
+            "teacher",
+            "responsiblecontact",
+            "showdates",
+            "dayofweektime",
+            "location",
+            "institution",
+            "minanswers",
+            "bookingopeningtime",
+            "bookingclosingtime",
+            "coursestarttime",
+            "booknow",
+        ];
+        // When calling recommendedin in the frontend we can define exclude params to set options, we don't want to display.
+
+        if (!empty($args['exclude'])) {
+            $exclude = explode(',', $args['exclude']);
+            $optionsfields = array_diff($possibleoptions, $exclude);
+        } else {
+            $optionsfields = $possibleoptions;
+        }
+
+        $showfilter = !empty($args['filter']) ? true : false;
+        $showsort = !empty($args['sort']) ? true : false;
+        $showsearch = !empty($args['search']) ? true : false;
+
+        view::apply_standard_params_for_bookingtable(
+            $table,
+            $optionsfields,
+            $showfilter,
+            $showsearch,
+            $showsort,
+            false,
+            1,
+            MOD_BOOKING_VIEW_PARAM_CARDS
+        );
+        $table->showcountlabel = false;
+
+        if (
+            isset($args['filterontop'])
+            && (
+                $args['filterontop'] == '1'
+                || $args['filterontop'] == 'true'
+            )
+        ) {
+            $table->showfilterontop = true;
+        } else {
+            $table->showfilterontop = false;
+        }
+
+        // Set common table options requirelogin, sortorder, sortby.
+
+        $table->define_cache('mod_booking', 'mybookingoptionstable');
+        $perpage = 20;
+        try {
+            $out = $table->outhtml($perpage, true);
+        } catch (Throwable $e) {
+            $out = get_string('shortcode:error', 'mod_booking');
+
+            if ($CFG->debug > 0 && has_capability('moodle/site:config', context_system::instance())) {
+                $out .= $e->getMessage();
+            }
+        }
+        return [$out, count($table->rawdata)];
+    }
+
+    public static function bcuseguire($shortcode, $args, $content, $env, $next) {
+        global $OUTPUT, $DB;
+        
+        require_login();
+        [$coursehtml, $count] = self::get_my_courselistdata($shortcode, $args, $content, $env, $next);
+        if ($count > 1) {
+            $count = $count . ' ' . get_string('course', 'moodle');
+        } else {
+            $count = $count . ' ' . get_string('courses', 'moodle');
+        }
+        $templatecontext = [
+            'title' => 'Continua a seguire',
+            'count' => $count,
+            'courses' => $coursehtml,
+        ];
+        $out = $OUTPUT->render_from_template('theme_boost_union_child/mycourses', $templatecontext);
+
+        return $out;
+    }
+
+    public static function  bcunuovo($shortcode, $args, $content, $env, $next) {
+        global $OUTPUT;
+        $args['completed'] = 1;
+
+        [$coursehtml, $count] = self::get_my_courselistdata($shortcode, $args, $content, $env, $next);
+        if ($count > 1) {
+            $count = $count . ' ' . get_string('course', 'moodle');
+        } else {
+            $count = $count . ' ' . get_string('courses', 'moodle');
+        }
+        $templatecontext = [
+            'title' => 'Già visti, se vuoi seguili di nuovo',
+            'count' => $count,
+            'courses' => $coursehtml,
+        ];
+        $out = $OUTPUT->render_from_template('theme_boost_union_child/mycourses', $templatecontext);
         return $out;
     }
 }
