@@ -64,7 +64,6 @@ class bcutable extends \mod_booking\table\bookingoptions_wbtable {
         if (empty($course)) {
             return '';
         }
-        require_once($CFG->dirroot . '/mod/zoom/lib.php');
         $zooms = get_all_instances_in_course('zoom', $course);
         if (empty($zooms)) {
             return '';
@@ -75,7 +74,7 @@ class bcutable extends \mod_booking\table\bookingoptions_wbtable {
             return '';
         }
         $btntext = get_string('join_meeting', 'mod_zoom');
-        $buttonhtml = html_writer::tag('button', $btntext, ['type' => 'submit', 'class' => 'btn btn-primary']);
+        $buttonhtml = html_writer::tag('button', 'Participa', ['type' => 'submit', 'class' => 'btn btn-primary']);
         $aurl = new moodle_url('/mod/zoom/loadmeeting.php', ['id' => $z->id]);
         $buttonhtml .= html_writer::input_hidden_params($aurl);
         $link = html_writer::tag('form', $buttonhtml, ['action' => $aurl->out_omit_querystring(), 'target' => '_blank']);
