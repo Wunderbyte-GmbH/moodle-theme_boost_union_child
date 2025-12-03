@@ -73,7 +73,7 @@
 </nav>
 {{/menubar}}
 <nav class="navbar fixed-top {{navbarcolorclasses}} navbar-expand {{#bottombar.drawer}} smartmenu-bottom-navigation {{/bottombar.drawer}}" aria-label="{{#str}}sitemenubar, admin{{/str}}">
-    <div class="container-fluid  justify-content-end">
+    <div class="container-fluid">
         {{^bottombar.drawer}}
         <button class="navbar-toggler aabtn d-block d-md-none px-1 my-1 border-0 float-left" data-toggler="drawers" data-action="toggle" data-target="theme_boost-drawers-primary">
             <span class="navbar-toggler-icon"></span>
@@ -81,7 +81,7 @@
         </button>
         {{/bottombar.drawer}}
 
-        <a href="float-left {{#alternativelogolinkurl}}{{{alternativelogolinkurl}}}{{/alternativelogolinkurl}}{{^alternativelogolinkurl}}{{{ config.homeurl }}}{{/alternativelogolinkurl}}" class="navbar-brand align-items-center m-0 me-4 p-0 aabtn {{#bottombar.drawer}} d-flex {{/bottombar.drawer}} {{^bottombar.drawer}} d-none d-md-flex {{/bottombar.drawer}} ">
+        <a href="{{#alternativelogolinkurl}}{{{alternativelogolinkurl}}}{{/alternativelogolinkurl}}{{^alternativelogolinkurl}}{{{ config.homeurl }}}{{/alternativelogolinkurl}}" class="navbar-brand align-items-center m-0 me-4 p-0 aabtn {{#bottombar.drawer}} d-flex {{/bottombar.drawer}} {{^bottombar.drawer}} d-none d-md-flex {{/bottombar.drawer}} ">
 
             {{# output.should_display_navbar_logo }}
                 <img src="{{output.get_compact_logo_url}}" class="logo me-1" alt="{{sitename}}">
@@ -91,7 +91,7 @@
             {{/ output.should_display_navbar_logo }}
         </a>
         {{#primarymoremenu}}
-            <div class="primary-navigation">
+            <div class="primary-navigation ms-auto">
                 {{> core/moremenu}}
             </div>
         {{/primarymoremenu}}
