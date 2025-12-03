@@ -33,9 +33,9 @@
     }
 }}
 
-<div class="card {{#lightmode}} wb_news-light{{/lightmode}}{{#cssclasses}} {{cssclasses}}{{/cssclasses}} mb-4"{{#bgcolor}} style="background-color: {{bgcolor}}; min-height: 200px; border: none"{{/bgcolor}}>
+<div class="card {{#lightmode}} wb_news-light{{/lightmode}}{{#cssclasses}} {{cssclasses}}{{/cssclasses}} mb-4"{{#bgcolor}} style="background-color: {{bgcolor}}; border: none"{{/bgcolor}}>
             {{#detailviewurl}}<a href="{{detailviewurl}}" class="stretched-link" {{#btnlinktarget}}target="{{.}}"{{/btnlinktarget}} {{#btnlinkrel}}rel="{{.}}"{{/btnlinkrel}}></a> {{/detailviewurl}}
-            <div class="row" style="min-height: 280px;">
+            <div class="row">
                 <div class="col-md-4">
                     {{#headerimage}}
                     <img class="h-100 img-fluid" style="object-fit:cover;" src="{{headerimage}}" aria-label="{{headerimagetext}}" alt="{{headerimagetext}}">
@@ -46,21 +46,18 @@
                 </div>
                 <div class="col-md-8">
                     <div class="card-body h-100">
-                        <div class="d-flex justify-content-start align-items-center">
-                            {{#tags}} <span class="btn btn-outline-secondary mr-2 text-primary btn-sm rounded-lg d-flex align-items-center">{{.}}</span>{{/tags}}
-                            <small style="border-left: 2px solid var(--lightgrayurise);
-                                    padding-left: 10px;
-                                }" class="text-muted">{{{publishedon}}}
+                        <div class="d-flex justify-content-between">
+                            <h6 class="card-subtitle {{^lightmode}} text-muted{{/lightmode}}">{{{subheadline}}}</h6>
+                            <small class="text-muted float-right">{{{publishedon}}}
                             </small>
                         </div>
-                        <h5 class="card-title mt-2">{{{headline}}}</h5>
-                        <h6 class="card-subtitle mb-2{{^lightmode}} text-muted{{/lightmode}}">{{{subheadline}}}</h6>
+                        <h3 class="card-title mt-2 text-primary">{{{headline}}}</h3>
                         <p class="card-text">{{shortdescription}}</p>
                     </div>
                 </div>
             </div>
-        {{#editmode}}
+    {{#editmode}}
         {{> local_wb_news/editsinglenews}}
-{{/editmode}}
+    {{/editmode}}
 </div>
 

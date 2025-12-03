@@ -34,6 +34,17 @@ textarea, input, .form-control,
 
 }
 
+#page-theme-boost_union_child-allcourses {
+      .backgroundtable.wunderbyteTableClass {
+      background: #EFF3F4;
+      padding-top: 3rem;
+      .wb-records-count-label {
+         padding: 10px 40px;
+         color: rgba(43, 39, 45, 1);
+      }
+   }
+}
+
 .wunderbyteTableSearch.agenas {
    width: 100%;
    max-width: 600px;
@@ -119,10 +130,16 @@ textarea, input, .form-control,
          }
       }
    }
+   
+   // .backgroundtable.wunderbyteTableClass {
+   //    background: #EFF3F4;
+   //    padding-top: 3rem;
+   //    .wb-records-count-label {
+   //       padding: 10px 40px;
+   //       color: rgba(43, 39, 45, 1);
+   //    }
+   // }
 
-   .backgroundtable.wunderbyteTableClass {
-      background: #EFF3F4
-   }
 
    li[title="Bookings"] {
          display: none;
@@ -157,7 +174,7 @@ textarea, input, .form-control,
    }
    .wunderbyte-table-grid {
     grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-    padding: 10px;
+    padding: 10px 40px;
     gap: 20px; 
    }
    .filter-header {
@@ -172,6 +189,9 @@ textarea, input, .form-control,
     color: rgba(92, 111, 130, 1)
    }
 
+   .wunderbyteTableFilter .dropdown-item:hover label {
+      background: initial;
+   }
    @media screen and (max-width: 991px) {
     .wunderbyte_table_container .wunderbyteTableFilter .dropdownMenuButton {
         max-width: 100%;
@@ -214,7 +234,7 @@ textarea, input, .form-control,
    }
    
    .course-overview-box {
-      background: #0063A6;
+      background: rgba(0, 75, 147, 1);
       color: white;
       padding: 24px;
       
@@ -250,6 +270,7 @@ textarea, input, .form-control,
       font-size: 2rem;
       font-weight: 700;
       margin-bottom: 1rem;
+      margin-top: 1rem;
       color: #333;
    }
    
@@ -294,6 +315,19 @@ textarea, input, .form-control,
          border-color: #999;
       }
    }
+
+   .backgroundrow {
+      background: white;
+      .col-md-5 {
+         padding-left: 0;
+      }
+   }
+   .back-button {
+      text-decoration: underline;
+   }
+   .booking-button-mainarea {
+      width: initial !important;
+   }
 }
 
 #page-mod-booking-optionview {
@@ -329,4 +363,88 @@ textarea, input, .form-control,
 
 #page-theme-boost_union_child-mycourses  .block_html.block.card.mb-3 {
   margin: 0 !important;
+}
+
+.horizontal .wunderbyte-table-grid {
+  display: grid;
+    grid-template-columns: repeat(auto-fit,   minmax(600px, 1fr));
+  padding: 10px;
+  gap: 20px;
+}
+
+.horizontal .wunderbyte-table-grid img {
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+}
+
+.bucmycourses .wunderbyte-table-grid.no-overflow.rows-container {
+  padding: 0px;
+}
+
+#page-theme-boost_union_child-mycourses #theme-block-region-content-upper #block-region-content-upper .card-body {
+   padding: 0 !important;
+}
+
+#page-theme-boost_union_child-mycourses #topofscroll #page-header {
+   display: none !important;
+}
+#page-theme-boost_union_child-mycourses #page-content, 
+#page-theme-boost_union_child-mycourses #theme-block-region-content-upper
+{  
+   margin: 0px !important;
+   padding: 0 !important;
+}
+#footnote {
+   overflow: hidden;
+   margin-left: 0 !important;
+   margin-right: 0 !important;
+}
+#page-local-wb_video-index:not(.editing) .wunderbyte_table_components {
+  display: none;
+}
+
+.table_horizontal .local-wunderbyte-table-card-mainarea  {
+position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 1;
+}
+
+.table_horizontal .list-group-item {
+  min-height: 220px;
+}
+
+.table_horizontal .list-group-item:hover .local-wunderbyte-table-card-mainarea {
+  opacity: 1;
+}
+
+.left-bordered {
+  border-left: 4px solid #004B93 !important;
+  border-top: 0px;
+  border-bottom: 0px;
+}
+
+.wb_news .card {
+   min-height: unset;
+}
+
+h3 {
+   font-size: 24px;
+}
+
+@media (min-width: 768px) {
+  #usernavigation {
+    margin-left: 0px !important;
+  }
+  .fixed-top #primary-navigation {
+    margin-left: auto;
+  }
 }

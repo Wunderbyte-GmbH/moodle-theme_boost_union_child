@@ -129,7 +129,7 @@
 
 
 <div class="container booking-option-agenas">
-    <div class="row">
+    <div class="row backgroundrow">
         <!-- Left Column: Image and Overview Box -->
         <div class="col-md-5">
             {{#imageurl}}
@@ -140,25 +140,25 @@
             
             <!-- Panoramica corso -->
             <div class="course-overview-box">
-                <h4 class="overview-title">Panoramica corso</h4>
+                <h4 class="overview-title">{{#str}} courseoverview, theme_boost_union_child {{/str}}</h4>
                 
                 {{#durata}}
                 <div class="overview-item">
-                    <div class="overview-label">Durata</div>
+                    <div class="overview-label">{{#str}} duration, theme_boost_union_child {{/str}}</div>
                     <div class="overview-value">{{durata}}</div>
                 </div>
                 {{/durata}}
                 
                 {{#formato}}
                 <div class="overview-item">
-                    <div class="overview-label">Formato</div>
+                    <div class="overview-label">{{#str}} format, theme_boost_union_child {{/str}}</div>
                     <div class="overview-value">{{formato}}</div>
                 </div>
                 {{/formato}}
                 
                 {{#completamento}}
                 <div class="overview-item">
-                    <div class="overview-label">Completamento</div>
+                    <div class="overview-label">{{#str}} completion, theme_boost_union_child {{/str}}</div>
                     <div class="overview-value">{{completamento}}</div>
                 </div>
                 {{/completamento}}
@@ -181,7 +181,7 @@
             <!-- Cosa imparerai section -->
             {{#learningobjectives}}
             <div class="learning-objectives-section">
-                <h3 class="learning-objectives-title">Cosa imparerai?</h3>
+                <h3 class="learning-objectives-title">{{#str}} whatyouwilllearn, theme_boost_union_child {{/str}}</h3>
                 <div class="learning-objectives-list">
                     {{#objectives}}
                     <div class="learning-objective-item">{{.}}</div>
@@ -200,15 +200,19 @@
     
     <!-- Bottom Navigation -->
     <div class="row mt-4">
-        <div class="col-12 d-flex justify-content-between align-items-center">
+        <div class="col-12 p-0 d-flex justify-content-between align-items-center">
             <!-- Back Button -->
+            <div>
             {{#returnurl}}
-            <a href="{{returnurl}}" role="button" class="btn btn-outline-secondary">
+            <a href="{{returnurl}}" role="button" class="btn btn-link back-button">
                 <i class="fa-solid fa-arrow-left" style="margin-right: 8px"></i>
-                Indietro
+                {{#str}} backbutton, theme_boost_union_child {{/str}}
             </a>
             {{/returnurl}}
-            
+            </div>
+            <div class="ml-auto">
+            {{{ bookitsection }}}
+            </div>
         </div>
     </div>
 </div>

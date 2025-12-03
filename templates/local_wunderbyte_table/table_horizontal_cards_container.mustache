@@ -12,7 +12,7 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-    @template mod_booking/table_cards_container
+    @template local_wunderbyte_table/twtable_list_container
     Template which defines a mooduell view page.
     Classes required for JS:
     * none
@@ -26,12 +26,12 @@
 
     Example context (json):
     {
-       "uniqueid": "tlcuniqueid",
+       "uniqueid": "uniqueid",
        "showcomponentstoggle": true,
        "showfilterbutton": true,
        "nofilteratall": false,
        "filterdeactivated": true,
-       "idstring": "tlcidstring",
+       "idstring": "idstring",
        "listheaderclass" : "listheaderclass",
        "cardheaderclass" : "cardheaderclass",
        "cardfooterclass" : "cardfooterclass",
@@ -39,6 +39,12 @@
        "rowid" : "rowid",
        "rowclasses" : "rowclasses",
        "encodedtable": "fdaskjfdjalsdjfkldsjflsajflksdjfklasdjflkdasjljkdfsalkjfoweijfoeisjgdklyjglky",
+       "datafields": [
+          {
+            "key" : "daya-key",
+            "value" : "data-value"
+          }
+       ],
        "cardheader": [
           {
             "columnclass" : "columnclass",
@@ -77,65 +83,64 @@
     }
 }}
 {{#norecords}}
-     <div class="col-md-12">
-          <div class="norecordsfound">{{#str}} norecords, local_wunderbyte_table {{/str}}</div>
-     </div>
+<div class="col-md-12">
+    <div class="norecordsfound">
+        <div class="alert alert-warning" role="alert">{{#str}} norecords, local_wunderbyte_table {{/str}}</div>
+    </div>
+</div>
 {{/norecords}}
 {{^norecords}}
-     {{#errormessage}}
-          <div class="alert alert-danger" role="alert">
-               {{errormessage}}
-          </div>
-     {{/errormessage}}
      <div class="wunderbyte_table_container_{{idstring}} {{uniqueid}}{{!
           }}{{#showfilterbutton}} wunderbyte_table_filter_on{{/showfilterbutton}}{{!
           }}{{#filterdeactivated}} inactivefilter{{/filterdeactivated}}{{!
-          }}{{#nofilteratall}} nofilter{{/nofilteratall}} agenas">
-          <div class="ml-0 header">
-               {{#search}}
-               <div class="searchbackground d-flex justify-content-center align-items-center">
-                    <div class="container mw-90 d-flex justify-content-center">
-                         <div class="row mb-2 w-100 d-flex justify-content-center flex-column">
-                              <h1 class="lexa-h1 text-center mb-3 text-light">
-                              {{#str}} searchheadertext, theme_boost_union_child {{/str}}
-                              </h1>
-                              <p class="text-center mb-4 text-light search-subheadline">
-                              {{#str}} searchsubheadertext, theme_boost_union_child {{/str}}
-                              </p>
-                              {{> local_wunderbyte_table/component_search }}
-                         </div>
+          }}{{#nofilteratall}} nofilter{{/nofilteratall}} {{#scrolltocontainer}} wunderbyte_table_scroll_on{{/scrolltocontainer}} mt-2 px-2">
+          <div class="container-fluid ml-0 ms-0">
+               <div class="row mb-2">
+                    <div>
+                         {{> local_wunderbyte_table/component_toggle }}
+                         {{> local_wunderbyte_table/component_reload }}
+                         {{> local_wunderbyte_table/component_edit }}
+                    </div>
+                    <div class="ml-auto ms-auto">
+                         {{> local_wunderbyte_table/component_switchtemplates }}
+                         {{> local_wunderbyte_table/component_sort }}
+                         {{> local_wunderbyte_table/component_search }}
                     </div>
                </div>
-               {{/search}}
+               <div>
+                    {{^showdownloadbuttonatbottom}}
+                    {{> local_wunderbyte_table/component_print }}
+                    {{/showdownloadbuttonatbottom}}
+               </div>
           </div>
           <div class="wunderbyte_table_container {{#showfilterontop}}showontop{{/showfilterontop}} {{uniqueid}}">
                {{#showfilterontop}}
                <div class="filterheader">
-                    <aside class="wunderbyte_table_components {{^showcomponentstoggle}} inactive{{/showcomponentstoggle}}">
-                         {{> local_wunderbyte_table/component_filter }}
-                         {{> local_wunderbyte_table/component_infinitescroll }}
-                    </aside>
+                <aside id="filteroptions_{{idstring}}" class="wunderbyte_table_components{{^showcomponentstoggle}} inactive{{/showcomponentstoggle}}">
+                    {{> local_wunderbyte_table/component_filter }}
+                    {{> local_wunderbyte_table/component_infinitescroll }}
+               </aside>
                </div>
                {{/showfilterontop}}
                {{^showfilterontop}}
-               <aside class="wunderbyte_table_components {{^showcomponentstoggle}} inactive{{/showcomponentstoggle}}">
+               <aside id="filteroptions_{{idstring}}" class="wunderbyte_table_components{{^showcomponentstoggle}} inactive{{/showcomponentstoggle}}">
                     {{> local_wunderbyte_table/component_filter }}
                     {{> local_wunderbyte_table/component_infinitescroll }}
                </aside>
                {{/showfilterontop}}
-               <div class= "wunderbyteTableClass backgroundtable {{uniqueid}}" id='a{{idstring}}'>
-                    {{> mod_booking/table_cards }}
+               <div class= "wunderbyteTableClass {{uniqueid}}" id="a{{idstring}}">
+                    {{> local_wunderbyte_table/table_horizontal_cards }}
                </div>
           </div>
           {{#showdownloadbuttonatbottom}}
-          <div class="ml-2">
+          <div class="ml-2 ms-2">
                {{> local_wunderbyte_table/component_print }}
           </div>
           {{/showdownloadbuttonatbottom}}
-     </div>
-{{#js}}
-     require(['local_wunderbyte_table/init'], function(init) {
-          init.init('{{idstring}}', '{{encodedtable}}');
-     });
-{{/js}}
+    </div>
+    {{#js}}
+        require(['local_wunderbyte_table/init'], function(init) {
+            init.init('{{idstring}}', '{{encodedtable}}');
+        });
+    {{/js}}
 {{/norecords}}

@@ -62,7 +62,6 @@ class mod_booking_renderer extends \mod_booking\output\renderer {
         }
         return $o;
     }
-
   
 
 }

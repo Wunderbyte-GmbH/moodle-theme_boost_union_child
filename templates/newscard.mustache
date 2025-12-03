@@ -1,21 +1,23 @@
-<div class="card mb-3 border-0">
-    <div class="row g-0 align-items-center">
+<div class="card {{#lightmode}} wb_news-light{{/lightmode}}{{#cssclasses}} {{cssclasses}}{{/cssclasses}} mb-4"{{#bgcolor}} style="background-color: {{bgcolor}}; border: none"{{/bgcolor}}>
+    {{#detailviewurl}}<a href="{{detailviewurl}}" class="stretched-link" {{#btnlinktarget}}target="{{.}}"{{/btnlinktarget}} {{#btnlinkrel}}rel="{{.}}"{{/btnlinkrel}}></a> {{/detailviewurl}}
+    <div class="row">
         <div class="col-md-4">
-            <img src="{{bgimage}}" class="img-fluid rounded-start" alt="{{headline}}">
+            {{#headerimage}}
+            <img class="h-100 img-fluid" style="object-fit:cover;" src="{{headerimage}}" aria-label="{{headerimagetext}}" alt="{{headerimagetext}}">
+            {{/headerimage}}
+            {{#bgimage}}
+            <img class="h-100 img-fluid" style="object-fit:cover;"  src="{{bgimage}}" aria-label="{{bgimagetext}}" alt="{{bgimagetext}}">
+            {{/bgimage}}
         </div>
         <div class="col-md-8">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-start mb-1">
-                    {{#category}}
-                    <span class="text-muted small fw-semibold">{{category}}</span>
-                    {{/category}}
-                    {{#date}}
-                    <span class="text-muted small">{{date}}</span>
-                    {{/date}}
+            <div class="card-body h-100">
+                <div class="d-flex justify-content-between">
+                    <h6 class="card-subtitle {{^lightmode}} text-muted{{/lightmode}}">{{{subheadline}}}</h6>
+                    <small class="text-muted float-right">{{{publishedon}}}
+                    </small>
                 </div>
-                <h6 class="fw-bold mb-2">{{subheadline}}</h5>
-                <h5 class="card-title fw-bold text-primary mb-2">{{headline}}</h5>
-                <p class="card-text mb-0">{{{description}}}</p>
+                <h3 class="card-title mt-2">{{{headline}}}</h3>
+                <p class="card-text">{{shortdescription}}</p>
             </div>
         </div>
     </div>
