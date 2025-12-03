@@ -57,7 +57,14 @@ class bcutable extends \mod_booking\table\bookingoptions_wbtable {
      */
     public function col_zoom($values) {
         global $USER, $DB;
-        $course = $DB->get_record('course', array('id'=>$values->courseid), '*', MUST_EXIST);
+        if (empty($values->courseid)) {
+            return '';
+        }
+        $course = $DB->get_record('course', array('id'=>$values->courseid), '*');
+        if (empty($course)) {
+            return '';
+        }
+        require_once($CFG->dirroot . '/mod/zoom/lib.php');
         $zooms = get_all_instances_in_course('zoom', $course);
         if (empty($zooms)) {
             return '';
