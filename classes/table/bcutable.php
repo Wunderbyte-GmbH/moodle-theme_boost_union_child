@@ -21,9 +21,10 @@
  * @copyright 2025 Wunderbyte GmbH
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
 namespace theme_boost_union_child\table;
 
+use moodle_url;
+use html_writer;
 defined('MOODLE_INTERNAL') || die();
 
 /**
@@ -69,10 +70,12 @@ class bcutable extends \mod_booking\table\bookingoptions_wbtable {
      */
     public function col_zoom($values) {
         global $USER;
-        if ($values->durata) {
-           
-        }
+        $id = 5;
+        $btntext = get_string('join_meeting', 'mod_zoom');
+        $buttonhtml = html_writer::tag('button', $btntext, ['type' => 'submit', 'class' => 'btn btn-primary']);
+        $aurl = new moodle_url('/mod/zoom/loadmeeting.php', ['id' => $id]);
+        $buttonhtml .= html_writer::input_hidden_params($aurl);
+        $link = html_writer::tag('form', $buttonhtml, ['action' => $aurl->out_omit_querystring(), 'target' => '_blank']);
+        return $link;
     }
-
-
 }

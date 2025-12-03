@@ -465,7 +465,7 @@ class shortcodes {
 
         if (isset($args['events'])) {
             $table->tabletemplate = 'local_wunderbyte_table/events_card';
-            $table->add_subcolumns('events', ['events']);
+            $table->add_subcolumns('zoom', ['zoom']);
         }
 
         $table->showcountlabel = false;
