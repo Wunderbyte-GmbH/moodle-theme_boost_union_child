@@ -74,4 +74,11 @@ class bcutable extends \mod_booking\table\bookingoptions_wbtable {
         $link = html_writer::tag('form', $buttonhtml, ['action' => $aurl->out_omit_querystring(), 'target' => '_blank']);
         return $link;
     }
+
+    public function col_starting($values) {
+        if (!empty($values->coursestarttime)) {
+            $icon = html_writer::tag('i', '', ['class' => 'far fa-calendar fa-fw']);
+            return $icon . ' ' . date('d.m.Y H:i', $values->coursestarttime);
+        }
+    }
 }

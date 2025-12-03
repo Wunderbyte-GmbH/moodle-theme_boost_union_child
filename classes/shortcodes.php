@@ -468,6 +468,7 @@ class shortcodes {
         if (isset($args['events'])) {
             $table->tabletemplate = 'local_wunderbyte_table/events_card';
             $table->add_subcolumns('zoom', ['zoom']);
+            $table->add_subcolumns('starting', ['starting']);
         }
 
         $table->add_subcolumns('title', ['text']);
