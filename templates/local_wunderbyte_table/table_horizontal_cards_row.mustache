@@ -138,6 +138,13 @@
     </div>
     <div class="d-flex flex-column">
     <div class="{{cardbodyclass}} mt-2 ml-2 ms-2 mr-2 me-2 p-2">
+    {{#cardcompetenze}}
+    {{#value}}
+    <div class="cardcompetency">
+       <span class="cardcompetencytag">{{value}}</span>
+    </div>
+    {{/value}}
+    {{/cardcompetenze}}
     <div class="h5 text">
         {{#title}}{{{value}}}{{/title}}
     </div>
@@ -174,14 +181,20 @@
 
     </div>
     <div class="mt-auto mb-3 ml-3 ms-3 mr-3 me-3">
-        {{#durata}}
-      {{value}}
-    {{/durata}}
-          {{#courseids}}
-          {{#value}}
-            {{value}}
-          {{/value}}
-        {{/courseids}}
+  <div class="carddurata">
+    {{#carddurata}}
+        <span class="">
+            {{#columniclassbefore}}
+                <i class="{{.}}" aria-hidden="true"></i>
+            {{/columniclassbefore}}
+        {{value}}</span>
+    {{/carddurata}}
+    {{#courseids}}
+      {{#value}}
+        {{value}}
+      {{/value}}
+    {{/courseids}}
+    </div>
     </div>
   </div>
   </div>

@@ -320,6 +320,14 @@ textarea, input, .form-control,
       background: white;
       .col-md-5 {
          padding-left: 0;
+         background: #004b93;
+         // margin-right: 15px;
+         padding-right: 0;
+      }
+      .col-md-7 {
+         @media (min-width: 768px) {
+            padding-left: 30px;
+         }
       }
    }
    .back-button {
@@ -330,14 +338,29 @@ textarea, input, .form-control,
    }
 }
 
+#page-theme-boost_union_child-allcourses {
+   .booking-button-mainarea {
+      &:active{
+         border: 2px solid rgba(244, 150, 0, 1) !important;
+      }
+   }
+}
+
 #page-mod-booking-optionview {
    #region-main, #topofscroll, #page-content {
       background: transparent;
    }
    .booking-button-mainarea {
       background: rgba(0, 75, 147, 1);
+      border: 2px solid rgba(0, 75, 147, 1) !important;
       color: rgba(255, 255, 255, 1);
       border: 0;
+      &:hover {
+         background: rgba(0, 62, 122, 1) !important;
+      }
+      &:active {
+         border: 2px solid rgba(244, 150, 0, 1) !important;
+      }
    }
    
    // Align booking button to right edge

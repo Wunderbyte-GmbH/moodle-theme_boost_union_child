@@ -123,6 +123,13 @@
   <div class="local-wunderbyte-table-card-image-and-body-area local-wunderbyte-table-row d-flex d-flex-column h-100">
     <div class="d-flex flex-column">
     <div class="{{cardbodyclass}} mt-2 ml-2 ms-2 mr-2 me-2 p-2">
+       {{#cardcompetenze}}
+    {{#value}}
+    <div class="cardcompetency">
+       <span class="cardcompetencytag">{{value}}</span>
+    </div>
+    {{/value}}
+    {{/cardcompetenze}}
     <div class="h5 text">
         {{#title}}{{{value}}}{{/title}}
     </div>
@@ -162,9 +169,9 @@
     {{#zoom}}
     {{{value}}}
     {{/zoom}}
-        {{#durata}}
+        {{#carddurata}}
       {{value}}
-    {{/durata}}
+    {{/carddurata}}
           {{#courseids}}
           {{#value}}
             {{value}}

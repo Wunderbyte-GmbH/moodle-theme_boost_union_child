@@ -55,25 +55,21 @@ class bcutable extends \mod_booking\table\bookingoptions_wbtable {
      * @return string $invisible Returns visibility of the booking option as string.
      * @throws coding_exception
      */
-    public function col_durata($values) {
-        global $USER;
-        if ($values->durata) {
-           
-        }
-    }
-
-    /**
-     *
-     * @param object $values Contains object with all the values of record.
-     * @return string $invisible Returns visibility of the booking option as string.
-     * @throws coding_exception
-     */
     public function col_zoom($values) {
-        global $USER;
-        $id = 5;
+        global $USER, $DB;
+        $course = $DB->get_record('course', array('id'=>$values->courseid), '*', MUST_EXIST);
+        $zooms = get_all_instances_in_course('zoom', $course);
+        if (empty($zooms)) {
+            return '';
+        }
+        $z = array_shift($zooms);
+        [$inprogress, $available, $finished] = zoom_get_state($z);
+        if (!$available) {
+            return '';
+        }
         $btntext = get_string('join_meeting', 'mod_zoom');
         $buttonhtml = html_writer::tag('button', $btntext, ['type' => 'submit', 'class' => 'btn btn-primary']);
-        $aurl = new moodle_url('/mod/zoom/loadmeeting.php', ['id' => $id]);
+        $aurl = new moodle_url('/mod/zoom/loadmeeting.php', ['id' => $z->id]);
         $buttonhtml .= html_writer::input_hidden_params($aurl);
         $link = html_writer::tag('form', $buttonhtml, ['action' => $aurl->out_omit_querystring(), 'target' => '_blank']);
         return $link;

@@ -55,6 +55,7 @@ use mod_booking\singleton_service;
 use mod_booking\table\bulkoperations_table;
 use mod_booking\output\renderer;
 use theme_boost_union\util\course;
+use mod_booking\shortcodes as booking_shortcodes;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -98,6 +99,16 @@ class shortcodes {
         }
 
         return $out;
+    }
+
+    public static function bcusupport($shortcode, $args, $content, $env, $next) {
+        global $OUTPUT;
+
+        require_login();
+
+        $templatecontext = [];
+
+        $out = $OUTPUT->render_from_template('theme_boost_union_child/bcusupport', $templatecontext);
     }
     
     /**
@@ -363,8 +374,12 @@ class shortcodes {
 
     public static function get_my_courselistdata($shortcode, $args, $content, $env, $next) {
         global $USER, $PAGE, $CFG;
+
+        // Get rid of quotation marks.
+        booking_shortcodes::fix_args($args);
+
         $requiredargs = [];
-        //$error = shortcodes_handler::validatecondition($shortcode, $args, true, $requiredargs);
+        $error = shortcodes_handler::validatecondition($shortcode, $args, true, $requiredargs);
         if ($error['error'] === 1) {
             return $error['message'];
         }
@@ -374,18 +389,23 @@ class shortcodes {
         } else {
             $userid = $USER->id;
         }
-
         $wherearray = [];
         $course = $PAGE->course;
+        $perpage = booking_shortcodes::check_perpage($args);
         $pageurl = $course->shortname . $PAGE->url->out();
-        $tablename = ($userid . 'mycourses');
-        $table = new bcutable($tablename);
+        $perpage = booking_shortcodes::check_perpage($args);
+
         if (!empty($args['cmid'])) {
             $booking = singleton_service::get_instance_of_booking_settings_by_cmid((int)$args['cmid']);
             $wherearray['bookingid'] = (int)$booking->id;
         }
 
+        $viewparam = booking_shortcodes::get_viewparam($args);
+        $tablename = ($userid . 'mycourses');
+        $table = new bcutable($tablename);
+
         // Additional where condition for both card and list views.
+        $additionalwhere = booking_shortcodes::set_customfield_wherearray($args, $wherearray) ?? '';
 
         if (!empty($args['completed'])) {
             $wherearray['completed'] = 1;
@@ -395,27 +415,7 @@ class shortcodes {
         if (!empty($args['statuswaitinglist'])) {
             $statusarray[] = MOD_BOOKING_STATUSPARAM_WAITINGLIST;
         }
-        [$fields, $from, $where, $params, $filter] =
-                booking::get_options_filter_sql(
-                    0,
-                    0,
-                    '',
-                    null,
-                    null,
-                    [],
-                    $wherearray,
-                    $userid,
-                    $statusarray,
-                    $additionalwhere
-                );
-        if (!empty($args['futureonly'])) {
-            $startoftoday = strtotime('today midnight');
-            $where .= " AND coursestarttime > $startoftoday ";
-        }
 
-        $fields = '*';
-
-        $table->set_filter_sql($fields, $from, $where, $filter, $params);
         $possibleoptions = [
             "description",
             "statusdescription",
@@ -440,17 +440,15 @@ class shortcodes {
         } else {
             $optionsfields = $possibleoptions;
         }
+        $showfilter = false;
+        $showsort = false;
+        $showsearch = false;
 
-        $showfilter = !empty($args['filter']) ? true : false;
-        $showsort = !empty($args['sort']) ? true : false;
-        $showsearch = !empty($args['search']) ? true : false;
-
-        $args['includedcustomfields'] = 'durata,cardcompetenze';
         view::apply_standard_params_for_bookingtable(
             $table,
             $optionsfields,
-            $showfilter,
-            $showsearch,
+            false,
+            false,
             $showsort,
             false,
             1,
@@ -458,6 +456,10 @@ class shortcodes {
             0,
             $args
         );
+        if (!empty($args['futureonly'])) {
+            $startoftoday = strtotime('today midnight');
+            $where .= " AND coursestarttime > $startoftoday ";
+        }
 
         if (isset($args['horizontal'])) {
             $table->tabletemplate = 'local_wunderbyte_table/table_horizontal_cards';
@@ -468,28 +470,39 @@ class shortcodes {
             $table->add_subcolumns('zoom', ['zoom']);
         }
 
-        $table->showcountlabel = false;
-
-        if (
-            isset($args['filterontop'])
-            && (
-                $args['filterontop'] == '1'
-                || $args['filterontop'] == 'true'
-            )
-        ) {
-            $table->showfilterontop = true;
-        } else {
-            $table->showfilterontop = false;
-        }
-
         $table->add_subcolumns('title', ['text']);
         $table->add_subcolumns('courseids', ['progress']);
-        $table->add_subcolumns('durata', ['durata']);
-        $table->add_subcolumns('cardcompetenze', ['competenze']);
+        // Possibility to add customfieldfilter.
+        $customfieldfilter = explode(',', ($args['customfieldfilter'] ?? ''));
+        if (!empty($customfieldfilter)) {
+            booking_shortcodes::apply_customfieldfilter($table, $customfieldfilter);
+        }
+
+        $table->showcountlabel = false;
+        $table->showfilterontop = false;
+
         // Set common table options requirelogin, sortorder, sortby.
 
+        [$fields, $from, $where, $params, $filter] =
+                booking::get_options_filter_sql(
+                    0,
+                    0,
+                    '',
+                    null,
+                    null,
+                    [],
+                    $wherearray,
+                    $userid,
+                    $statusarray,
+                    $additionalwhere,
+                    '',
+                    $table
+                );
+
+        $table->set_filter_sql($fields, $from, $where, $filter, $params);
+        
         $table->define_cache('mod_booking', 'mybookingoptionstable');
-        $perpage = 20;
+
         try {
             $out = $table->outhtml($perpage, true);
         } catch (Throwable $e) {
@@ -499,8 +512,150 @@ class shortcodes {
                 $out .= $e->getMessage();
             }
         }
+
         return [$out, count($table->rawdata), $table->rawdata];
+
     }
+    // public static function get_my_courselistdata2($shortcode, $args, $content, $env, $next) {
+    //     global $USER, $PAGE, $CFG;
+    //     $requiredargs = [];
+    //     //$error = shortcodes_handler::validatecondition($shortcode, $args, true, $requiredargs);
+    //     if ($error['error'] === 1) {
+    //         return $error['message'];
+    //     }
+
+    //     if (isset($args['userid']) && !empty($args['userid'])) {
+    //         $userid = $args['userid'];
+    //     } else {
+    //         $userid = $USER->id;
+    //     }
+
+    //     $wherearray = [];
+    //     $course = $PAGE->course;
+    //     $pageurl = $course->shortname . $PAGE->url->out();
+    //     $tablename = ($userid . 'mycourses');
+    //     $table = new bcutable($tablename);
+
+    //     $table->add_subcolumns('title', ['text']);
+    //     $table->add_subcolumns('progress', ['progress']);
+    //     if (!empty($args['cmid'])) {
+    //         $booking = singleton_service::get_instance_of_booking_settings_by_cmid((int)$args['cmid']);
+    //         $wherearray['bookingid'] = (int)$booking->id;
+    //     }
+
+    //     // Additional where condition for both card and list views.
+
+    //     if (!empty($args['completed'])) {
+    //         $wherearray['completed'] = 1;
+    //     }
+
+    //     $statusarray = [MOD_BOOKING_STATUSPARAM_BOOKED];
+    //     if (!empty($args['statuswaitinglist'])) {
+    //         $statusarray[] = MOD_BOOKING_STATUSPARAM_WAITINGLIST;
+    //     }
+    //     $possibleoptions = [
+    //         "description",
+    //         "statusdescription",
+    //         "attachment",
+    //         "teacher",
+    //         "responsiblecontact",
+    //         "showdates",
+    //         "dayofweektime",
+    //         "location",
+    //         "institution",
+    //         "minanswers",
+    //         "bookingopeningtime",
+    //         "bookingclosingtime",
+    //         "coursestarttime",
+    //         "booknow",
+    //     ];
+    //     // When calling recommendedin in the frontend we can define exclude params to set options, we don't want to display.
+
+    //     if (!empty($args['exclude'])) {
+    //         $exclude = explode(',', $args['exclude']);
+    //         $optionsfields = array_diff($possibleoptions, $exclude);
+    //     } else {
+    //         $optionsfields = $possibleoptions;
+    //     }
+
+    //     $showfilter = !empty($args['filter']) ? true : false;
+    //     $showsort = !empty($args['sort']) ? true : false;
+    //     $showsearch = !empty($args['search']) ? true : false;
+
+    //     view::apply_standard_params_for_bookingtable(
+    //         $table,
+    //         $optionsfields,
+    //         $showfilter,
+    //         $showsearch,
+    //         $showsort,
+    //         false,
+    //         1,
+    //         MOD_BOOKING_VIEW_PARAM_CARDS,
+    //         0,
+    //         $args
+    //     );
+    //     [$fields, $from, $where, $params, $filter] =
+    //             booking::get_options_filter_sql(
+    //                 0,
+    //                 0,
+    //                 '',
+    //                 null,
+    //                 null,
+    //                 [],
+    //                 $wherearray,
+    //                 $userid,
+    //                 $statusarray,
+    //                 $additionalwhere,
+    //                 '',
+    //                 $table,
+    //             );
+    //     if (!empty($args['futureonly'])) {
+    //         $startoftoday = strtotime('today midnight');
+    //         $where .= " AND coursestarttime > $startoftoday ";
+    //     }
+
+    //     if (isset($args['horizontal'])) {
+    //         $table->tabletemplate = 'local_wunderbyte_table/table_horizontal_cards';
+    //     }
+
+    //     if (isset($args['events'])) {
+    //         $table->tabletemplate = 'local_wunderbyte_table/events_card';
+    //         $table->add_subcolumns('zoom', ['zoom']);
+    //     }
+
+    //     $fields = '*';
+
+    //     $table->set_filter_sql($fields, $from, $where, $filter, $params);
+
+    //     if (
+    //         isset($args['filterontop'])
+    //         && (
+    //             $args['filterontop'] == '1'
+    //             || $args['filterontop'] == 'true'
+    //         )
+    //     ) {
+    //         $table->showfilterontop = true;
+    //     } else {
+    //         $table->showfilterontop = false;
+    //     }
+        
+    //     $table->showcountlabel = false;
+
+
+    //     // Set common table options requirelogin, sortorder, sortby.
+
+    //     $table->define_cache('mod_booking', 'mybookingoptionstable');
+    //     try {
+    //         $out = $table->outhtml($perpage, true);
+    //     } catch (Throwable $e) {
+    //         $out = get_string('shortcode:error', 'mod_booking');
+
+    //         if ($CFG->debug > 0 && has_capability('moodle/site:config', context_system::instance())) {
+    //             $out .= $e->getMessage();
+    //         }
+    //     }
+    //     return [$table->outhtml, count($table->rawdata), $table->rawdata];
+    // }
 
     public static function bcuseguire($shortcode, $args, $content, $env, $next) {
         global $OUTPUT, $DB;
@@ -521,7 +676,7 @@ class shortcodes {
             $count = '';
         } 
         $templatecontext = [
-            'title' => $title,
+            'title' => $title,  
             'count' => $count,
             'courses' => $coursehtml,
             'horizontal' => true,

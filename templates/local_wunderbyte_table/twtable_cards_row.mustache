@@ -118,8 +118,7 @@
 style="max-width: 35rem;"
 {{#datafields}}
     data-{{key}}="{{value}}"
-{{/datafields}}
->
+{{/datafields}}>
   <div class="local-wunderbyte-table-card-image-and-body-area local-wunderbyte-table-row">
     <div class="card-image-wrapper">
       <div class="card-image-overlay"></div>
@@ -236,6 +235,13 @@ style="max-width: 35rem;"
     </div>
   </div>
   <div class="carddurata">
+      {{#durata}}
+        <span class="">
+            {{#columniclassbefore}}
+                <i class="{{.}}" aria-hidden="true"></i>
+            {{/columniclassbefore}}
+        {{value}}</span>
+    {{/durata}}
     {{#carddurata}}
         <span class="">
             {{#columniclassbefore}}
