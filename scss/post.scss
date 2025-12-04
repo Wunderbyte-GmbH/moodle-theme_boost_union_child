@@ -516,3 +516,34 @@ h3 {
 }
 
 
+// Course
+.pagelayout-course
+.section-item {
+  border: 0;
+}
+.pagelayout-course
+.course-section-header {
+  background: #E1EAF9;
+  padding: 10px;
+}
+.pagelayout-course
+h3 a {
+  font-family: "DIN Bold";
+}
+.pagelayout-course
+.btn.btn-icon.icons-collapse-expand {
+  background: unset;
+}
+.pagelayout-course
+[data-for="sectiontoggler"] {
+  order: 2;
+}
+.pagelayout-course
+.titlesection {
+  width: 100%;
+}
+.pagelayout-course
+.collapsesections {
+  display: none !important;
+}
+

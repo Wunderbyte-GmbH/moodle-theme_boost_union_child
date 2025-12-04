@@ -76,9 +76,9 @@ $shortcodes = [
         'wraps' => false,
         'description' => 'bcucourseprogress',
     ],
-    'bcusupport' => [
-        'callback' => 'theme_boost_union_child\shortcodes::bcusupport',
+    'bcusummary' => [
+        'callback' => 'theme_boost_union_child\shortcodes::bcusummary',
         'wraps' => false,
-        'description' => 'bcusupport',
+        'description' => 'bcusummary',
     ], 
 ];

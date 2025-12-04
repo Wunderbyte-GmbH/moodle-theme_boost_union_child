@@ -101,14 +101,26 @@ class shortcodes {
         return $out;
     }
 
-    public static function bcusupport($shortcode, $args, $content, $env, $next) {
-        global $OUTPUT;
+    public static function bcusummary($shortcode, $args, $content, $env, $next) {
+        global $OUTPUT,$COURSE;
 
         require_login();
 
         $templatecontext = [];
+        if (!empty($COURSE->id) && $COURSE->id != SITEID) {
+        $summary = format_text($COURSE->summary, $COURSE->summaryformat, ['overflowdiv' => true]);
+        $templatecontext['summary'] = $summary;
+        $templatecontext['courseid'] = $COURSE->id;
+        $templatecontext['completion'] = course::get_course_completion_percentage($COURSE->id);
+        } else {
+            $templatecontext['summary'] = '';
+        }
 
-        $out = $OUTPUT->render_from_template('theme_boost_union_child/bcusupport', $templatecontext);
+        if (!isset($args['instance'])) {
+            $instance = 0;
+        }
+        $out = $OUTPUT->render_from_template('theme_boost_union_child/coursesummary', $templatecontext);;
+        return $out;
     }
     
     /**
