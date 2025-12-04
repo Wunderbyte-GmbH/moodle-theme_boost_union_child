@@ -483,7 +483,7 @@ class shortcodes {
         }
 
         $table->add_subcolumns('title', ['text']);
-        $table->add_subcolumns('courseids', ['progress']);
+        $table->add_subcolumns('progress', ['progress']);
         // Possibility to add customfieldfilter.
         $customfieldfilter = explode(',', ($args['customfieldfilter'] ?? ''));
         if (!empty($customfieldfilter)) {
@@ -528,146 +528,6 @@ class shortcodes {
         return [$out, count($table->rawdata), $table->rawdata];
 
     }
-    // public static function get_my_courselistdata2($shortcode, $args, $content, $env, $next) {
-    //     global $USER, $PAGE, $CFG;
-    //     $requiredargs = [];
-    //     //$error = shortcodes_handler::validatecondition($shortcode, $args, true, $requiredargs);
-    //     if ($error['error'] === 1) {
-    //         return $error['message'];
-    //     }
-
-    //     if (isset($args['userid']) && !empty($args['userid'])) {
-    //         $userid = $args['userid'];
-    //     } else {
-    //         $userid = $USER->id;
-    //     }
-
-    //     $wherearray = [];
-    //     $course = $PAGE->course;
-    //     $pageurl = $course->shortname . $PAGE->url->out();
-    //     $tablename = ($userid . 'mycourses');
-    //     $table = new bcutable($tablename);
-
-    //     $table->add_subcolumns('title', ['text']);
-    //     $table->add_subcolumns('progress', ['progress']);
-    //     if (!empty($args['cmid'])) {
-    //         $booking = singleton_service::get_instance_of_booking_settings_by_cmid((int)$args['cmid']);
-    //         $wherearray['bookingid'] = (int)$booking->id;
-    //     }
-
-    //     // Additional where condition for both card and list views.
-
-    //     if (!empty($args['completed'])) {
-    //         $wherearray['completed'] = 1;
-    //     }
-
-    //     $statusarray = [MOD_BOOKING_STATUSPARAM_BOOKED];
-    //     if (!empty($args['statuswaitinglist'])) {
-    //         $statusarray[] = MOD_BOOKING_STATUSPARAM_WAITINGLIST;
-    //     }
-    //     $possibleoptions = [
-    //         "description",
-    //         "statusdescription",
-    //         "attachment",
-    //         "teacher",
-    //         "responsiblecontact",
-    //         "showdates",
-    //         "dayofweektime",
-    //         "location",
-    //         "institution",
-    //         "minanswers",
-    //         "bookingopeningtime",
-    //         "bookingclosingtime",
-    //         "coursestarttime",
-    //         "booknow",
-    //     ];
-    //     // When calling recommendedin in the frontend we can define exclude params to set options, we don't want to display.
-
-    //     if (!empty($args['exclude'])) {
-    //         $exclude = explode(',', $args['exclude']);
-    //         $optionsfields = array_diff($possibleoptions, $exclude);
-    //     } else {
-    //         $optionsfields = $possibleoptions;
-    //     }
-
-    //     $showfilter = !empty($args['filter']) ? true : false;
-    //     $showsort = !empty($args['sort']) ? true : false;
-    //     $showsearch = !empty($args['search']) ? true : false;
-
-    //     view::apply_standard_params_for_bookingtable(
-    //         $table,
-    //         $optionsfields,
-    //         $showfilter,
-    //         $showsearch,
-    //         $showsort,
-    //         false,
-    //         1,
-    //         MOD_BOOKING_VIEW_PARAM_CARDS,
-    //         0,
-    //         $args
-    //     );
-    //     [$fields, $from, $where, $params, $filter] =
-    //             booking::get_options_filter_sql(
-    //                 0,
-    //                 0,
-    //                 '',
-    //                 null,
-    //                 null,
-    //                 [],
-    //                 $wherearray,
-    //                 $userid,
-    //                 $statusarray,
-    //                 $additionalwhere,
-    //                 '',
-    //                 $table,
-    //             );
-    //     if (!empty($args['futureonly'])) {
-    //         $startoftoday = strtotime('today midnight');
-    //         $where .= " AND coursestarttime > $startoftoday ";
-    //     }
-
-    //     if (isset($args['horizontal'])) {
-    //         $table->tabletemplate = 'local_wunderbyte_table/table_horizontal_cards';
-    //     }
-
-    //     if (isset($args['events'])) {
-    //         $table->tabletemplate = 'local_wunderbyte_table/events_card';
-    //         $table->add_subcolumns('zoom', ['zoom']);
-    //     }
-
-    //     $fields = '*';
-
-    //     $table->set_filter_sql($fields, $from, $where, $filter, $params);
-
-    //     if (
-    //         isset($args['filterontop'])
-    //         && (
-    //             $args['filterontop'] == '1'
-    //             || $args['filterontop'] == 'true'
-    //         )
-    //     ) {
-    //         $table->showfilterontop = true;
-    //     } else {
-    //         $table->showfilterontop = false;
-    //     }
-        
-    //     $table->showcountlabel = false;
-
-
-    //     // Set common table options requirelogin, sortorder, sortby.
-
-    //     $table->define_cache('mod_booking', 'mybookingoptionstable');
-    //     try {
-    //         $out = $table->outhtml($perpage, true);
-    //     } catch (Throwable $e) {
-    //         $out = get_string('shortcode:error', 'mod_booking');
-
-    //         if ($CFG->debug > 0 && has_capability('moodle/site:config', context_system::instance())) {
-    //             $out .= $e->getMessage();
-    //         }
-    //     }
-    //     return [$table->outhtml, count($table->rawdata), $table->rawdata];
-    // }
 
     public static function bcuseguire($shortcode, $args, $content, $env, $next) {
         global $OUTPUT, $DB;
@@ -695,20 +555,10 @@ class shortcodes {
         ];
 
         $out = $OUTPUT->render_from_template('theme_boost_union_child/mycourses', $templatecontext);
-        $options = [
-            'noclean' => true,
-            'trusted' => true,
-            'filter' => true,
-            'para' => false,
-            'newline' => false,
-            'allowid' => false,
-            'blanktarget' => false
-        ];
-        $output = format_text($out, FORMAT_HTML);
-        return $output;
+        return $out;
     }
 
-    public static function  bcunuovo($shortcode, $args, $content, $env, $next) {
+    public static function bcunuovo($shortcode, $args, $content, $env, $next) {
         global $OUTPUT;
         $args['completed'] = 1;
 
