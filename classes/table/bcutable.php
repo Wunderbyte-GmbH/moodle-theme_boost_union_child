@@ -45,8 +45,9 @@ class bcutable extends \mod_booking\table\bookingoptions_wbtable {
         global $USER;
         if ($values->courseid) {
             $completion = \core_completion\progress::get_course_progress_percentage(get_course($values->courseid), $USER->id);
-            return ($completion === null) ? '' : '| ' . $completion . '% completado';
+            return ($completion === null) ? '' : '| ' . $completion . get_string('postprogressstring', 'mod_booking');
         }
+        return '';
     }
 
     /**
@@ -73,9 +74,11 @@ class bcutable extends \mod_booking\table\bookingoptions_wbtable {
         if (!$available) {
             return '';
         }
+        $cms = $modinfo->instances['zoom'];
+        $cm = $cms[$z->id];
         $btntext = get_string('join_meeting', 'mod_zoom');
         $buttonhtml = html_writer::tag('button', 'Participa', ['type' => 'submit', 'class' => 'btn btn-primary']);
-        $aurl = new moodle_url('/mod/zoom/loadmeeting.php', ['id' => $z->id]);
+        $aurl = new moodle_url('/mod/zoom/loadmeeting.php', ['id' => $cm->id]);
         $buttonhtml .= html_writer::input_hidden_params($aurl);
         $link = html_writer::tag('form', $buttonhtml, ['action' => $aurl->out_omit_querystring(), 'target' => '_blank']);
         return $link;

@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Theme Boost Union Child - Language pack
+ * Theme Boost Union Child - Italian Language pack
  *
  * @package    theme_boost_union_child
  * @copyright  2023 Daniel Poggenpohl <daniel.poggenpohl@fernuni-hagen.de> and Alexander Bias <bias@alexanderbias.de>
@@ -28,39 +28,33 @@ defined('MOODLE_INTERNAL') || die();
 // phpcs:disable moodle.Files.LangFilesOrdering.UnexpectedComment
 // phpcs:disable moodle.Files.LangFilesOrdering.IncorrectOrder
 
-// General.
-$string['pluginname'] = 'Boost Union Child';
-$string['choosereadme'] = 'This plugin is just a boilerplate template one can use to develop Boost Union child themes.';
-$string['configtitle'] = 'Boost Union Child';
-$string['settingsoverview_buc_desc'] = 'With Boost Union Child, you can customize Boost Union to your own local needs.';
-
-// Settings: General settings tab.
-// ... Section: Inheritance.
-$string['inheritanceheading'] = 'Inheritance';
-$string['inheritanceinherit'] = 'Inherit';
-$string['inheritanceduplicate'] = 'Duplicate';
-$string['inheritanceoptionsexplanation'] = 'Most of the time, inheriting will be perfectly fine. However, it may happen that imperfect code is integrated into Boost Union which prevents simple SCSS inheritance for particular Boost Union features. If you encounter any issues with Boost Union features which seem not to work in Boost Union Child as well, try to switch this setting to \'Dupliate\' and, if this solves the problem, report an issue on Github (see the README.md file for details how to report an issue).';
-// ... ... Setting: Pre SCSS inheritance setting.
-$string['prescssinheritancesetting'] = 'Pre SCSS inheritance';
-$string['prescssinheritancesetting_desc'] = 'With this setting, you control if the pre SCSS code from Boost Union should be inherited or duplicated.';
-// ... ... Setting: Extra SCSS inheritance setting.
-$string['extrascssinheritancesetting'] = 'Extra SCSS inheritance';
-$string['extrascssinheritancesetting_desc'] = 'With this setting, you control if the extra SCSS code from Boost Union should be inherited or duplicated.';
-
 /**************************************************************
  * EXTENSION POINT:
  * Add your language strings for your settings here.
  *************************************************************/
 
-// Privacy API.
-$string['privacy:metadata'] = 'The Boost Union Child theme does not store any personal data about any user.';
-
-// Search page strings.
-$string['searchheadertext'] = 'Tutti i corsi';
-$string['searchsubheadertext'] = 'Trova subito il corso di aggiornamento che ti serve: usa la ricerca qui sotto o i filtri per orientarti tra i contenuti.';
-$string['searchplaceholder'] = 'Cerca corsi...';
-$string['searchbutton'] = 'Cerca';
-
-// Filter strings.
-$string['filterselect'] = 'Seleziona';
+$string['backbutton'] = 'Indietro';
+$string['choosereadme'] = 'Questo plugin è solo un modello di base che si può usare per sviluppare temi child di Boost Union.';
+$string['completion'] = 'Completamento';
+$string['configtitle'] = 'Boost Union Child';
+$string['courseoverview'] = 'Panoramica corso';
+$string['duration'] = 'Durata';
+$string['extrascssinheritancesetting'] = 'Ereditarietà SCSS extra';
+$string['extrascssinheritancesetting_desc'] = 'Con questa impostazione, puoi controllare se il codice SCSS extra di Boost Union deve essere ereditato o duplicato.';
 $string['filterby'] = 'Filtra per';
+$string['filterselect'] = 'Seleziona';
+$string['format'] = 'Formato';
+$string['inheritanceduplicate'] = 'Duplica';
+$string['inheritanceheading'] = 'Ereditarietà';
+$string['inheritanceinherit'] = 'Eredita';
+$string['inheritanceoptionsexplanation'] = 'Nella maggior parte dei casi, l\'ereditarietà funzionerà perfettamente. Tuttavia, può accadere che del codice imperfetto sia integrato in Boost Union, il che impedisce la semplice ereditarietà SCSS per particolari funzionalità di Boost Union. Se incontri problemi con le funzionalità di Boost Union che sembrano non funzionare anche in Boost Union Child, prova a cambiare questa impostazione in \'Duplica\' e, se questo risolve il problema, segnala il problema su Github (vedi il file README.md per i dettagli su come segnalare un problema).';
+$string['pluginname'] = 'Boost Union Child';
+$string['prescssinheritancesetting'] = 'Ereditarietà pre-SCSS';
+$string['prescssinheritancesetting_desc'] = 'Con questa impostazione, puoi controllare se il codice pre-SCSS di Boost Union deve essere ereditato o duplicato.';
+$string['privacy:metadata'] = 'Il tema Boost Union Child non memorizza alcun dato personale degli utenti.';
+$string['searchbutton'] = 'Cerca';
+$string['searchheadertext'] = 'Tutti i corsi';
+$string['searchplaceholder'] = 'Cerca corsi...';
+$string['searchsubheadertext'] = 'Trova subito il corso di aggiornamento che ti serve: usa la ricerca qui sotto o i filtri per orientarti tra i contenuti.';
+$string['settingsoverview_buc_desc'] = 'Con Boost Union Child, puoi personalizzare Boost Union in base alle tue esigenze locali.';
+$string['whatyouwilllearn'] = 'Cosa imparerai?';
