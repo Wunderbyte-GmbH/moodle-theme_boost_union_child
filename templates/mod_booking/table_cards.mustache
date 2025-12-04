@@ -92,6 +92,9 @@
           </div>
      {{/displayelementsontop}}
      <div class="wunderbyte-table-table {{moodleversionminfourtwo}}">
+          {{^table}}
+             {{> local_wunderbyte_table/component_countlabel }}
+             {{/table}}
           {{#table}}
                {{> local_wunderbyte_table/component_countlabel }}
                <div class="wunderbyte-table-grid no-overflow rows-container">

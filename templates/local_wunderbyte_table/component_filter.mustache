@@ -158,7 +158,7 @@
         - {{#str}} filterselect, theme_boost_union_child {{/str}} -<span class="filtercounter badge badge-light text-bs-light {{^filtercounter}}hidden{{/filtercounter}}">{{filtercounter}}</span>
     </button>
     <div class="dropdown-menu">
-       <div class="mt-2 ml-2 ms-2 mr-2 me-2 {{show}}" id="id_collapse_{{columnname}}">
+       <div class="mt-2 {{show}}" id="id_collapse_{{columnname}}">
            <label class="pl-4 ps-4 labelsearch">
             </label>
             <input class="search form-control mb-2 filtersearch" name="filtersearch-{{columnname}}" placeholder="{{#str}}search, core{{/str}}" hidden>

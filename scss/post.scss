@@ -189,9 +189,9 @@ textarea, input, .form-control,
     color: rgba(92, 111, 130, 1)
    }
 
-   .wunderbyteTableFilter .dropdown-item:hover label {
-      background: initial;
-   }
+   // .wunderbyteTableFilter .dropdown-item:hover label {
+   //    background: initial;
+   // }
    @media screen and (max-width: 991px) {
     .wunderbyte_table_container .wunderbyteTableFilter .dropdownMenuButton {
         max-width: 100%;
@@ -490,3 +490,29 @@ h3 {
     margin-left: auto;
   }
 }
+
+.form-check.list-group-item.dropdown-item:focus-within {
+   background: unset;
+}
+
+.form-check.list-group-item.dropdown-item:hover {
+   background: rgba(0, 75, 147, 1);
+   .form-check-label {
+      color: white !important;
+   }
+}
+
+.form-check.list-group-item.dropdown-item:hover .wunderbyteTableFilter :checked~.form-check-label::after, 
+.wunderbyteTableFilter :checked~.form-check-label::before {
+  color: #fff;
+//   border-color: #fff;
+  background-color: #fff;
+}
+
+.form-check.list-group-item.dropdown-item {
+   padding: 10px;
+   padding-right: 10px;
+   padding-left: 2.5rem;
+}
+
+
