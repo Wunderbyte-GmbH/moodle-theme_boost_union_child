@@ -74,6 +74,7 @@ class bcutable extends \mod_booking\table\bookingoptions_wbtable {
         if (!$available) {
             return '';
         }
+        $modinfo = get_fast_modinfo($course);
         $cms = $modinfo->instances['zoom'];
         $cm = $cms[$z->id];
         $btntext = get_string('join_meeting', 'mod_zoom');
