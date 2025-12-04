@@ -236,18 +236,22 @@ style="max-width: 35rem;"
   </div>
   <div class="carddurata">
       {{#durata}}
+      {{#value}}
         <span class="">
             {{#columniclassbefore}}
                 <i class="{{.}}" aria-hidden="true"></i>
             {{/columniclassbefore}}
         {{value}}</span>
+        {{/value}}
     {{/durata}}
     {{#carddurata}}
+     {{#value}}
         <span class="">
             {{#columniclassbefore}}
                 <i class="{{.}}" aria-hidden="true"></i>
             {{/columniclassbefore}}
         {{value}}</span>
+         {{/value}}
     {{/carddurata}}
     {{#progress}}{{value}}{{/progress}}
     </div>
