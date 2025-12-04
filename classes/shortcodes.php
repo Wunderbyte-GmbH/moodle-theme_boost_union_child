@@ -111,7 +111,6 @@ class shortcodes {
         $summary = format_text($COURSE->summary, $COURSE->summaryformat, ['overflowdiv' => true]);
         $templatecontext['summary'] = $summary;
         $templatecontext['courseid'] = $COURSE->id;
-        $templatecontext['completion'] = course::get_course_completion_percentage($COURSE->id);
         } else {
             $templatecontext['summary'] = '';
         }
