@@ -108,9 +108,16 @@ class shortcodes {
 
         $templatecontext = [];
         if (!empty($COURSE->id) && $COURSE->id != SITEID) {
-        $summary = format_text($COURSE->summary, $COURSE->summaryformat, ['overflowdiv' => true]);
-        $templatecontext['summary'] = $summary;
-        $templatecontext['courseid'] = $COURSE->id;
+            $summary = format_text($COURSE->summary, $COURSE->summaryformat, ['overflowdiv' => true]);
+            $templatecontext['summary'] = $summary;
+            $templatecontext['courseid'] = $COURSE->id;
+            $templatecontext['progress'] = \core_completion\progress::get_course_progress_percentage($COURSE, $USER->id);
+            if (!empty($args['durata'])) {
+                $templatecontext['durata'] = $args['durata'];
+            }
+            if (!empty($args['formato'])) {
+                $templatecontext['formato'] = $args['formato'];
+            }
         } else {
             $templatecontext['summary'] = '';
         }
@@ -467,10 +474,7 @@ class shortcodes {
             0,
             $args
         );
-        if (!empty($args['futureonly'])) {
-            $startoftoday = strtotime('today midnight');
-            $where .= " AND coursestarttime > $startoftoday ";
-        }
+
 
         if (isset($args['horizontal'])) {
             $table->tabletemplate = 'local_wunderbyte_table/table_horizontal_cards';
@@ -511,6 +515,16 @@ class shortcodes {
                     $table
                 );
 
+        if (!empty($args['futureonly'])) {
+            $startoftoday = strtotime('today 01:00:00');
+            $where .= " AND coursestarttime > $startoftoday OR coursestarttime IS NULL";
+        }
+        if (!empty($args['current'])) {
+            $startoftoday = strtotime('today 01:00:00');
+            $endoftoday = strtotime('today 23:59:59');
+            $where .= " AND (coursestarttime < $startoftoday OR coursestarttime IS NULL) AND (courseendtime > $startoftoday OR courseendtime IS NULL)";
+        }
+
         $table->set_filter_sql($fields, $from, $where, $filter, $params);
         
         $table->define_cache('mod_booking', 'mybookingoptionstable');
@@ -534,6 +548,7 @@ class shortcodes {
         
         require_login();
         $args['horizontal'] = true;
+        $args['current'] = true;
         [$coursehtml, $count, $rawdata] = self::get_my_courselistdata($shortcode, $args, $content, $env, $next);
         // echo "<pre>"; print_r($rawdata); echo "</pre>";exit;
         if ($count > 1) {

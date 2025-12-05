@@ -6,15 +6,25 @@
 </div>
 <div class="col-md-4 bg-light-blue">
 <div class="p-3">
-<h4>Il corso in breve</h3>
-{{#meta}}
-{{/meta}}
-{{#key}}
-<b>{{.}}</b>
-{{/key}}
-{{#value}}
-{{value}}
-{{/value}}
-{{completion}}
+<h4 class="mb-4">Il corso in breve</h4>
+{{#durata}}
+<div class="mt-2">
+<b>Durata </b></br>
+<span>{{durata}}</span>
 </div>
+{{/durata}}
+{{#formato}}
+<div class="mt-2">
+    <b>Formato </b></br>
+    <span>{{formato}}</span>
+    {{/formato}}
+</div>
+{{#progress}}
+<div class="mt-2">
+
+<b>Completion </b></br>
+<span>{{progress}}</span>
+</div>
+{{/progress}}
+
 </div>
