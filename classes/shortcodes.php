@@ -128,7 +128,7 @@ class shortcodes {
         $out = $OUTPUT->render_from_template('theme_boost_union_child/coursesummary', $templatecontext);;
         return $out;
     }
-    
+
     /**
      * Prints out list of previous history items in a card..
      * Arguments can be 'userid'.
@@ -304,13 +304,13 @@ class shortcodes {
         if (!empty($args['notitle'])) {
             $title = '';
             $count = '';
-        } 
+        }
         $templatecontext = [
             'title' => $title,
             'count' => $count,
             'courses' => $coursehtml,
         ];
-        $out = $OUTPUT->render_from_template('theme_boost_union_child/mycourses', $templatecontext); 
+        $out = $OUTPUT->render_from_template('theme_boost_union_child/mycourses', $templatecontext);
 
         return $out;
     }
@@ -338,7 +338,7 @@ class shortcodes {
 
             if (!$courseimage) {
                 $courseimage = $OUTPUT->get_generated_image_for_id($data->id);
-            }            
+            }
             $catname = '';
             if (!empty($c->category)) {
                 $cat = \core_course_category::get($c->category, IGNORE_MISSING);
@@ -385,7 +385,7 @@ class shortcodes {
             'count' => $count,
             'courses' => $coursehtml,
         ];
-        $out = $OUTPUT->render_from_template('theme_boost_union_child/mycourses', $templatecontext); 
+        $out = $OUTPUT->render_from_template('theme_boost_union_child/mycourses', $templatecontext);
 
         return $out;
     }
@@ -517,7 +517,7 @@ class shortcodes {
 
         if (!empty($args['futureonly'])) {
             $startoftoday = strtotime('today 01:00:00');
-            $where .= " AND coursestarttime > $startoftoday OR coursestarttime IS NULL";
+            $where .= " AND (coursestarttime > $startoftoday OR coursestarttime IS NULL)";
         }
         if (!empty($args['current'])) {
             $startoftoday = strtotime('today 01:00:00');
@@ -526,7 +526,7 @@ class shortcodes {
         }
 
         $table->set_filter_sql($fields, $from, $where, $filter, $params);
-        
+
         $table->define_cache('mod_booking', 'mybookingoptionstable');
 
         try {
@@ -545,7 +545,7 @@ class shortcodes {
 
     public static function bcuseguire($shortcode, $args, $content, $env, $next) {
         global $OUTPUT, $DB;
-        
+
         require_login();
         $args['horizontal'] = true;
         $args['current'] = true;
@@ -561,9 +561,9 @@ class shortcodes {
         if (!empty($args['notitle'])) {
             $title = '';
             $count = '';
-        } 
+        }
         $templatecontext = [
-            'title' => $title,  
+            'title' => $title,
             'count' => $count,
             'courses' => $coursehtml,
             'horizontal' => true,
