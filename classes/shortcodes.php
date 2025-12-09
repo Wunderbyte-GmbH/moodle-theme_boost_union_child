@@ -118,6 +118,9 @@ class shortcodes {
             if (!empty($args['formato'])) {
                 $templatecontext['formato'] = $args['formato'];
             }
+            if (!empty($args['categoria'])) {
+                $templatecontext['categoria'] = $args['categoria'];
+            }
         } else {
             $templatecontext['summary'] = '';
         }
