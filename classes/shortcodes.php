@@ -112,6 +112,9 @@ class shortcodes {
             $templatecontext['summary'] = $summary;
             $templatecontext['courseid'] = $COURSE->id;
             $templatecontext['progress'] = round(\core_completion\progress::get_course_progress_percentage($COURSE, $USER->id), 2);
+            if ($templatecontext['progress'] != null) {
+                $templatecontext['progress'] .= '%';
+            }
             if (!empty($args['durata'])) {
                 $templatecontext['durata'] = $args['durata'];
             }
