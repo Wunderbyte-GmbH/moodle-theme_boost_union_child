@@ -111,7 +111,7 @@ class shortcodes {
             $summary = format_text($COURSE->summary, $COURSE->summaryformat, ['overflowdiv' => true]);
             $templatecontext['summary'] = $summary;
             $templatecontext['courseid'] = $COURSE->id;
-            $templatecontext['progress'] = \core_completion\progress::get_course_progress_percentage($COURSE, $USER->id);
+            $templatecontext['progress'] = round(\core_completion\progress::get_course_progress_percentage($COURSE, $USER->id), 2);
             if (!empty($args['durata'])) {
                 $templatecontext['durata'] = $args['durata'];
             }
