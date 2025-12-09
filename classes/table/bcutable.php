@@ -82,7 +82,7 @@ class bcutable extends \mod_booking\table\bookingoptions_wbtable {
             // Get the meeting start time.
             $starttime = (int)$z->start_time;
         }
-        if ($starttime > $now + 1800 || $starttime + $z->duration * 60 < $now) {
+        if ($starttime > $now + 1800 || $starttime + $z->duration + 3600 < $now) {
             return '';
         }
         $modinfo = get_fast_modinfo($course);
