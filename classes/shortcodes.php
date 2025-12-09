@@ -531,6 +531,11 @@ class shortcodes {
             $where .= " AND (coursestarttime < $startoftoday OR coursestarttime IS NULL) AND (courseendtime > $startoftoday OR courseendtime IS NULL)";
         }
 
+        if (!empty($args['events'])) {
+            $time = now() + 600;
+            $where .= " AND (courseendtime < $endoftoday)";
+        }
+
         $table->set_filter_sql($fields, $from, $where, $filter, $params);
 
         $table->define_cache('mod_booking', 'mybookingoptionstable');
