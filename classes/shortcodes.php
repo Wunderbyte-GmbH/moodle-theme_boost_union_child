@@ -533,7 +533,7 @@ class shortcodes {
 
         if (!empty($args['events'])) {
             $time = now() + 600;
-            $where .= " AND (courseendtime < $endoftoday)";
+            $where .= " AND (courseendtime < $time)";
         }
 
         $table->set_filter_sql($fields, $from, $where, $filter, $params);
