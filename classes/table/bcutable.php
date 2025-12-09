@@ -87,8 +87,21 @@ class bcutable extends \mod_booking\table\bookingoptions_wbtable {
 
     public function col_starting($values) {
         if (!empty($values->coursestarttime)) {
-            $icon = html_writer::tag('i', '', ['class' => 'far fa-calendar fa-fw']);
-            return $icon . ' ' . date('d.m.Y H:i', $values->coursestarttime);
+            $icon  = html_writer::tag('i', '', ['class' => 'far fa-calendar fa-fw']);
+            $datum = date('d.m.Y', $values->coursestarttime);
+
+            $stunden = date('H', $values->coursestarttime);
+            $minuten = date('i', $values->coursestarttime);
+
+            $output = $icon . ' ' . $datum;
+
+            if ($stunden !== '00' || $minuten !== '00') {
+                $icon2 = html_writer::tag('i', '', ['class' => 'far fa-clock fa-fw']);
+                $output .= ' ' . $icon2 . ' ' . $stunden . ':' . $minuten;
+            }
+
+            return $output;
         }
+        return '';
     }
 }
