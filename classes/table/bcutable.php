@@ -70,8 +70,19 @@ class bcutable extends \mod_booking\table\bookingoptions_wbtable {
             return '';
         }
         $z = array_shift($zooms);
-        [$inprogress, $available, $finished] = zoom_get_state($z);
-        if (!$available) {
+
+        // Get the current time as calculation basis.
+        $now = time();
+
+        // If this is a recurring meeting with a recurrence schedule.
+        if ($zoom->recurring && $zoom->recurrence_type != ZOOM_RECURRINGTYPE_NOTIME) {
+            // Get the next occurrence start time.
+            $starttime = zoom_get_next_occurrence($z);
+        } else {
+            // Get the meeting start time.
+            $starttime = (int)$z->start_time;
+        }
+        if ($starttime > $now + 1800 || $starttime + $z->duration * 60 < $now) {
             return '';
         }
         $modinfo = get_fast_modinfo($course);
