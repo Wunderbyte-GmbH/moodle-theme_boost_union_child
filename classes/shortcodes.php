@@ -559,9 +559,7 @@ class shortcodes {
 
         require_login();
         $args['horizontal'] = true;
-        $args['current'] = true;
         [$coursehtml, $count, $rawdata] = self::get_my_courselistdata($shortcode, $args, $content, $env, $next);
-        // echo "<pre>"; print_r($rawdata); echo "</pre>";exit;
         if ($count > 1) {
             $count = $count . ' ' . get_string('course', 'moodle');
         } else {
