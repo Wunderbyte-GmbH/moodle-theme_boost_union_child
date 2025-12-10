@@ -532,7 +532,7 @@ class shortcodes {
         }
 
         if (!empty($args['events'])) {
-            $time = now() + 600;
+            $time = time() + 600;
             $where .= " AND (courseendtime < $time)";
         }
 
