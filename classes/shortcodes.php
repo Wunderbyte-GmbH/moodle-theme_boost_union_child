@@ -432,7 +432,7 @@ class shortcodes {
         $additionalwhere = booking_shortcodes::set_customfield_wherearray($args, $wherearray) ?? '';
 
         if (!empty($args['completed'])) {
-            $wherearray['completed'] = $args['completed'];
+            $wherearray['completed'] = (int)$args['completed'];
         }
 
         $statusarray = [MOD_BOOKING_STATUSPARAM_BOOKED];
