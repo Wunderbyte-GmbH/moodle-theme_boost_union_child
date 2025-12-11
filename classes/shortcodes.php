@@ -431,7 +431,7 @@ class shortcodes {
         // Additional where condition for both card and list views.
         $additionalwhere = booking_shortcodes::set_customfield_wherearray($args, $wherearray) ?? '';
 
-        if (!empty($args['completed'])) {
+        if (isset($args['completed'])) {
             $wherearray['completed'] = (int)$args['completed'];
         }
 
