@@ -532,8 +532,8 @@ class shortcodes {
         }
 
         if (!empty($args['events'])) {
-            $time = time() + 600;
-            $where .= " AND (courseendtime < $time)";
+            $time = time();
+            $where .= " AND (courseendtime > $time)";
         }
 
         $table->set_filter_sql($fields, $from, $where, $filter, $params);
