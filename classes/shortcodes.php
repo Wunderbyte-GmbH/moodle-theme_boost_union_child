@@ -593,7 +593,7 @@ class shortcodes {
             $count = $count . ' ' . get_string('courses', 'moodle');
         }
         $templatecontext = [
-            'title' => 'Già visti, se vuoi seguili di nuovo',
+            'title' => 'Già visti, se vuoi seguirli di nuovo',
             'count' => $count,
             'courses' => $coursehtml,
         ];
