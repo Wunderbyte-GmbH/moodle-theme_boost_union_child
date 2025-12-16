@@ -560,10 +560,10 @@ class shortcodes {
         require_login();
         $args['horizontal'] = true;
         [$coursehtml, $count, $rawdata] = self::get_my_courselistdata($shortcode, $args, $content, $env, $next);
-        if ($count > 1) {
-            $count = $count . ' ' . get_string('course', 'moodle');
+        if ($count <= 1) {
+            $count = $count . ' ' . get_string('activity', 'moodle');
         } else {
-            $count = $count . ' ' . get_string('courses', 'moodle');
+            $count = $count . ' ' . get_string('activities', 'moodle');
         }
 
         $title = $args['title'] ?? 'Continua a seguire';
@@ -587,10 +587,10 @@ class shortcodes {
         $args['completed'] = 1;
 
         [$coursehtml, $count] = self::get_my_courselistdata($shortcode, $args, $content, $env, $next);
-        if ($count > 1) {
-            $count = $count . ' ' . get_string('course', 'moodle');
+        if ($count <= 1) {
+            $count = $count . ' ' . get_string('activity', 'moodle');
         } else {
-            $count = $count . ' ' . get_string('courses', 'moodle');
+            $count = $count . ' ' . get_string('activities', 'moodle');
         }
         $templatecontext = [
             'title' => 'Già visti, se vuoi seguirli di nuovo',
