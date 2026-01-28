@@ -46,11 +46,15 @@ $string['prescssinheritancesetting_desc'] = 'With this setting, you control if t
 // ... ... Setting: Extra SCSS inheritance setting.
 $string['extrascssinheritancesetting'] = 'Extra SCSS inheritance';
 $string['extrascssinheritancesetting_desc'] = 'With this setting, you control if the extra SCSS code from Boost Union should be inherited or duplicated.';
+// ... ... Setting: Display of elements in securedrawers template.
+$string['displaysecondarynavigation'] = 'Display Secondary Navigation in SEB Quiz';
+$string['displaysecondarynavigation_desc'] = 'Enable this option to display the secondary navigation menu during a quiz in Safe Exam Browser.';
 
-/**************************************************************
- * EXTENSION POINT:
- * Add your language strings for your settings here.
- *************************************************************/
+$string['displaytopnav'] = 'Display Top Navigation in SEB Quiz';
+$string['displaytopnav_desc'] = 'Enable this option to show the top navigation bar, which usually includes breadcrumb links during a quiz in Safe Exam Browser.';
+
+$string['displayfullheader'] = 'Display Full Header in SEB Quiz';
+$string['displayfullheader_desc'] = 'Enable this to display the full header section, including all standard header elements during a quiz in Safe Exam Browser.';
 
 // Privacy API.
 $string['privacy:metadata'] = 'The Boost Union Child theme does not store any personal data about any user.';

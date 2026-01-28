@@ -127,6 +127,33 @@ if ($hassiteconfig || has_capability('theme/boost_union:configure', context_syst
         $setting->set_updatedcallback('theme_reset_all_caches');
         $tab->add($setting);
 
+        // Add setting for secondary navigation.
+        $name = 'theme_boost_union_child/displaysecondarynavigation';
+        $title = get_string('displaysecondarynavigation', 'theme_boost_union_child');
+        $description = get_string('displaysecondarynavigation_desc', 'theme_boost_union_child');
+        $default = 0;
+        $setting = new admin_setting_configcheckbox($name, $title, $description, $default);
+        $setting->set_updatedcallback('theme_reset_all_caches');
+        $tab->add($setting);
+
+        // Add setting for top navigation.
+        $name = 'theme_boost_union_child/displaytopnav'; // Breadcrumbs.
+        $title = get_string('displaytopnav', 'theme_boost_union_child');
+        $description = get_string('displaytopnav_desc', 'theme_boost_union_child');
+        $default = 0;
+        $setting = new admin_setting_configcheckbox($name, $title, $description, $default);
+        $setting->set_updatedcallback('theme_reset_all_caches');
+        $tab->add($setting);
+
+        // Add setting for full header.
+        $name = 'theme_boost_union_child/displayfullheader';
+        $title = get_string('displayfullheader', 'theme_boost_union_child');
+        $description = get_string('displayfullheader_desc', 'theme_boost_union_child');
+        $default = 0;
+        $setting = new admin_setting_configcheckbox($name, $title, $description, $default);
+        $setting->set_updatedcallback('theme_reset_all_caches');
+        $tab->add($setting);
+
         // Add tab to settings page.
         $page->add($tab);
 
