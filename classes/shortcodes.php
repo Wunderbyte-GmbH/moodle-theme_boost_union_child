@@ -291,7 +291,9 @@ class shortcodes {
         global $DB, $USER;
 
         require_login();
-
+        if (isset($args['firstname']) && !empty($args['firstname'])) {
+            return $USER->firstname;
+        }
         return fullname($USER);
     }
 
