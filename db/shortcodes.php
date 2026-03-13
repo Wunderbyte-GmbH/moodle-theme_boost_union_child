@@ -80,5 +80,10 @@ $shortcodes = [
         'callback' => 'theme_boost_union_child\shortcodes::bcusummary',
         'wraps' => false,
         'description' => 'bcusummary',
+    ],
+    'bcucoursecategory' => [
+        'callback' => 'theme_boost_union_child\shortcodes::bcucoursecategory',
+        'wraps' => false,
+        'description' => 'bcucoursecategory',
     ], 
 ];

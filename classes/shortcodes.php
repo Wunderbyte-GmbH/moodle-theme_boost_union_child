@@ -610,4 +610,210 @@ class shortcodes {
             return ($completion === null) ? '' : '| ' . $completion . '% completado';
         }
     }
+
+    /**
+     * Shows courses inside a course category for enrolled users.
+     * Displays course cards with progress, duration, and custom fields.
+     *
+     * Parameters:
+     * - categoryid: Required. The category ID to display courses from
+     * - completed: Optional. Filter by completion status
+     * - title: Optional. Custom title for the section
+     * - exclude: Optional. CSV list of fields to exclude (description, etc)
+     * - includecustomfields: Optional. CSV list of custom fields to include with format: fieldname|fieldkey|icon|iconclass
+     * - progress: Optional. Show progress indicator
+     * - horizontal: Optional. Display in horizontal layout
+     * - notitle: Optional. Hide the title
+     *
+     * @param string $shortcode
+     * @param array $args
+     * @param string|null $content
+     * @param object $env
+     * @param Closure $next
+     * @return string
+     */
+    public static function bcucoursecategory($shortcode, $args, $content, $env, $next) {
+        global $USER, $OUTPUT, $DB, $CFG;
+
+        require_login();
+
+        // Validate required categoryid parameter.
+        if (empty($args['categoryid'])) {
+            return '';
+        }
+
+        $categoryid = (int)$args['categoryid'];
+
+        // Check if category exists and is accessible.
+        try {
+            $category = \core_course_category::get($categoryid, IGNORE_MISSING);
+            if (!$category) {
+                return '';
+            }
+        } catch (Exception $e) {
+            return '';
+        }
+
+        // Get all courses in the category.
+        $courses = $category->get_courses(['recursive' => false]);
+
+        if (empty($courses)) {
+            return '';
+        }
+
+        $items = [];
+
+        foreach ($courses as $course) {
+            // Check if user is enrolled in the course.
+            $context = context_course::instance($course->id);
+            if (!is_enrolled($context, $USER->id)) {
+                continue;
+            }
+
+            // Get course image.
+            $courseimage = course_summary_exporter::get_course_image($course);
+            if (!$courseimage) {
+                $courseimage = $OUTPUT->get_generated_image_for_id($course->id);
+            }
+
+            // Get category name.
+            $catname = '';
+            if (!empty($course->category)) {
+                $cat = \core_course_category::get($course->category, IGNORE_MISSING);
+                if ($cat) {
+                    $catname = $cat->get_formatted_name();
+                }
+            }
+
+            // Get course progress.
+            $courseobj = get_course($course->id);
+            $progress = \core_completion\progress::get_course_progress_percentage($courseobj, $USER->id);
+            $progress = ($progress === null) ? 0 : round($progress, 2);
+
+            $item = [
+                'id'            => $course->id,
+                'coursename'    => $course->fullname,
+                'summary'       => format_text(
+                    $course->summary ?? '',
+                    $course->summaryformat ?? FORMAT_HTML,
+                    ['context' => $context]
+                ),
+                'viewurl'       => (new moodle_url('/course/view.php', ['id' => $course->id]))->out(false),
+                'courseimage'   => $courseimage,
+                'categoryname'  => $catname,
+                'visible'       => (int)$course->visible,
+                'hasprogress'   => true,
+                'progress'      => $progress,
+                'progresstext'  => $progress . '%',
+                'showshortname' => true,
+            ];
+
+            // Handle exclude parameter to remove fields from display.
+            if (!empty($args['exclude'])) {
+                $excludefields = explode(',', $args['exclude']);
+                foreach ($excludefields as $field) {
+                    $field = trim($field);
+                    if ($field === 'description') {
+                        $item['summary'] = '';
+                    }
+                }
+            }
+
+            // Get custom field data for this course.
+            $customfields = $DB->get_records(
+                'customfield_field',
+                [
+                    'component' => 'core_course',
+                    'area' => 'course',
+                ]
+            );
+
+            $customfielddata = [];
+            foreach ($customfields as $cf) {
+                $fielddata = $DB->get_record(
+                    'customfield_data',
+                    [
+                        'fieldid' => $cf->id,
+                        'instanceid' => $course->id,
+                    ]
+                );
+                if ($fielddata) {
+                    $customfielddata[$cf->shortname] = $fielddata->value;
+                }
+            }
+
+            // Add duration/durata if exists.
+            if (!empty($customfielddata['durata'])) {
+                $item['durata'] = $customfielddata['durata'];
+                $item['carddurata'] = $customfielddata['durata'];
+            }
+
+            // Add competencies/categoria if exists.
+            if (!empty($customfielddata['categoria'])) {
+                $item['categoria'] = $customfielddata['categoria'];
+                $item['cardcompetenze'] = $customfielddata['categoria'];
+            }
+
+            // Add custom fields if specified.
+            if (!empty($args['includecustomfields'])) {
+                $customfieldargs = explode(',', $args['includecustomfields']);
+
+                foreach ($customfieldargs as $customfield) {
+                    $fieldparts = explode('|', trim($customfield));
+                    $fieldname = trim($fieldparts[0]);
+                    $fieldkey = trim($fieldparts[1] ?? $fieldname);
+                    $icon = trim($fieldparts[2] ?? '');
+                    $iconclass = trim($fieldparts[3] ?? '');
+
+                    if (isset($customfielddata[$fieldname])) {
+                        $value = $customfielddata[$fieldname];
+                        if ($value) {
+                            $item['customfield_' . $fieldkey] = $value;
+                            if (!empty($icon) && !empty($iconclass)) {
+                                $item['customfield_' . $fieldkey . '_icon'] = $icon . ' ' . $iconclass;
+                            }
+                        }
+                    }
+                }
+            }
+
+            $items[] = $item;
+        }
+
+        // If no enrolled courses found, return empty.
+        if (empty($items)) {
+            return '';
+        }
+
+        // Set title.
+        $title = $args['title'] ?? 'Corsi nella categoria';
+        if (!empty($args['notitle'])) {
+            $title = '';
+        }
+
+        $count = count($items);
+        if ($count <= 1) {
+            $countstr = $count . ' ' . get_string('course', 'moodle');
+        } else {
+            $countstr = $count . ' ' . get_string('courses', 'moodle');
+        }
+
+        $templatecontext = [
+            'title'         => $title,
+            'count'         => $countstr,
+            'courses'       => $items,
+            'horizontal'    => isset($args['horizontal']) ? true : false,
+        ];
+
+        try {
+            $out = $OUTPUT->render_from_template('theme_boost_union_child/coursecardhorizontal', $templatecontext);
+        } catch (Exception $e) {
+            $out = '';
+            if ($CFG->debug > 0 && has_capability('moodle/site:config', context_system::instance())) {
+                $out = 'Error rendering course category: ' . $e->getMessage();
+            }
+        }
+
+        return $out;
+    }
 }
