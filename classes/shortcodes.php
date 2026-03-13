@@ -633,7 +633,7 @@ class shortcodes {
      * @return string
      */
     public static function bcucoursecategory($shortcode, $args, $content, $env, $next) {
-        global $USER, $OUTPUT, $DB, $CFG;
+        global $USER, $OUTPUT, $CFG;
 
         require_login();
 
@@ -644,7 +644,7 @@ class shortcodes {
 
         $categoryid = (int)$args['categoryid'];
 
-        // Check if category exists and is accessible.
+        // Check if category exists.
         try {
             $category = \core_course_category::get($categoryid, IGNORE_MISSING);
             if (!$category) {
@@ -654,7 +654,7 @@ class shortcodes {
             return '';
         }
 
-        // Get all courses in the category.
+        // Get courses in category.
         $courses = $category->get_courses(['recursive' => false]);
 
         if (empty($courses)) {
@@ -663,20 +663,25 @@ class shortcodes {
 
         $items = [];
 
+        // Prepare customfield handler once.
+        $customfieldhandler = \core_customfield\handler::get_handler('core_course', 'course');
+
         foreach ($courses as $course) {
-            // Check if user is enrolled in the course.
+
             $context = context_course::instance($course->id);
+
+            // Skip if user not enrolled.
             if (!is_enrolled($context, $USER->id)) {
                 continue;
             }
 
-            // Get course image.
+            // Course image.
             $courseimage = course_summary_exporter::get_course_image($course);
             if (!$courseimage) {
                 $courseimage = $OUTPUT->get_generated_image_for_id($course->id);
             }
 
-            // Get category name.
+            // Category name.
             $catname = '';
             if (!empty($course->category)) {
                 $cat = \core_course_category::get($course->category, IGNORE_MISSING);
@@ -685,7 +690,7 @@ class shortcodes {
                 }
             }
 
-            // Get course progress.
+            // Course progress.
             $courseobj = get_course($course->id);
             $progress = \core_completion\progress::get_course_progress_percentage($courseobj, $USER->id);
             $progress = ($progress === null) ? 0 : round($progress, 2);
@@ -706,9 +711,12 @@ class shortcodes {
                 'progress'      => $progress,
                 'progresstext'  => $progress . '%',
                 'showshortname' => true,
+                'courselink'  => (new moodle_url('/course/view.php', ['id' => $course->id]))->out(false),
+                'hascourselink' => true,
+
             ];
 
-            // Handle exclude parameter to remove fields from display.
+            // Exclude parameters.
             if (!empty($args['exclude'])) {
                 $excludefields = explode(',', $args['exclude']);
                 foreach ($excludefields as $field) {
@@ -719,59 +727,53 @@ class shortcodes {
                 }
             }
 
-            // Get custom field data for this course.
-            $customfields = $DB->get_records(
-                'customfield_field',
-                [
-                    'component' => 'core_course',
-                    'area' => 'course',
-                ]
-            );
-
+            // Load custom field data via API.
             $customfielddata = [];
-            foreach ($customfields as $cf) {
-                $fielddata = $DB->get_record(
-                    'customfield_data',
-                    [
-                        'fieldid' => $cf->id,
-                        'instanceid' => $course->id,
-                    ]
-                );
-                if ($fielddata) {
-                    $customfielddata[$cf->shortname] = $fielddata->value;
+            $data = $customfieldhandler->get_instance_data($course->id);
+
+            foreach ($data as $d) {
+                $field = $d->get_field();
+                $value = $d->get_value();
+
+                if ($value !== null && $value !== '') {
+                    $customfielddata[$field->get('shortname')] = $value;
                 }
             }
 
-            // Add duration/durata if exists.
-            if (!empty($customfielddata['durata'])) {
-                $item['durata'] = $customfielddata['durata'];
+            // Durata field.
+            if (!empty($customfielddata['coursedurata'])) {
+                $item['duration'] = $customfielddata['coursedurata'];
                 $item['carddurata'] = $customfielddata['durata'];
             }
 
-            // Add competencies/categoria if exists.
-            if (!empty($customfielddata['categoria'])) {
-                $item['categoria'] = $customfielddata['categoria'];
-                $item['cardcompetenze'] = $customfielddata['categoria'];
+            // Categoria field.
+            if (!empty($customfielddata['livello'])) {
+                $item['category'] = $customfielddata['livello'];
+                $item['cardcompetenze'] = $customfielddata['livello'];
             }
 
-            // Add custom fields if specified.
+            // includecustomfields argument.
             if (!empty($args['includecustomfields'])) {
+
                 $customfieldargs = explode(',', $args['includecustomfields']);
 
                 foreach ($customfieldargs as $customfield) {
+
                     $fieldparts = explode('|', trim($customfield));
+
                     $fieldname = trim($fieldparts[0]);
                     $fieldkey = trim($fieldparts[1] ?? $fieldname);
                     $icon = trim($fieldparts[2] ?? '');
                     $iconclass = trim($fieldparts[3] ?? '');
 
-                    if (isset($customfielddata[$fieldname])) {
+                    if (!empty($customfielddata[$fieldname])) {
+
                         $value = $customfielddata[$fieldname];
-                        if ($value) {
-                            $item['customfield_' . $fieldkey] = $value;
-                            if (!empty($icon) && !empty($iconclass)) {
-                                $item['customfield_' . $fieldkey . '_icon'] = $icon . ' ' . $iconclass;
-                            }
+
+                        $item['customfield_' . $fieldkey] = $value;
+
+                        if (!empty($icon) && !empty($iconclass)) {
+                            $item['customfield_' . $fieldkey . '_icon'] = $icon . ' ' . $iconclass;
                         }
                     }
                 }
@@ -780,18 +782,20 @@ class shortcodes {
             $items[] = $item;
         }
 
-        // If no enrolled courses found, return empty.
+        // No courses found.
         if (empty($items)) {
             return '';
         }
 
-        // Set title.
+        // Title.
         $title = $args['title'] ?? 'Corsi nella categoria';
+
         if (!empty($args['notitle'])) {
             $title = '';
         }
 
         $count = count($items);
+
         if ($count <= 1) {
             $countstr = $count . ' ' . get_string('course', 'moodle');
         } else {
@@ -800,20 +804,24 @@ class shortcodes {
 
         $templatecontext = [
             'title'         => $title,
-            'count'         => $countstr,
             'courses'       => $items,
-            'horizontal'    => isset($args['horizontal']) ? true : false,
         ];
 
-        try {
-            $out = $OUTPUT->render_from_template('theme_boost_union_child/coursecardhorizontal', $templatecontext);
-        } catch (Exception $e) {
-            $out = '';
-            if ($CFG->debug > 0 && has_capability('moodle/site:config', context_system::instance())) {
-                $out = 'Error rendering course category: ' . $e->getMessage();
-            }
-        }
+        $coursehtml = $OUTPUT->render_from_template(
+            'theme_boost_union_child/coursecardhorizontal',
+            [
+                'courses'    => $items,
+                'horizontal' => true
+            ]
+        );
 
+        $templatecontext = [
+            'title' => $title,
+            'courses' => $coursehtml,
+            'horizontal' => true,
+        ];
+
+        $out = $OUTPUT->render_from_template('theme_boost_union_child/mycourses', $templatecontext);
         return $out;
     }
 }

@@ -1,47 +1,62 @@
-{{!
-    This file is part of Moodle - http://moodle.org/
-    Distributed under the GNU GPL v3 or later.
-}}
-
-{{!
-    @template local_yourplugin/coursecard
-    Template for displaying a single course card.
-    Context variables:
-    * image - course image URL
-    * category - course category or tag
-    * title - course title
-    * duration - estimated time string (e.g. "1 ora")
-    * progress - numeric percentage (e.g. 25)
-}}
 {{#courses}}
-<div class="card mb-3 border-0" style="max-width: 780px;">
-  <div class="row g-0 align-items-center">
+{{#hascourselink}}
+<a href="{{courselink}}" style="text-decoration:none;">
+<div class="card border
+                                           rounded
+                                           pl-0 pr-3 pt-0 pb-0
+                                           sk-fade ml-0 mr-0 mb-3
+                                         " style="max-width:780px;height: 220px; ">
+  <div class="row g-0 align-items-stretch">
     <div class="col-md-4 img-container">
-      <img src="{{courseimage}}" class="chorizontal rounded-start h-100" alt="{{title}}">
+    <img src="{{courseimage}}" class="chorizontal rounded-start" alt="{{coursename}}">
     </div>
-    <div class="col-md-8">
-      <div class="card-body">
-          <span class="badge bg-success-subtle text-success fw-semibold mb-2 px-2 py-1">
-            {{category}}
+    <div class="col-md-8 h-100">
+      <div class="card-body agenas">
+        <div class="d-flex flex-column  p-2" style="height: 220px;">
+          <div class="mb-2">
+              {{#category}}<div class="cardcompetency ml-0">
+                  <span class="cardcompetencytag mb-2">{{category}}</span>
+              </div>
+              {{/category}}
+              </div>
+          <div class="card-title fw-bold mb-3 h5 text">
+            {{coursename}}
+          </div>
+          <div class="text-muted small d-flex align-items-center gap-2 mt-auto">
+          {{#duration}}
+          <span>
+            <i class="far fa-clock fa-fw"></i>
+            {{duration}}
           </span>
+          {{/duration}}
 
-        <h5 class="card-title fw-bold mb-3">{{coursename}}</h5>
-
-        <div class="text-muted small d-flex align-items-center gap-2">
-          <i class="bi bi-clock"></i>
-          <span>{{duration}}</span>
-          <span class="mx-1">|</span>
-          <span>{{progress}}% completato</span>
+          {{#hasprogress}}
+          <span class="mx-2"> | </span>
+          <span> {{progresstext}}</span>
+          {{/hasprogress}}
+          </div>
         </div>
+
       </div>
     </div>
   </div>
 </div>
+
+</a>
+{{/hascourselink}}
 {{/courses}}
 
 <style>
-    .img-container {
-    overflow: hidden;
-    height: 300px;
-    }
+.img-container{
+    overflow:hidden;
+}
+.img-container{
+    height: 220px;
+}
+
+.chorizontal{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
 </style>
