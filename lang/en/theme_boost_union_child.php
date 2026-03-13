@@ -53,6 +53,18 @@ $string['extrascssinheritancesetting_desc'] = 'With this setting, you control if
  *************************************************************/
 
 $string['backbutton'] = 'Indietro';
+$string['bcucoursecategory'] = 'bcucoursecategory';
+$string['bcucourseprogress'] = 'bcucourseprogress';
+$string['bcuevents'] = 'bcuevents';
+$string['bcumycourses'] = 'bcumycourses';
+$string['bcunewnews'] = 'bcunewnews';
+$string['bcunews'] = 'bcunews';
+$string['bcunuovo'] = 'bcunuovo';
+$string['bcuseguire'] = 'bcuseguire';
+$string['bcusomevideos'] = 'bcusomevideos';
+$string['bcusubito'] = 'bcusubito';
+$string['bcusummary'] = 'bcusummary';
+$string['bcuusername'] = 'bcuusername';
 $string['choosereadme'] = 'This plugin is just a boilerplate template one can use to develop Boost Union child themes.';
 $string['completion'] = 'Completamento';
 $string['configtitle'] = 'Boost Union Child';

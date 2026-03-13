@@ -34,6 +34,18 @@ defined('MOODLE_INTERNAL') || die();
  *************************************************************/
 
 $string['backbutton'] = 'Indietro';
+$string['bcucoursecategory'] = 'bcucoursecategory';
+$string['bcucourseprogress'] = 'bcucourseprogress';
+$string['bcuevents'] = 'bcuevents';
+$string['bcumycourses'] = 'bcumycourses';
+$string['bcunewnews'] = 'bcunewnews';
+$string['bcunews'] = 'bcunews';
+$string['bcunuovo'] = 'bcunuovo';
+$string['bcuseguire'] = 'bcuseguire';
+$string['bcusomevideos'] = 'bcusomevideos';
+$string['bcusubito'] = 'bcusubito';
+$string['bcusummary'] = 'bcusummary';
+$string['bcuusername'] = 'bcuusername';
 $string['choosereadme'] = 'Questo plugin è solo un modello di base che si può usare per sviluppare temi child di Boost Union.';
 $string['completion'] = 'Completamento';
 $string['configtitle'] = 'Boost Union Child';
