@@ -60,6 +60,7 @@ $string['inheritanceduplicate'] = 'Duplica';
 $string['inheritanceheading'] = 'Ereditarietà';
 $string['inheritanceinherit'] = 'Eredita';
 $string['inheritanceoptionsexplanation'] = 'Nella maggior parte dei casi, l\'ereditarietà funzionerà perfettamente. Tuttavia, può accadere che del codice imperfetto sia integrato in Boost Union, il che impedisce la semplice ereditarietà SCSS per particolari funzionalità di Boost Union. Se incontri problemi con le funzionalità di Boost Union che sembrano non funzionare anche in Boost Union Child, prova a cambiare questa impostazione in \'Duplica\' e, se questo risolve il problema, segnala il problema su Github (vedi il file README.md per i dettagli su come segnalare un problema).';
+$string['participate'] = 'Partecipa';
 $string['pluginname'] = 'Boost Union Child';
 $string['prescssinheritancesetting'] = 'Ereditarietà pre-SCSS';
 $string['prescssinheritancesetting_desc'] = 'Con questa impostazione, puoi controllare se il codice pre-SCSS di Boost Union deve essere ereditato o duplicato.';

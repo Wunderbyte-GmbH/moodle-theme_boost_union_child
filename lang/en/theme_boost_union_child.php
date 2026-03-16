@@ -79,6 +79,7 @@ $string['inheritanceduplicate'] = 'Duplicate';
 $string['inheritanceheading'] = 'Inheritance';
 $string['inheritanceinherit'] = 'Inherit';
 $string['inheritanceoptionsexplanation'] = 'Most of the time, inheriting will be perfectly fine. However, it may happen that imperfect code is integrated into Boost Union which prevents simple SCSS inheritance for particular Boost Union features. If you encounter any issues with Boost Union features which seem not to work in Boost Union Child as well, try to switch this setting to \'Dupliate\' and, if this solves the problem, report an issue on Github (see the README.md file for details how to report an issue).';
+$string['participate'] = 'Participate';
 $string['pluginname'] = 'Boost Union Child';
 $string['prescssinheritancesetting'] = 'Pre SCSS inheritance';
 $string['prescssinheritancesetting_desc'] = 'With this setting, you control if the pre SCSS code from Boost Union should be inherited or duplicated.';

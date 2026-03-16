@@ -89,7 +89,8 @@ class bcutable extends \mod_booking\table\bookingoptions_wbtable {
         $cms = $modinfo->instances['zoom'];
         $cm = $cms[$z->id];
         $btntext = get_string('join_meeting', 'mod_zoom');
-        $buttonhtml = html_writer::tag('button', 'Participa', ['type' => 'submit', 'class' => 'btn btn-primary']);
+        $participatestring = get_string('participate', 'theme_boost_union_child');
+        $buttonhtml = html_writer::tag('button', $participatestring, ['type' => 'submit', 'class' => 'btn btn-primary']);
         $aurl = new moodle_url('/mod/zoom/loadmeeting.php', ['id' => $cm->id]);
         $buttonhtml .= html_writer::input_hidden_params($aurl);
         $link = html_writer::tag('form', $buttonhtml, ['action' => $aurl->out_omit_querystring(), 'target' => '_blank']);
