@@ -3,3 +3,10 @@
  * Add your Pre-SCSS code here.
  * It will be added on top of Boost Union's Pre-SCSS code.
  ***************************************************************/
+// Import Barlow font from Google Fonts
+@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600;700&display=swap');
+
+// Set Barlow as the default font
+body {
+    font-family: Barlow, Arial, Helvetica, sans-serif;
+}

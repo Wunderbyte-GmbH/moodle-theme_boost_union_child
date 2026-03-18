@@ -1,0 +1,138 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{! NWV Theme - Custom Footer }}
+
+<footer id="nwv-footer" class="nwv-custom-footer">
+    <style>
+        #nwv-footer {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            border-top: 3px solid #0c5460;
+            padding: 40px 0;
+            margin-top: 60px;
+            color: white;
+        }
+        
+        .nwv-footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .nwv-footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+        
+        .nwv-footer-section h3 {
+            color: #17a2b8;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .nwv-footer-section p,
+        .nwv-footer-section li {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        
+        .nwv-footer-links {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .nwv-footer-links li a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .nwv-footer-links li a:hover {
+            color: #17a2b8;
+        }
+        
+        .nwv-footer-divider {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin: 30px 0;
+        }
+        
+        .nwv-footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .nwv-copyright {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            #nwv-footer {
+                padding: 30px 0;
+                margin-top: 40px;
+            }
+            
+            .nwv-footer-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .nwv-footer-bottom {
+                justify-content: center;
+                text-align: center;
+            }
+        }
+    </style>
+    
+    <div class="nwv-footer-container">
+        <div class="nwv-footer-content">
+            <div class="nwv-footer-section">
+                <h3>{{#str}}aboutus, theme_nwverkehrserziehung{{/str}}</h3>
+                <p>{{#str}}footertext, theme_nwverkehrserziehung{{/str}}</p>
+            </div>
+            
+            <div class="nwv-footer-section">
+                <h3>{{#str}}quicklinks, theme_nwverkehrserziehung{{/str}}</h3>
+                <ul class="nwv-footer-links">
+                    <li><a href="{{wwwroot}}/">{{#str}}home, theme_nwverkehrserziehung{{/str}}</a></li>
+                    <li><a href="{{wwwroot}}/course/index.php">{{#str}}courses, theme_nwverkehrserziehung{{/str}}</a></li>
+                    <li><a href="{{wwwroot}}/user/profile.php">{{#str}}myprofile, theme_nwverkehrserziehung{{/str}}</a></li>
+                </ul>
+            </div>
+            
+            <div class="nwv-footer-section">
+                <h3>{{#str}}contact, theme_nwverkehrserziehung{{/str}}</h3>
+                <p>{{#str}}footercontact, theme_nwverkehrserziehung{{/str}}</p>
+            </div>
+        </div>
+        
+        <div class="nwv-footer-divider"></div>
+        
+        <div class="nwv-footer-bottom">
+            <p class="nwv-copyright">© {{year}} {{#str}}copyrighttext, theme_nwverkehrserziehung{{/str}}</p>
+        </div>
+    </div>
+</footer>

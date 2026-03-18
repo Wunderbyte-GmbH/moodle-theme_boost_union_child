@@ -15,16 +15,15 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Theme Boost Union Child - Version file
+ * Theme NWV - Version file
  *
- * @package    theme_boost_union_child
+ * @package    theme_nwverkehrserziehung
  * @copyright  2023 Daniel Poggenpohl <daniel.poggenpohl@fernuni-hagen.de> and Alexander Bias <bias@alexanderbias.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'theme_boost_union_child';
-$plugin->version = 2025041401;
+$plugin->component = 'theme_nwverkehrserziehung';
+$plugin->version = 2025101609;
 $plugin->maturity = MATURITY_STABLE;
-$plugin->dependencies = ['theme_boost_union' => 2025041401];

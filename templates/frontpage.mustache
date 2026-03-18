@@ -1,0 +1,283 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+}}
+{{!
+    Frontpage template for NWV theme
+}}
+<div class="nwv-frontpage">
+    {{! Header with logo }}
+    <header class="nwv-header bg-primary text-white py-4">
+        <div class="container">
+            {{#logoimage}}
+            <img src="{{logoimage}}" alt="{{logotext}}" class="nwv-logo-image mb-2">
+            {{/logoimage}}
+            <h1 class="nwv-logo-text">{{logotext}}</h1>
+        </div>
+    </header>
+
+    {{! Navigation menu }}
+    <nav class="nwv-menu navbar navbar-expand-lg navbar-light bg-light sticky-top">
+        <div class="container">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarMenu">
+                <ul class="navbar-nav ms-auto">
+                    {{#menuitems}}
+                    <li class="nav-item">
+                        <a class="nav-link" href="#{{slugify this}}">{{this}}</a>
+                    </li>
+                    {{/menuitems}}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    {{! Banner / News section }}
+    <section class="nwv-banner bg-info text-white py-5">
+        <div class="container">
+            <h2 class="display-5 mb-4">{{bannertitle}}</h2>
+            <div class="alert alert-light" role="alert">
+                <p class="lead">{{#news}}{{this}}<br>{{/news}}</p>
+            </div>
+        </div>
+    </section>
+
+    {{! Welcome text section }}
+    <section class="nwv-welcome py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="welcome-content">
+                        {{{welcometext}}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {{! Four tiles section }}
+    <section class="nwv-tiles py-5">
+        <div class="container">
+            <div class="row g-4">
+                {{! Tile 1 }}
+                <div class="col-md-6 col-lg-6 mb-3">
+                    <a href="{{tile1link}}" class="nwv-tile-link" style="text-decoration: none; color: inherit;">
+                        <div class="card h-100 shadow-sm nwv-tile-card">
+                            {{#tile1image}}
+                            <div class="tile-image-wrapper">
+                                <img src="{{tile1image}}" class="card-img-top" alt="{{tile1title}}">
+                            </div>
+                            {{/tile1image}}
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title text-primary mb-3">{{tile1title}}</h5>
+                                <div class="card-text flex-grow-1">
+                                    {{{tile1text}}}
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                {{! Tile 2 }}
+                <div class="col-md-6 col-lg-6 mb-3">
+                    <a href="{{tile2link}}" class="nwv-tile-link" style="text-decoration: none; color: inherit;">
+                        <div class="card h-100 shadow-sm nwv-tile-card">
+                            {{#tile2image}}
+                            <div class="tile-image-wrapper">
+                                <img src="{{tile2image}}" class="card-img-top" alt="{{tile2title}}">
+                            </div>
+                            {{/tile2image}}
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title text-success mb-3">{{tile2title}}</h5>
+                                <div class="card-text flex-grow-1">
+                                    {{{tile2text}}}
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                {{! Tile 3 }}
+                <div class="col-md-6 col-lg-6 mb-3">
+                    <a href="{{tile3link}}" class="nwv-tile-link" style="text-decoration: none; color: inherit;">
+                        <div class="card h-100 shadow-sm nwv-tile-card">
+                            {{#tile3image}}
+                            <div class="tile-image-wrapper">
+                                <img src="{{tile3image}}" class="card-img-top" alt="{{tile3title}}">
+                            </div>
+                            {{/tile3image}}
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title text-warning mb-3">{{tile3title}}</h5>
+                                <div class="card-text flex-grow-1">
+                                    {{{tile3text}}}
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                {{! Tile 4 }}
+                <div class="col-md-6 col-lg-6 mb-3">
+                    <a href="{{tile4link}}" class="nwv-tile-link" style="text-decoration: none; color: inherit;">
+                        <div class="card h-100 shadow-sm nwv-tile-card">
+                            {{#tile4image}}
+                            <div class="tile-image-wrapper">
+                                <img src="{{tile4image}}" class="card-img-top" alt="{{tile4title}}">
+                            </div>
+                            {{/tile4image}}
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title text-danger mb-3">{{tile4title}}</h5>
+                                <div class="card-text flex-grow-1">
+                                    {{{tile4text}}}
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {{! Footer }}
+    <footer class="nwv-footer bg-dark text-white py-4 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h6>{{#footerlinks}}{{#impressum}}{{impressum}}<br>{{/impressum}}{{/footerlinks}}</h6>
+                </div>
+                <div class="col-md-4">
+                    <h6>{{#footerlinks}}{{#datenschutz}}{{datenschutz}}<br>{{/datenschutz}}{{/footerlinks}}</h6>
+                </div>
+                <div class="col-md-4">
+                    <h6>{{#footerlinks}}{{#medien}}{{medien}}<br>{{/medien}}{{/footerlinks}}</h6>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="text-center">
+                <p class="mb-0">&copy; 2024 Netzwerk Verkehrserziehung (NWV). Alle Rechte vorbehalten.</p>
+            </div>
+        </div>
+    </footer>
+</div>
+
+<style>
+.nwv-frontpage {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+.nwv-header {
+    background: linear-gradient(135deg, #0c5460 0%, #084650 100%);
+    text-align: center;
+}
+
+.nwv-logo-image {
+    max-width: 200px;
+    height: auto;
+    display: block;
+    margin: 0 auto 1rem;
+}
+
+.nwv-logo-text {
+    font-size: 2.5rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin: 0;
+}
+
+.nwv-menu {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.nwv-banner {
+    background: linear-gradient(135deg, #17a2b8 0%, #118496 100%);
+}
+
+.welcome-content {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #333;
+}
+
+.nwv-tile-link {
+    display: block;
+    height: 100%;
+}
+
+.nwv-tiles .nwv-tile-card {
+    border: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+}
+
+.nwv-tiles .nwv-tile-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15) !important;
+}
+
+.nwv-tiles .tile-image-wrapper {
+    overflow: hidden;
+    height: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff;
+}
+
+.nwv-tiles .card-img-top {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    padding: 10px;
+}
+
+.nwv-tiles .card-body {
+    padding: 1.5rem;
+}
+
+.nwv-tiles .card-title {
+    font-weight: 600;
+    font-size: 1.25rem;
+    margin-top: 0;
+}
+
+.nwv-tiles .card-text {
+    font-size: 0.95rem;
+    color: #666;
+}
+
+.nwv-footer {
+    background-color: #1a1a1a;
+    margin-top: 50px;
+}
+
+.nwv-footer h6 {
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+    .nwv-logo-text {
+        font-size: 1.8rem;
+    }
+
+    .nwv-tiles .col-md-6,
+    .nwv-tiles .col-lg-3 {
+        margin-bottom: 1rem;
+    }
+}
+</style>

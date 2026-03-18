@@ -1,0 +1,75 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    NWV Theme - Primary Drawer
+}}
+
+<div id="theme_boost-drawers-primary" class="drawer d-print-none" data-region="drawer-primary" data-toggle="drawers" data-action="toggle" data-target="theme_boost-drawers-primary" aria-hidden="true">
+    <div class="drawer-content">
+        <div class="drawer-header d-flex align-items-center justify-content-between pt-2">
+            <h6 class="drawer-title m-0 text-truncate" id="theme_boost-drawers-primary-label">
+                {{#str}}sitemenu{{/str}}
+            </h6>
+            <button type="button" class="btn-close ms-auto" data-toggle="drawers" data-action="close" data-target="theme_boost-drawers-primary" aria-controls="theme_boost-drawers-primary" aria-expanded="false" aria-label="{{#str}}closedrawer, core{{/str}}"></button>
+        </div>
+        {{#primarymoremenu}}
+        <div class="primary-navigation">
+            {{> core/moremenu }}
+        </div>
+        {{/primarymoremenu}}
+    </div>
+</div>
+
+<style>
+#theme_boost-drawers-primary {
+    margin-top: 102px;
+}
+
+.drawer-header {
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    border-bottom: 2px solid #17a2b8;
+    padding-bottom: 1rem;
+}
+
+.drawer-title {
+    color: #0c5460;
+    font-weight: 700;
+}
+
+.primary-navigation .nav-link {
+    color: #0c5460;
+    transition: all 0.2s ease;
+}
+
+.primary-navigation .nav-link:hover {
+    color: #17a2b8;
+    background-color: #f8f9fa;
+}
+
+.primary-navigation .nav-link.active {
+    color: #17a2b8;
+    background-color: #e8f4f8;
+    border-left: 3px solid #17a2b8;
+    padding-left: calc(0.5rem - 3px);
+}
+
+@media (max-width: 768px) {
+    #theme_boost-drawers-primary {
+        margin-top: 100px;
+    }
+}
+</style>
