@@ -95,3 +95,5 @@ $string['tile4linksetting'] = 'Tile 4: Link URL';
 $string['grundlagen'] = 'Grundlagen';
 $string['netzwerk'] = 'Netzwerk';
 $string['kontakt'] = 'Kontakt';
+$string['subpageid'] = 'Subpage ID';
+$string['subpage_navigation_help'] = 'Enter navigation items as JSON array. Example: [{"label": "Home", "url": "page.php?id=home", "active": false}]';

@@ -25,5 +25,5 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'theme_nwverkehrserziehung';
-$plugin->version = 2025101609;
+$plugin->version = 2026031802;
 $plugin->maturity = MATURITY_STABLE;

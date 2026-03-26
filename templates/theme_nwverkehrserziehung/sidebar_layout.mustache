@@ -1,0 +1,135 @@
+{{!
+    @template theme_nwverkehrserziehung/sidebar_layout
+
+    Responsive layout with sidebar navigation and main content area.
+
+    Context variables required:
+    @param string sidebar_title - Sidebar title
+    @param array sidebar_items - List of navigation items with 'label', 'url', 'active', and optional 'subitems'
+    @param string content - Main content HTML
+}}
+
+<div class="container py-4">
+    <div class="row">
+        {{! Sidebar navigation - hidden on mobile, visible on xl screens }}
+        <aside class="col-12 col-xl-3 d-none d-xl-block subnavigation mb-4 mb-xl-0" id="subnavigation" tabindex="-1">
+            <nav aria-label="{{sidebar_title}}">
+                <ul class="nav-menu">
+                {{#sidebar_items}}
+                    <li class="{{#active}}active current{{/active}}" {{#active}}aria-current="page"{{/active}}>
+                        <a href="{{url}}" class="nav-link">
+                            {{label}}
+                            {{#active}}<span class="sr-only">(aktuelle Seite)</span>{{/active}}
+                        </a>
+                        {{#subitems}}
+                        <ul class="nav-submenu">
+                        {{#subitems}}
+                            <li class="{{#active}}active{{/active}}">
+                                <a href="{{url}}" class="nav-link">
+                                    {{label}}
+                                    {{#active}}<span class="sr-only">(aktuelle Seite)</span>{{/active}}
+                                </a>
+                            </li>
+                        {{/subitems}}
+                        </ul>
+                        {{/subitems}}
+                    </li>
+                {{/sidebar_items}}
+                </ul>
+            </nav>
+        </aside>
+
+        {{! Main content area }}
+        <main class="col-12 col-xl-9 main-content" id="main-content">
+            {{{content}}}
+        </main>
+    </div>
+</div>
+
+<style>
+.subnavigation {
+    padding-right: 2rem;
+    border-right: 1px solid #dee2e6;
+}
+
+.nav-menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-menu > li {
+    margin-bottom: 0.5rem;
+}
+
+.nav-menu .nav-link {
+    display: block;
+    padding: 0.75rem 1rem;
+    color: #333;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    font-size: 0.95rem;
+}
+
+.nav-menu .nav-link:hover {
+    background-color: #e9ecef;
+    color: #0066cc;
+}
+
+.nav-menu li.active > .nav-link {
+    background-color: #007bff;
+    color: white;
+    font-weight: 600;
+}
+
+.nav-menu li.active > .nav-link:hover {
+    background-color: #0056b3;
+}
+
+.nav-submenu {
+    list-style: none;
+    margin: 0.5rem 0 0 0;
+    padding: 0 0 0 1rem;
+    border-left: 2px solid #dee2e6;
+}
+
+.nav-submenu li {
+    margin-bottom: 0.25rem;
+}
+
+.nav-submenu .nav-link {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.nav-submenu .nav-link:hover {
+    background-color: #f0f0f0;
+    color: #0066cc;
+}
+
+.nav-submenu li.active > .nav-link {
+    background-color: #e7f1ff;
+    color: #0056b3;
+    font-weight: 500;
+}
+
+.main-content {
+    padding-left: 2rem;
+}
+
+@media (max-width: 1199px) {
+    .subnavigation {
+        padding-right: 0;
+        border-right: none;
+        border-bottom: 1px solid #dee2e6;
+        padding-bottom: 1rem;
+    }
+
+    .main-content {
+        padding-left: 0;
+        padding-top: 1rem;
+    }
+}
+</style>

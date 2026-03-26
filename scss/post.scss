@@ -3,3 +3,11 @@
  * Add your SCSS code here.
  * It will be added on top of Boost Union's SCSS code.
  ***************************************************************/
+
+// Override primary color after all compilation
+:root {
+    --bs-primary: #b5001f !important;
+}
+
+// Import sidebar drawer styles.
+@import 'sidebar';

@@ -29,71 +29,73 @@ $CFG->theme = 'nwverkehrserziehung';
 $PAGE->set_context(context_system::instance());
 
 $PAGE->set_url(new moodle_url('/theme/nwverkehrserziehung/grundlagen_umwelt.php'));
-$PAGE->set_pagelayout('frontpage');
+$PAGE->set_pagelayout('incourse');
 $PAGE->set_title('Umweltschonung und Nachhaltigkeit');
-$PAGE->set_heading('Umweltschonung und Nachhaltigkeit');
+$PAGE->set_context(context_system::instance());
 
 echo $OUTPUT->header();
 
-?>
+// Prepare sidebar navigation items.
+$navitems = [
+    ['label' => 'Grundlagen', 'url' => 'grundlagen.php', 'active' => false],
+    ['label' => 'Verkehrsregeln', 'url' => 'grundlagen_regeln.php', 'active' => false],
+    ['label' => 'Sicherheit', 'url' => 'grundlagen_sicherheit.php', 'active' => false],
+    ['label' => 'Fahrtechniken', 'url' => 'grundlagen_verhalten.php', 'active' => false],
+    [
+        'label' => 'Umweltschonung',
+        'url' => 'grundlagen_umwelt.php',
+        'active' => true,
+        'subitems' => [
+            ['label' => 'Emissionsreduktion', 'url' => '#emissions', 'active' => false],
+            ['label' => 'Kraftstoffeffizienz', 'url' => '#efficiency', 'active' => false],
+            ['label' => 'Ressourcenschonung', 'url' => '#resources', 'active' => false],
+        ],
+    ],
+    ['label' => 'Praxisbörse', 'url' => 'praxis.php', 'active' => false],
+    ['label' => 'Netzwerk', 'url' => 'netzwerk.php', 'active' => false],
+];
 
-<div class="container my-5">
-    <div class="row mb-4">
-        <div class="col-md-8">
-            <h1>Umweltschonung und Nachhaltigkeit</h1>
-            <p class="lead">Umweltfreundliches Fahren trägt zur Nachhaltigkeit bei und schont Ressourcen.</p>
-            
-            <div class="content mt-4">
-                <h3>Emissionsreduktion</h3>
-                <p>
-                    Durch ausgewogenes Fahrverhalten können CO₂-Emissionen und Schadstoffausstöße
-                    erheblich reduziert werden.
-                </p>
+// Main content HTML.
+$maincontent = '
+<div class="page-content">
+    <h1>Umweltschonung und Nachhaltigkeit</h1>
+    <p class="lead">Umweltfreundliches Fahren trägt zur Nachhaltigkeit bei und schont Ressourcen.</p>
+    
+    <div class="content mt-4">
+        <h3 id="emissions">Emissionsreduktion</h3>
+        <p>
+            Durch ausgewogenes Fahrverhalten können CO₂-Emissionen und Schadstoffausstöße
+            erheblich reduziert werden.
+        </p>
 
-                <h3>Kraftstoffeffizienz</h3>
-                <ul>
-                    <li>Sanft beschleunigen und bremsen</li>
-                    <li>Keine unnötigen Leerlauf-Phasen</li>
-                    <li>Reifendruck kontrollieren</li>
-                    <li>Regelmäßige Wartung durchführen</li>
-                </ul>
+        <h3 id="efficiency">Kraftstoffeffizienz</h3>
+        <ul>
+            <li>Sanft beschleunigen und bremsen</li>
+            <li>Konstante Geschwindigkeit halten</li>
+            <li>Unnötige Gewichte vermeiden</li>
+            <li>Reifendruck kontrollieren</li>
+        </ul>
 
-                <h3>Alternative Verkehrsmittel</h3>
-                <p>
-                    Erwägen Sie Öffentliche Verkehrsmittel, Fahrrad oder Fußgänger als Alternative,
-                    um den Verkehr und damit auch die Umweltbelastung zu reduzieren.
-                </p>
-
-                <h3>Fahrzeugs-Wartung</h3>
-                <p>
-                    Ein gut gewartetes Fahrzeug hat niedrigere Emissionen, verbraucht weniger Kraftstoff
-                    und verursacht weniger Lärm.
-                </p>
-
-                <h3>Grüne Technologien</h3>
-                <ul>
-                    <li>Elektrofahrzeuge</li>
-                    <li>Hybridfahrzeuge</li>
-                    <li>Wasserstofffahrzeuge</li>
-                </ul>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Navigation</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="grundlagen.php" class="btn btn-sm btn-outline-primary mb-2">← Zurück zu Grundlagen</a></li>
-                        <li><a href="grundlagen_sicherheit.php" class="btn btn-sm btn-outline-secondary mb-2">Sicherheit</a></li>
-                        <li><a href="grundlagen_regeln.php" class="btn btn-sm btn-outline-secondary mb-2">Verkehrsregeln</a></li>
-                        <li><a href="grundlagen_verhalten.php" class="btn btn-sm btn-outline-secondary mb-2">Fahrtechniken</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+        <h3 id="resources">Ressourcenschonung</h3>
+        <p>
+            Nachhaltiges Fahren bedeutet auch:
+        </p>
+        <ul>
+            <li>Wartung und Inspektion</li>
+            <li>Umgang mit Verschleißteilen</li>
+            <li>Recycling von Fahrzeugteilen</li>
+        </ul>
     </div>
 </div>
+';
 
-<?php
+$layoutcontext = [
+    'sidebar_title' => 'Navigation',
+    'sidebar_items' => $navitems,
+    'content' => $maincontent,
+];
+
+// Render the sidebar layout template.
+echo $OUTPUT->render_from_template('theme_nwverkehrserziehung/sidebar_layout', $layoutcontext);
+
 echo $OUTPUT->footer();
-?>

@@ -92,7 +92,7 @@ $THEME->layouts = [
     ],
     // Main course page.
     'course' => [
-        'file' => 'drawers.php',
+        'file' => 'column1.php',
         'regions' => theme_boost_union_get_block_regions('course'),
         'defaultregion' => 'side-pre',
         'options' => ['langmenu' => true],

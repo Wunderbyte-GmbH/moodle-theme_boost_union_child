@@ -246,8 +246,24 @@ if (defined('MOODLE_INTERNAL')) {
  */
 function theme_nwverkehrserziehung_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options = []) {
     $tileimageareas = ['tile1image', 'tile2image', 'tile3image', 'tile4image'];
+    $subpageareas = ['tile1_subpages', 'tile2_subpages', 'tile3_subpages', 'tile4_subpages'];
 
     if (($filearea === 'logo' || in_array($filearea, $tileimageareas)) && $context->contextlevel == CONTEXT_SYSTEM) {
+        $itemid = array_shift($args);
+        $filename = array_pop($args);
+        $filepath = $args ? '/' . implode('/', $args) . '/' : '/';
+
+        $fs = get_file_storage();
+        $file = $fs->get_file($context->id, 'theme_nwverkehrserziehung', $filearea, $itemid, $filepath, $filename);
+
+        if ($file) {
+            send_stored_file($file, 0, 0, $forcedownload, $options);
+            return true;
+        }
+    }
+
+    // Handle subpage content files (images, etc.).
+    if (in_array($filearea, $subpageareas) && $context->contextlevel == CONTEXT_SYSTEM) {
         $itemid = array_shift($args);
         $filename = array_pop($args);
         $filepath = $args ? '/' . implode('/', $args) . '/' : '/';

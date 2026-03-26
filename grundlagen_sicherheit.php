@@ -31,7 +31,6 @@ $PAGE->set_context(context_system::instance());
 $PAGE->set_url(new moodle_url('/theme/nwverkehrserziehung/grundlagen_sicherheit.php'));
 $PAGE->set_pagelayout('frontpage');
 $PAGE->set_title('Sicherheit im Straßenverkehr');
-$PAGE->set_heading('Sicherheit im Straßenverkehr');
 
 echo $OUTPUT->header();
 

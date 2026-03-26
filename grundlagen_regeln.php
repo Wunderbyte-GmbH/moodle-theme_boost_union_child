@@ -31,7 +31,6 @@ $PAGE->set_context(context_system::instance());
 $PAGE->set_url(new moodle_url('/theme/nwverkehrserziehung/grundlagen_regeln.php'));
 $PAGE->set_pagelayout('frontpage');
 $PAGE->set_title('Verkehrsregeln und Vorschriften');
-$PAGE->set_heading('Verkehrsregeln und Vorschriften');
 
 echo $OUTPUT->header();
 

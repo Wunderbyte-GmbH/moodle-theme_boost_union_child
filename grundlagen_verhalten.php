@@ -31,7 +31,6 @@ $PAGE->set_context(context_system::instance());
 $PAGE->set_url(new moodle_url('/theme/nwverkehrserziehung/grundlagen_verhalten.php'));
 $PAGE->set_pagelayout('frontpage');
 $PAGE->set_title('Fahrtechniken und Fahrtverhalten');
-$PAGE->set_heading('Fahrtechniken und Fahrtverhalten');
 
 echo $OUTPUT->header();
 

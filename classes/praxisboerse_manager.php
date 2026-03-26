@@ -188,19 +188,23 @@ class praxisboerse_manager {
         $contents = self::get_record_content($record->id);
         $allfields = self::process_content($contents, $cmid, $record->id, $record->dataid);
 
-        // Separate image from other fields
+        // Separate image, author from other fields
         $item->image = null;
+        $item->author = null;
         $item->title = '';
         $item->description_fields = [];
 
         if (!empty($allfields)) {
-            // Find the picture field
+            // Find the picture and author fields
             $imagefield = null;
+            $authorfield = null;
             $textfields = [];
 
             foreach ($allfields as $field) {
                 if ($field['type'] === 'picture') {
                     $imagefield = $field;
+                } else if (strtolower($field['name']) === 'author') {
+                    $authorfield = $field;
                 } else {
                     $textfields[] = $field;
                 }
@@ -209,6 +213,14 @@ class praxisboerse_manager {
             // Set image if found
             if ($imagefield) {
                 $item->image = $imagefield['value'];
+            }
+
+            // Set author if found
+            if ($authorfield) {
+                $item->author = [
+                    'name' => $authorfield['name'],
+                    'value' => $authorfield['value'],
+                ];
             }
 
             // First text field is the title
@@ -221,7 +233,6 @@ class praxisboerse_manager {
                         $item->description_fields[] = [
                             'name' => $field['name'],
                             'value' => $field['value'],
-                            'isauthor' => (strtolower($field['name']) === 'author') ? 1 : 0,
                         ];
                     }
                 }

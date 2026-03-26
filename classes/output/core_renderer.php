@@ -428,4 +428,23 @@ class core_renderer extends \core_renderer {
         }
         return $firstview;
     }
+
+    /**
+     * Render context_header with custom heading styling.
+     * 
+     * Override the core context_header to customize the heading CSS classes.
+     * 
+     * @param \core\output\context_header $contextheader The context header renderable.
+     * @return string The rendered HTML.
+     */
+    public function render_context_header(\core\output\context_header $contextheader) {
+        // Get the data from the context header using its export method
+        $data = $contextheader->export_for_template($this);
+        
+        // You can modify the data here as needed
+        // For example, to change the heading styles:
+        // Modify the heading HTML output if needed
+        
+        return $this->render_from_template('core/context_header', $data);
+    }
 }

@@ -25,6 +25,8 @@
 require_once(__DIR__ . '/../../../config.php');
 
 use theme_nwverkehrserziehung\praxisboerse_manager;
+
+
 $CFG->theme = 'nwverkehrserziehung';
 
 // Get the record ID parameter.
@@ -45,7 +47,6 @@ if (!$entry) {
 }
 
 $PAGE->set_title($entry->title);
-// $PAGE->set_heading($entry->title);
 
 // Convert moodle_url to string for template
 if (isset($entry->entryurl) && is_object($entry->entryurl)) {
@@ -56,5 +57,5 @@ if (isset($entry->entryurl) && is_object($entry->entryurl)) {
 echo $OUTPUT->header();
 
 // Render the template.
-echo $OUTPUT->render_from_template('theme_nwverkehrserziehung/praxisboerse_entry', (array)$entry);
+echo $OUTPUT->render_from_template('theme_nwverkehrserziehung/praxisboerse_entry2', (array)$entry);
 echo $OUTPUT->footer();

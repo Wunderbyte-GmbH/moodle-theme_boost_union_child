@@ -97,6 +97,21 @@ if ($logofile) {
     );
 }
 
+// Get sidebar navigation items from page custom data.
+$sidebaritems = [];
+if (isset($PAGE->custom_data) && is_array($PAGE->custom_data) && isset($PAGE->custom_data['sidebar_items'])) {
+    $sidebaritems = $PAGE->custom_data['sidebar_items'];
+}
+
+// Prepare sidebar context if items are provided.
+$sidebarcontext = null;
+if (!empty($sidebaritems)) {
+    $sidebarcontext = [
+        'title' => $PAGE->custom_data['sidebar_title'] ?? 'Navigation',
+        'items' => $sidebaritems,
+    ];
+}
+
 $templatecontext = [
     'sitename' => format_string($SITE->shortname, true, ['context' => context_course::instance(SITEID), "escape" => false]),
     'output' => $OUTPUT,
@@ -106,9 +121,6 @@ $templatecontext = [
     'courseindexopen' => $courseindexopen,
     'blockdraweropen' => $blockdraweropen,
     'courseindex' => $courseindex,
-    'primarymoremenu' => $primarymenu['moremenu'],
-    'secondarymoremenu' => $secondarynavigation ?: false,
-    'mobileprimarynav' => $primarymenu['mobileprimarynav'],
     'usermenu' => $primarymenu['user'],
     'langmenu' => $primarymenu['lang'],
     'forceblockdraweropen' => $forceblockdraweropen,
