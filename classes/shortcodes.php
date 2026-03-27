@@ -102,7 +102,7 @@ class shortcodes {
     }
 
     public static function bcusummary($shortcode, $args, $content, $env, $next) {
-        global $OUTPUT,$COURSE;
+        global $OUTPUT, $COURSE, $USER;
 
         require_login();
 
@@ -111,7 +111,8 @@ class shortcodes {
             $summary = format_text($COURSE->summary, $COURSE->summaryformat, ['overflowdiv' => true]);
             $templatecontext['summary'] = $summary;
             $templatecontext['courseid'] = $COURSE->id;
-            $templatecontext['progress'] = round(\core_completion\progress::get_course_progress_percentage($COURSE, $USER->id), 2);
+            $progress = \core_completion\progress::get_course_progress_percentage($COURSE, $USER->id);
+            $templatecontext['progress'] = $progress !== null ? round($progress, 2) : null;
             if ($templatecontext['progress'] != null) {
                 $templatecontext['progress'] .= '%';
             }
@@ -304,11 +305,12 @@ class shortcodes {
 
         $args['events'] = 1;
         [$coursehtml, $count] = self::get_my_courselistdata($shortcode, $args, $content, $env, $next);
-        if ($courses &&  $count > 1) {
+        if ($count > 1) {
             $count = $count . ' ' . get_string('courses', 'moodle');
         } else {
             $count = $count . ' ' . get_string('course', 'moodle');
         }
+        $title = $args['title'] ?? '';
         if (!empty($args['notitle'])) {
             $title = '';
             $count = '';
@@ -382,7 +384,7 @@ class shortcodes {
 
         $args['futureonly'] = 1;
         [$coursehtml, $count] = self::get_my_courselistdata($shortcode, $args, $content, $env, $next);
-        if ($courses &&  $count > 1) {
+        if ($count > 1) {
             $count = $count . ' ' . get_string('courses', 'moodle');
         } else {
             $count = $count . ' ' . get_string('course', 'moodle');
