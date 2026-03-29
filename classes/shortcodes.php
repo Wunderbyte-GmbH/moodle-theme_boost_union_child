@@ -611,6 +611,7 @@ class shortcodes {
             $completion = \core_completion\progress::get_course_progress_percentage(get_course($args['courseid']), $USER->id);
             return ($completion === null) ? '' : '| ' . $completion . '% completado';
         }
+        return '';
     }
 
     /**
@@ -711,7 +712,7 @@ class shortcodes {
                 'visible'       => (int)$course->visible,
                 'hasprogress'   => true,
                 'progress'      => $progress,
-                'progresstext'  => $progress . '%',
+                'progresstext'  => $progress . '% ' . strtolower(get_string('completed')),
                 'showshortname' => true,
                 'courselink'  => (new moodle_url('/course/view.php', ['id' => $course->id]))->out(false),
                 'hascourselink' => true,
@@ -804,11 +805,6 @@ class shortcodes {
             $countstr = $count . ' ' . get_string('courses', 'moodle');
         }
 
-        $templatecontext = [
-            'title'         => $title,
-            'courses'       => $items,
-        ];
-
         $coursehtml = $OUTPUT->render_from_template(
             'theme_boost_union_child/coursecardhorizontal',
             [
@@ -823,7 +819,6 @@ class shortcodes {
             'horizontal' => true,
         ];
 
-        $out = $OUTPUT->render_from_template('theme_boost_union_child/mycourses', $templatecontext);
-        return $out;
+        return $OUTPUT->render_from_template('theme_boost_union_child/mycourses', $templatecontext);
     }
 }
