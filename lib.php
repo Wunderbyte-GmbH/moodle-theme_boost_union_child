@@ -189,11 +189,26 @@ function theme_nwverkehrserziehung_alter_css_urls(&$urls) {
 }
 
 /**
- * Get custom navigation menu from theme settings
+ * Get custom navigation menu from the page tree.
+ *
+ * Builds navigation from theme_nwv_pages table, cached for performance.
+ * Falls back to JSON settings if no pages exist yet (migration period).
  *
  * @return array Navigation menu array for template
  */
 function theme_nwverkehrserziehung_get_custom_navigation() {
+    // Try the new page-tree-based navigation first.
+    try {
+        $tree = \theme_nwverkehrserziehung\page_manager::get_nav_tree();
+        if (!empty($tree)) {
+            return $tree;
+        }
+    } catch (\Exception $e) {
+        // Table might not exist yet during upgrade. Fall through to JSON.
+        debugging('page_manager nav tree failed: ' . $e->getMessage(), DEBUG_DEVELOPER);
+    }
+
+    // Fallback: legacy JSON navigation from settings.
     $navjson = get_config('theme_nwverkehrserziehung', 'customnavigation');
 
     if (empty($navjson)) {
@@ -262,7 +277,7 @@ function theme_nwverkehrserziehung_pluginfile($course, $cm, $context, $filearea,
         }
     }
 
-    // Handle subpage content files (images, etc.).
+    // Handle subpage content files (legacy, images, etc.).
     if (in_array($filearea, $subpageareas) && $context->contextlevel == CONTEXT_SYSTEM) {
         $itemid = array_shift($args);
         $filename = array_pop($args);
@@ -270,6 +285,21 @@ function theme_nwverkehrserziehung_pluginfile($course, $cm, $context, $filearea,
 
         $fs = get_file_storage();
         $file = $fs->get_file($context->id, 'theme_nwverkehrserziehung', $filearea, $itemid, $filepath, $filename);
+
+        if ($file) {
+            send_stored_file($file, 0, 0, $forcedownload, $options);
+            return true;
+        }
+    }
+
+    // Handle CMS page content files (images embedded in page editor).
+    if ($filearea === 'pagecontent' && $context->contextlevel == CONTEXT_SYSTEM) {
+        $itemid = array_shift($args);
+        $filename = array_pop($args);
+        $filepath = $args ? '/' . implode('/', $args) . '/' : '/';
+
+        $fs = get_file_storage();
+        $file = $fs->get_file($context->id, 'theme_nwverkehrserziehung', 'pagecontent', $itemid, $filepath, $filename);
 
         if ($file) {
             send_stored_file($file, 0, 0, $forcedownload, $options);

@@ -21,10 +21,38 @@
 
 {{!-- NWV Logo Header --}}
 <div id="nwv-logo-header" class="nwv-logo-header">
-    <div class="container">
+    <div class="container d-flex align-items-center justify-content-between">
         <a href="/theme/nwverkehrserziehung/" class="nwv-logo-link" title="Netzwerk Verkehrserziehung">
                 <img src="{{{ logourl }}}" class="nwv-logo-img" alt="{{sitename}}">
         </a>
+        {{#canadmin}}
+        <div class="dropdown nwv-admin-cog" id="nwv-admin-cog-wrapper">
+            <a class="nwv-admin-cog-toggle" href="#"
+               id="nwv-admin-cog" role="button"
+               aria-haspopup="true" aria-expanded="false"
+               onclick="event.preventDefault();event.stopPropagation();var m=document.getElementById('nwv-admin-cog-menu');m.classList.toggle('show');this.setAttribute('aria-expanded',m.classList.contains('show'));"
+               title="{{#str}}page_manage, theme_nwverkehrserziehung{{/str}}">
+                <i class="fa fa-cog"></i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right dropdown-menu-end"
+                 id="nwv-admin-cog-menu"
+                 role="menu" aria-labelledby="nwv-admin-cog">
+                <a class="dropdown-item" role="menuitem"
+                   href="/theme/nwverkehrserziehung/admin/pages.php">
+                    <i class="fa fa-file-text fa-fw mr-2 me-2"></i>{{#str}}page_manage, theme_nwverkehrserziehung{{/str}}
+                </a>
+                <a class="dropdown-item" role="menuitem"
+                   href="/theme/nwverkehrserziehung/tiles.php">
+                    <i class="fa fa-th-large fa-fw mr-2 me-2"></i>{{#str}}frontpage, theme_nwverkehrserziehung{{/str}}
+                </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" role="menuitem"
+                   href="/admin/settings.php?section=theme_nwverkehrserziehung">
+                    <i class="fa fa-sliders fa-fw mr-2 me-2"></i>{{#str}}configtitle, theme_nwverkehrserziehung{{/str}}
+                </a>
+            </div>
+        </div>
+        {{/canadmin}}
     </div>
 </div>
 
@@ -85,6 +113,55 @@
 .nwv-logo-img {
     max-height: 80px;
     width: auto;
+}
+
+/* Admin Cog */
+.nwv-admin-cog-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    color: #6c757d;
+    text-decoration: none;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.nwv-admin-cog-toggle:hover,
+.nwv-admin-cog-toggle:focus {
+    background-color: #f0f0f0;
+    color: #b5001f;
+    text-decoration: none;
+}
+
+.nwv-admin-cog-toggle::after {
+    display: none; /* Hide the default dropdown caret */
+}
+
+.nwv-admin-cog .dropdown-menu {
+    min-width: 220px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.nwv-admin-cog .dropdown-item {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+}
+
+.nwv-admin-cog .dropdown-item:hover {
+    background-color: #f8f9fa;
+    color: #b5001f;
+}
+
+.nwv-admin-cog .dropdown-item i {
+    color: #6c757d;
+    width: 1.25em;
+}
+
+.nwv-admin-cog .dropdown-item:hover i {
+    color: #b5001f;
 }
 
 .nwv-logo-text {
@@ -251,5 +328,17 @@
 
 }
 </style>
+
+<script>
+document.addEventListener('click', function(e) {
+    var wrapper = document.getElementById('nwv-admin-cog-wrapper');
+    if (wrapper && !wrapper.contains(e.target)) {
+        var menu = document.getElementById('nwv-admin-cog-menu');
+        var toggle = document.getElementById('nwv-admin-cog');
+        if (menu) menu.classList.remove('show');
+        if (toggle) toggle.setAttribute('aria-expanded', 'false');
+    }
+});
+</script>
 
 {{> theme_boost/primary-drawer-mobile }}

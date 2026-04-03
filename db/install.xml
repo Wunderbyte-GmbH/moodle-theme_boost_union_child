@@ -1,27 +1,33 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="theme/nwverkehrserziehung/db" VERSION="20260309" COMMENT="XMLDB file for NWV theme"
+<XMLDB PATH="theme/nwverkehrserziehung/db" VERSION="20260403" COMMENT="XMLDB file for NWV theme - Content pages table serves as both CMS and navigation source"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
   <TABLES>
-    <TABLE NAME="theme_nwv_navigation" COMMENT="Custom navigation items for NWV theme">
+    <TABLE NAME="theme_nwv_pages" COMMENT="Content pages for NWV theme CMS">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
-        <FIELD NAME="parent_id" TYPE="int" LENGTH="10" NOTNULL="false" DEFAULT="0" SEQUENCE="false" COMMENT="Parent item ID for nested menus"/>
-        <FIELD NAME="text" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="Menu item text"/>
-        <FIELD NAME="url" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="Menu item URL"/>
-        <FIELD NAME="sortorder" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Sort order"/>
-        <FIELD NAME="enabled" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Is enabled"/>
+        <FIELD NAME="slug" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="URL slug e.g. grundlagen/zum-begriff"/>
+        <FIELD NAME="parent_id" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Parent page ID, 0 for root pages"/>
+        <FIELD NAME="section" TYPE="char" LENGTH="50" NOTNULL="true" SEQUENCE="false" COMMENT="Top-level section: grundlagen, netzwerk, kontakt, footer"/>
+        <FIELD NAME="title" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="Page title"/>
+        <FIELD NAME="nav_title" TYPE="char" LENGTH="100" NOTNULL="false" SEQUENCE="false" COMMENT="Short title for navigation menus"/>
+        <FIELD NAME="content" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="Page HTML content"/>
+        <FIELD NAME="contentformat" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Moodle text format for content"/>
+        <FIELD NAME="sortorder" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Sort order among siblings"/>
+        <FIELD NAME="visible" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Whether page is visible"/>
         <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
         <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="usermodified" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="User who last modified"/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
-        <KEY NAME="parent_id" TYPE="foreign" FIELDS="parent_id" REFTABLE="theme_nwv_navigation" REFFIELDS="id"/>
       </KEYS>
       <INDEXES>
+        <INDEX NAME="slug" UNIQUE="true" FIELDS="slug"/>
         <INDEX NAME="parent_sortorder" UNIQUE="false" FIELDS="parent_id, sortorder"/>
-        <INDEX NAME="enabled" UNIQUE="false" FIELDS="enabled"/>
+        <INDEX NAME="section" UNIQUE="false" FIELDS="section"/>
+        <INDEX NAME="visible" UNIQUE="false" FIELDS="visible"/>
       </INDEXES>
     </TABLE>
   </TABLES>

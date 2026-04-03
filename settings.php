@@ -164,6 +164,10 @@ if ($hassiteconfig || has_capability('theme/boost_union:configure', context_syst
         $tab->add($setting);
 
         // Setting: Custom Navigation JSON.
+        // LEGACY: This JSON textarea is kept for backwards compatibility during migration.
+        // Navigation is now auto-generated from the theme_nwv_pages table.
+        // This setting will only be used as a fallback if no pages exist in the DB yet.
+        // It can be removed once all content is migrated to the pages table.
         $name = 'theme_nwverkehrserziehung/customnavigation';
         $title = get_string('customnavigation', 'theme_nwverkehrserziehung', null, true);
         $description = get_string('customnavigation_desc', 'theme_nwverkehrserziehung', null, true);

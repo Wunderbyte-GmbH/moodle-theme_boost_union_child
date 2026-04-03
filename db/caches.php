@@ -35,4 +35,13 @@ $definitions = [
         'component' => 'theme_nwverkehrserziehung',
         'area' => 'praxisboerse',
     ],
+    'navigation' => [
+        'mode' => \core_cache\store::MODE_APPLICATION,
+        'simplekeys' => true,
+        'simpledata' => false,
+        'staticacceleration' => true,
+        'staticaccelerationsize' => 1,
+        'component' => 'theme_nwverkehrserziehung',
+        'area' => 'navigation',
+    ],
 ];

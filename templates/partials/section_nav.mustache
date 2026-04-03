@@ -1,0 +1,40 @@
+{{!
+    @template theme_nwverkehrserziehung/partials/section_nav
+
+    Recursive section sidebar navigation.
+
+    Context variables required:
+    @param array sidebar_items - Navigation items with 'text', 'url', 'active', 'children', 'haschildren'
+}}
+
+<ul class="nwv-nav-menu">
+    {{#sidebar_items}}
+    <li class="nwv-nav-item {{#active}}active{{/active}}">
+        <a href="{{{url}}}" class="nwv-nav-link" {{#active}}aria-current="page"{{/active}}>
+            {{{text}}}
+        </a>
+        {{#haschildren}}
+        <ul class="nwv-nav-submenu">
+            {{#children}}
+            <li class="nwv-nav-item {{#active}}active{{/active}}">
+                <a href="{{{url}}}" class="nwv-nav-link" {{#active}}aria-current="page"{{/active}}>
+                    {{{text}}}
+                </a>
+                {{#haschildren}}
+                <ul class="nwv-nav-submenu">
+                    {{#children}}
+                    <li class="nwv-nav-item {{#active}}active{{/active}}">
+                        <a href="{{{url}}}" class="nwv-nav-link" {{#active}}aria-current="page"{{/active}}>
+                            {{{text}}}
+                        </a>
+                    </li>
+                    {{/children}}
+                </ul>
+                {{/haschildren}}
+            </li>
+            {{/children}}
+        </ul>
+        {{/haschildren}}
+    </li>
+    {{/sidebar_items}}
+</ul>

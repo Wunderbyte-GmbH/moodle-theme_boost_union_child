@@ -15,15 +15,14 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Theme NWV - Version file
+ * Secure layout for NWV theme.
  *
- * @package    theme_nwverkehrserziehung
- * @copyright  2023 Daniel Poggenpohl <daniel.poggenpohl@fernuni-hagen.de> and Alexander Bias <bias@alexanderbias.de>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   theme_nwverkehrserziehung
+ * @copyright 2024
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'theme_nwverkehrserziehung';
-$plugin->version = 2026040303;
-$plugin->maturity = MATURITY_STABLE;
+// Use the parent theme's secure layout
+require_once($CFG->dirroot . '/theme/boost_union/classes/layout/drawers.php');

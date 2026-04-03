@@ -11,3 +11,101 @@
 
 // Import sidebar drawer styles.
 @import 'sidebar';
+
+// Fullpage content layout (grundlagen, netzwerk, kontakt section hub pages).
+.fullpage-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 2rem;
+
+    .fullpage-image {
+        flex: 0 0 auto;
+        max-width: 360px;
+        width: 100%;
+        height: auto;
+        border-radius: 6px;
+    }
+
+    .fullpage-text {
+        flex: 1 1 0%;
+        min-width: 0;
+    }
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+
+        .fullpage-image {
+            max-width: 100%;
+        }
+    }
+}
+
+// CMS content page styles.
+.nwv-content-page {
+
+    // Sidebar navigation.
+    .nwv-sidebar {
+        padding-right: 2rem;
+        border-right: 1px solid #dee2e6;
+    }
+
+    .nwv-sidebar-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid $primary;
+    }
+
+    .nwv-nav-menu {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .nwv-nav-item {
+        margin-bottom: 0.25rem;
+    }
+
+    .nwv-nav-link {
+        display: block;
+        padding: 0.5rem 0.75rem;
+        color: #333;
+        text-decoration: none;
+        border-radius: 4px;
+        font-size: 0.95rem;
+        transition: background-color 0.15s ease, color 0.15s ease;
+
+        &:hover {
+            background-color: #e9ecef;
+            color: $primary;
+        }
+    }
+
+    .nwv-nav-item.active > .nwv-nav-link {
+        background-color: $primary;
+        color: #fff;
+        font-weight: 600;
+
+        &:hover {
+            background-color: darken($primary, 8%);
+        }
+    }
+
+    .nwv-nav-submenu {
+        list-style: none;
+        margin: 0.25rem 0 0 0;
+        padding: 0 0 0 1rem;
+        border-left: 2px solid #dee2e6;
+    }
+
+    // Page content area.
+    .nwv-page-content {
+        line-height: 1.7;
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+    }
+}

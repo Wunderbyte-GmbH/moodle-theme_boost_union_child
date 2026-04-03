@@ -1,0 +1,87 @@
+{{!
+    @template theme_nwverkehrserziehung/content_page
+
+    Renders a CMS content page with optional sidebar navigation and breadcrumbs.
+
+    Context variables required:
+    @param string title - Page title
+    @param array breadcrumbs - Array of breadcrumb items with 'title', 'url', 'current'
+    @param string content - Page HTML content
+    @param array sidebar_items - Section navigation items with 'text', 'url', 'active', 'children', 'haschildren'
+    @param bool has_sidebar - Whether to show sidebar navigation
+    @param string section_title - Title for the sidebar navigation
+    @param bool canadmin - Whether the user can edit pages
+    @param int pageid - Current page ID for the edit button
+}}
+
+<div class="nwv-content-page container py-4">
+    {{! Breadcrumbs }}
+    {{#breadcrumbs}}
+    <nav aria-label="Breadcrumb" class="mb-3">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{{{wwwroot}}}">
+                    <i class="fa fa-home"></i> Home
+                </a>
+            </li>
+            {{#breadcrumbs}}
+            <li class="breadcrumb-item {{#current}}active{{/current}}" {{#current}}aria-current="page"{{/current}}>
+                {{#url}}
+                    <a href="{{{url}}}">{{{title}}}</a>
+                {{/url}}
+                {{^url}}
+                    {{{title}}}
+                {{/url}}
+            </li>
+            {{/breadcrumbs}}
+        </ol>
+    </nav>
+    {{/breadcrumbs}}
+
+    <div class="row">
+        {{#has_sidebar}}
+        {{! Sidebar navigation }}
+        <aside class="col-12 col-xl-3 d-none d-xl-block nwv-sidebar mb-4 mb-xl-0" id="nwv-sidebar" tabindex="-1">
+            <nav aria-label="{{{section_title}}}">
+                <h5 class="nwv-sidebar-title">{{{section_title}}}</h5>
+                {{> theme_nwverkehrserziehung/partials/section_nav }}
+            </nav>
+        </aside>
+
+        {{! Main content }}
+        <main class="col-12 col-xl-9 nwv-main-content" id="nwv-main-content">
+            <div class="d-flex align-items-center mb-4">
+                <h1 class="mb-0 flex-grow-1">{{{title}}}</h1>
+                {{#canadmin}}
+                <a href="#" class="btn btn-sm btn-outline-secondary ml-2 ms-2 nwv-edit-page-btn"
+                   data-action="nwv-page-edit" data-pageid="{{pageid}}"
+                   title="{{#str}}page_edit, theme_nwverkehrserziehung{{/str}}">
+                    <i class="fa fa-pencil"></i>
+                </a>
+                {{/canadmin}}
+            </div>
+            <div class="nwv-page-content">
+                {{{content}}}
+            </div>
+        </main>
+        {{/has_sidebar}}
+
+        {{^has_sidebar}}
+        <main class="col-12 nwv-main-content" id="nwv-main-content">
+            <div class="d-flex align-items-center mb-4">
+                <h1 class="mb-0 flex-grow-1">{{{title}}}</h1>
+                {{#canadmin}}
+                <a href="#" class="btn btn-sm btn-outline-secondary ml-2 ms-2 nwv-edit-page-btn"
+                   data-action="nwv-page-edit" data-pageid="{{pageid}}"
+                   title="{{#str}}page_edit, theme_nwverkehrserziehung{{/str}}">
+                    <i class="fa fa-pencil"></i>
+                </a>
+                {{/canadmin}}
+            </div></h1>
+            <div class="nwv-page-content">
+                {{{content}}}
+            </div>
+        </main>
+        {{/has_sidebar}}
+    </div>
+</div>

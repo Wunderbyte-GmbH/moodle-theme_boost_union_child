@@ -110,7 +110,6 @@ $THEME->layouts = [
     ],
     // The site home page.
     'frontpage' => [
-        'theme' => 'nwverkehrserziehung',
         'file' => 'drawers.php',
         'regions' => theme_boost_union_get_block_regions('frontpage'),
         'defaultregion' => 'side-pre',

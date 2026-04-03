@@ -15,60 +15,99 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * Generic dynamic page loader for tile-based subpages.
+ * Dynamic content page loader for the NWV theme CMS.
+ *
+ * Loads a page from the theme_nwv_pages table by slug and renders it
+ * with the content_page template, including breadcrumbs and sidebar nav.
  *
  * @package   theme_nwverkehrserziehung
  * @copyright 2026
  * @license   https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+// Load Moodle bootstrap.
 require_once(__DIR__ . '/../../config.php');
-require_once($CFG->dirroot . '/theme/nwverkehrserziehung/classes/subpage_manager.php');
+require_once($CFG->libdir . '/filelib.php');
 
-use theme_nwverkehrserziehung\subpage_manager;
+// Force NWV theme for this request (after config.php, before any output).
+//s$CFG->theme = 'nwverkehrserziehung';
 
-// No login required for public pages.
+use theme_nwverkehrserziehung\page_manager;
 
-// Force load NWV theme for this page.
-$CFG->theme = 'nwverkehrserziehung';
+// Get slug parameter.
+$slug = required_param('slug', PARAM_RAW_TRIMMED);
 
-// Get required parameters.
-$pageid = required_param('id', PARAM_ALPHANUM);
-$tileid = optional_param('tile', 'tile1', PARAM_ALPHANUM);
+// Sanitise slug — only allow lowercase alphanumeric, hyphens, slashes.
+$slug = preg_replace('/[^a-z0-9\-\/]/', '', strtolower($slug));
 
-// Setup page context.
-$PAGE->set_context(context_system::instance());
-$PAGE->set_url(new moodle_url('/theme/nwverkehrserziehung/page.php', ['id' => $pageid, 'tile' => $tileid]));
-$PAGE->set_pagelayout('incourse');
+// Load page from DB.
+$pagerecord = page_manager::get_by_slug($slug);
 
-// Get subpage data.
-$subpage = subpage_manager::get_subpage($tileid, $pageid);
-
-if (!$subpage) {
+if (!$pagerecord || !$pagerecord->visible) {
     throw new moodle_exception('pagenotfound', 'error');
 }
 
-// Set page title.
-$PAGE->set_title($subpage['title']);
+// Setup page context.
+$context = context_system::instance();
+$PAGE->set_context($context);
+$PAGE->set_url(new moodle_url('/theme/nwverkehrserziehung/page.php', ['slug' => $slug]));
+$PAGE->set_pagelayout('frontpage');
+$PAGE->set_title($pagerecord->title);
+$PAGE->set_heading($pagerecord->title);
 
-// Get all subpages for this tile as navigation.
-$navitems = subpage_manager::get_navigation($tileid, $pageid);
+// Rewrite pluginfile URLs in content for proper image serving.
+$content = file_rewrite_pluginfile_urls(
+    $pagerecord->content ?? '',
+    'pluginfile.php',
+    $context->id,
+    'theme_nwverkehrserziehung',
+    'pagecontent',
+    $pagerecord->id
+);
 
-// If subpage has its own navigation items, use those instead.
-if (!empty($subpage['navigation'])) {
-    $navitems = $subpage['navigation'];
-}
+// Build breadcrumbs.
+$breadcrumbs = page_manager::get_breadcrumbs($pagerecord);
 
+// Build section sidebar navigation.
+$sidebarnav = page_manager::get_section_nav($pagerecord->section, (int)$pagerecord->id);
+
+// Section display title.
+$sectiontitles = [
+    'grundlagen' => get_string('grundlagen', 'theme_nwverkehrserziehung'),
+    'netzwerk' => get_string('netzwerk', 'theme_nwverkehrserziehung'),
+    'kontakt' => get_string('kontakt', 'theme_nwverkehrserziehung'),
+    'footer' => get_string('page_section_footer', 'theme_nwverkehrserziehung'),
+];
+$sectiontitle = $sectiontitles[$pagerecord->section] ?? $pagerecord->section;
+
+// Check if user can edit pages.
+$canadmin = isloggedin() && !isguestuser() && has_capability(
+    'theme/nwverkehrserziehung:managepages',
+    $context
+);
 echo $OUTPUT->header();
 
-// Build layout context.
-$layoutcontext = [
-    'sidebar_title' => $subpage['title'],
-    'sidebar_items' => $navitems,
-    'content' => $subpage['content'],
+// Load the modal form JS if user can edit.
+if ($canadmin) {
+    $PAGE->requires->js_call_amd('theme_nwverkehrserziehung/page_editor', 'init');
+}
+
+// NOTE: Bootstrap is already loaded by the boost drawers.mustache layout template
+// via require(['theme_boost/loader', ...]). Do NOT call js_call_amd on it — the
+// loader module has no init() export and would cause a JS error.
+
+// Build template context.
+$templatecontext = [
+    'title' => format_string($pagerecord->title),
+    'content' => format_text($content, $pagerecord->contentformat, ['context' => $context]),
+    'breadcrumbs' => $breadcrumbs,
+    'has_sidebar' => !empty($sidebarnav),
+    'sidebar_items' => $sidebarnav,
+    'section_title' => $sectiontitle,
+    'wwwroot' => $CFG->wwwroot,
+    'canadmin' => $canadmin,
+    'pageid' => (int)$pagerecord->id,
 ];
 
-// Render the sidebar layout template.
-echo $OUTPUT->render_from_template('theme_nwverkehrserziehung/sidebar_layout', $layoutcontext);
-
+echo $OUTPUT->render_from_template('theme_nwverkehrserziehung/content_page', $templatecontext);
 echo $OUTPUT->footer();

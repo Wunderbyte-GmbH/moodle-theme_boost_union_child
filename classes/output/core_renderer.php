@@ -56,111 +56,6 @@ class core_renderer extends \core_renderer {
             return [];
         }
     }
-    // private function should_apply_nwv_branding() {
-    //     global $PAGE;
-        
-    //     // Check if there's an explicit flag to disable NWV branding on this page
-    //     if (isset($PAGE->nwv_disable_branding) && $PAGE->nwv_disable_branding) {
-    //         return false;
-    //     }
-        
-    //     // Apply NWV branding by default, except for specific pages
-    //     $exclude_patterns = [
-    //         'admin/index.php',
-    //         'admin/',
-    //         'install.php',
-    //         'error/',
-    //     ];
-        
-    //     foreach ($exclude_patterns as $pattern) {
-    //         if (strpos($PAGE->pagetype, $pattern) === 0) {
-    //             return false;
-    //         }
-    //     }
-        
-    //     return true;
-    // }
-
-    /**
-     * Render the page header with NWV branding
-     *
-     * @return string HTML for NWV header
-     */
-    // public function header() {
-    //     // global $CFG;
-        
-    //     // //$output = parent::header();
-        
-    //     // // Check if NWV branding should be applied
-    //     // if (!$this->should_apply_nwv_branding()) {
-    //     //     return $output;
-    //     // }
-        
-    //     // // Get logo configuration
-    //     // $logotext = get_config('theme_nwverkehrserziehung', 'logotext') ?? 'NWV SCHRIFTZUG';
-    //     // $logoimage = '';
-    //     // $logo_filearea = get_config('theme_nwverkehrserziehung', 'logoimage');
-        
-    //     // if ($logo_filearea) {
-    //     //     $context = \context_system::instance();
-    //     //     $logoimage = \moodle_url::make_pluginfile_url(
-    //     //         $context->id,
-    //     //         'theme_nwverkehrserziehung',
-    //     //         'logoimage',
-    //     //         0,
-    //     //         '/',
-    //     //         $logo_filearea
-    //     //     )->out();
-    //     // }
-
-    //     // // Get menu items
-    //     // $menuitems = get_config('theme_nwverkehrserziehung', 'menuitems')
-    //     //     ?? 'Grundlagen,Netzwerk,Praxisbörse,Kontakt';
-    //     // $menuitemsarray = array_map('trim', explode(',', $menuitems));
-
-    //     // $data = [
-    //     //     'logotext' => $logotext,
-    //     //     'logoimage' => $logoimage,
-    //     //     'menuitems' => $menuitemsarray,
-    //     //     'wwwroot' => $CFG->wwwroot,
-    //     // ];
-
-    //     // $header = $this->render_from_template('theme_nwverkehrserziehung/header', $data);
-        
-    //     // return $output . $header;
-    // }
-
-    // public function context_header($headerinfo = null, $headinglevel = 1): string {
-
-    //     // If NWV branding is applied, we can customize the context header as needed
-    //     // For now, we'll just call the parent method, but you could add NWV-specific styling or elements here
-    //     return '';
-    // }
-
-    /**
-     * Render the page footer with NWV branding
-     *
-     * @return string HTML for NWV footer
-     */
-    // public function footer() {
-    //     global $CFG;
-
-    //     $output = parent::footer();
-
-    //     // Check if NWV branding should be applied
-    //     // if (!$this->should_apply_nwv_branding()) {
-    //     //     return $output;
-    //     // }
-
-    //     $data = [
-    //         'wwwroot' => $CFG->wwwroot,
-    //         'year' => date('Y'),
-    //     ];
-
-    //     $nwvfooter = $this->render_from_template('theme_nwverkehrserziehung/footer', $data);
-
-    //     return $output . $nwvfooter;
-    // }
 
     public function navbawr(): string {
         global $CFG, $SITE;
@@ -391,8 +286,6 @@ class core_renderer extends \core_renderer {
             }
         }
 
-        // $contextheader = new \context_header($heading, $headinglevel, $imagedata, $userbuttons, $prefix);
-        // return $this->render($contextheader);
         return '';
     }
 

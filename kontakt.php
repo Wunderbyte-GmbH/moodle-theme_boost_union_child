@@ -61,16 +61,11 @@ $data = [
 // Output page using standard Moodle renderer.
 echo $OUTPUT->header();
 
-// Display with image on left and text wrapped around it.
+echo html_writer::start_div('fullpage-content container my-5');
 if ($imageurl) {
-    $imageattrs = [
-        'class' => 'fullpage-image',
-        'style' => 'float: left; margin-right: 20px; margin-bottom: 15px; max-width: 300px; height: auto;',
-    ];
-    $imagehtml = html_writer::img($imageurl, 'Kontakt', $imageattrs);
-    echo html_writer::div($imagehtml . $content, 'fullpage-content container my-5', ['style' => 'overflow: auto;']);
-} else {
-    echo html_writer::div($content, 'fullpage-content container my-5');
+    echo html_writer::img($imageurl, 'Kontakt', ['class' => 'fullpage-image']);
 }
+echo html_writer::div($content, 'fullpage-text');
+echo html_writer::end_div();
 
 echo $OUTPUT->footer();

@@ -97,3 +97,28 @@ $string['netzwerk'] = 'Netzwerk';
 $string['kontakt'] = 'Kontakt';
 $string['subpageid'] = 'Subpage ID';
 $string['subpage_navigation_help'] = 'Enter navigation items as JSON array. Example: [{"label": "Home", "url": "page.php?id=home", "active": false}]';
+
+// CMS Page management.
+$string['page_manage'] = 'Manage Pages';
+$string['page_add'] = 'Add new page';
+$string['page_edit'] = 'Edit page';
+$string['page_title'] = 'Title';
+$string['page_nav_title'] = 'Navigation title';
+$string['page_nav_title_help'] = 'Short title used in navigation menus. If empty, the full title is used.';
+$string['page_slug'] = 'URL slug';
+$string['page_slug_help'] = 'URL-friendly identifier for this page. Use only lowercase letters, numbers, hyphens, and forward slashes. Example: grundlagen/zum-begriff';
+$string['page_slug_exists'] = 'This slug is already in use by another page.';
+$string['page_slug_invalid'] = 'Slug may only contain lowercase letters, numbers, hyphens and forward slashes.';
+$string['page_section'] = 'Section';
+$string['page_section_footer'] = 'Footer';
+$string['page_parent'] = 'Parent page';
+$string['page_parent_root'] = '— None (root level) —';
+$string['page_parent_self'] = 'A page cannot be its own parent.';
+$string['page_content'] = 'Content';
+$string['page_sortorder'] = 'Sort order';
+$string['page_visible'] = 'Visible';
+$string['page_saved'] = 'Page saved successfully.';
+$string['page_deleted'] = 'Page deleted successfully.';
+$string['page_delete_confirm'] = 'Are you sure you want to delete the page "{$a}"? This action cannot be undone.';
+$string['page_none'] = 'No pages have been created yet. Click "Add new page" to get started.';
+$string['nwverkehrserziehung:managepages'] = 'Manage NWV theme content pages';

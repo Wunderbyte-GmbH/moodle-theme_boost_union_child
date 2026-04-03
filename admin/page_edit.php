@@ -15,15 +15,25 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Theme NWV - Version file
+ * Admin page edit — non-JS fallback / URL entry point.
+ *
+ * Editing is primarily handled via the dynamic modal form.
+ * This page serves as a URL endpoint for the editor autosave
+ * and as a no-JS fallback that redirects to the admin listing.
  *
  * @package    theme_nwverkehrserziehung
- * @copyright  2023 Daniel Poggenpohl <daniel.poggenpohl@fernuni-hagen.de> and Alexander Bias <bias@alexanderbias.de>
+ * @copyright  2026
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+require_once(__DIR__ . '/../../../config.php');
 
-$plugin->component = 'theme_nwverkehrserziehung';
-$plugin->version = 2026040303;
-$plugin->maturity = MATURITY_STABLE;
+// Force NWV theme.
+$CFG->theme = 'nwverkehrserziehung';
+
+require_login();
+$context = context_system::instance();
+require_capability('theme/nwverkehrserziehung:managepages', $context);
+
+// Redirect to the admin listing page — editing happens in modal.
+redirect(new moodle_url('/theme/nwverkehrserziehung/admin/pages.php'));

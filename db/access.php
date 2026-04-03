@@ -34,4 +34,12 @@ $capabilities = [
             'user' => CAP_ALLOW,
         ],
     ],
+    'theme/nwverkehrserziehung:managepages' => [
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_SYSTEM,
+        'archetypes' => [
+            'manager' => CAP_ALLOW,
+        ],
+        'riskbitmask' => RISK_CONFIG | RISK_XSS,
+    ],
 ];

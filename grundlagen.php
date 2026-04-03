@@ -62,29 +62,11 @@ $data = [
 // Output page using standard Moodle renderer.
 echo $OUTPUT->header();
 
-// Display with image on left and text wrapped around it.
+echo html_writer::start_div('fullpage-content container my-5');
 if ($imageurl) {
-    $imageattrs = [
-        'class' => 'fullpage-image',
-        'style' => 'float: left; margin-right: 20px; margin-bottom: 15px; max-width: 300px; height: auto;',
-    ];
-    $imagehtml = html_writer::img($imageurl, 'Grundlagen', $imageattrs);
-    echo html_writer::div($imagehtml . $content, 'fullpage-content container my-5', ['style' => 'overflow: auto;']);
-} else {
-    echo html_writer::div($content, 'fullpage-content container my-5');
+    echo html_writer::img($imageurl, 'Grundlagen', ['class' => 'fullpage-image']);
 }
-
-// Navigation to subsites.
-$navhtml = '<div class="container my-5"><h3>Weitere Themen</h3><div class="row">';
-$navhtml .= '<div class="col-md-6 mb-3"><a href="grundlagen_sicherheit.php" class="btn btn-primary btn-block btn-lg">';
-$navhtml .= '<strong>Sicherheit im Straßenverkehr</strong></a></div>';
-$navhtml .= '<div class="col-md-6 mb-3"><a href="grundlagen_regeln.php" class="btn btn-primary btn-block btn-lg">';
-$navhtml .= '<strong>Verkehrsregeln und Vorschriften</strong></a></div>';
-$navhtml .= '<div class="col-md-6 mb-3"><a href="grundlagen_verhalten.php" class="btn btn-primary btn-block btn-lg">';
-$navhtml .= '<strong>Fahrtechniken und Fahrtverhalten</strong></a></div>';
-$navhtml .= '<div class="col-md-6 mb-3"><a href="grundlagen_umwelt.php" class="btn btn-primary btn-block btn-lg">';
-$navhtml .= '<strong>Umweltschonung und Nachhaltigkeit</strong></a></div>';
-$navhtml .= '</div></div>';
-echo $navhtml;
+echo html_writer::div($content, 'fullpage-text');
+echo html_writer::end_div();
 
 echo $OUTPUT->footer();

@@ -26,7 +26,6 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->libdir . '/behat/lib.php');
 require_once($CFG->dirroot . '/course/lib.php');
-require_once($CFG->dirroot . '/theme/nwverkehrserziehung/lib.php');
 
 // Add block button in editing mode.
 $addblockbutton = $OUTPUT->addblockbutton();
@@ -60,31 +59,64 @@ if (!$courseindex) {
 
 $bodyattributes = $OUTPUT->body_attributes($extraclasses);
 $forceblockdraweropen = $OUTPUT->firstview_fakeblocks();
-$customnavigation = theme_nwverkehrserziehung_get_custom_navigation();
+$customnavigation = get_custom_navigation();
 $secondarynavigation = false;
 $overflow = '';
-// if ($PAGE->has_secondary_navigation()) {
-//     $tablistnav = $PAGE->has_tablist_secondary_navigation();
-//     $moremenu = new \core\navigation\output\more_menu($PAGE->secondarynav, 'nav-tabs', true, $tablistnav);
-//     $secondarynavigation = $moremenu->export_for_template($OUTPUT);
-//     $overflowdata = $PAGE->secondarynav->get_overflow_menu_data();
-//     if (!is_null($overflowdata)) {
-//         $overflow = $overflowdata->export_for_template($OUTPUT);
-//     }
-// }
+if ($PAGE->has_secondary_navigation()) {
+    $tablistnav = $PAGE->has_tablist_secondary_navigation();
+    $moremenu = new \core\navigation\output\more_menu($PAGE->secondarynav, 'nav-tabs', true, $tablistnav);
+    $secondarynavigation = $moremenu->export_for_template($OUTPUT);
+    $overflowdata = $PAGE->secondarynav->get_overflow_menu_data();
+    if (!is_null($overflowdata)) {
+        $overflow = $overflowdata->export_for_template($OUTPUT);
+    }
+}
 
-// $primary = new core\navigation\output\primary($PAGE);
-// $renderer = $PAGE->get_renderer('core');
-// $primarymenu = $primary->export_for_template($renderer);
-// $buildregionmainsettings = !$PAGE->include_region_main_settings_in_header_actions() && !$PAGE->has_secondary_navigation();
-// // If the settings menu will be included in the header then don't add it here.
-// $regionmainsettingsmenu = $buildregionmainsettings ? $OUTPUT->region_main_settings_menu() : false;
+$primary = new core\navigation\output\primary($PAGE);
+$renderer = $PAGE->get_renderer('core');
+$primarymenu = $primary->export_for_template($renderer);
+$buildregionmainsettings = !$PAGE->include_region_main_settings_in_header_actions() && !$PAGE->has_secondary_navigation();
+// If the settings menu will be included in the header then don't add it here.
+$regionmainsettingsmenu = $buildregionmainsettings ? $OUTPUT->region_main_settings_menu() : false;
 
 $header = $PAGE->activityheader;
 $headercontent = $header->export_for_template($renderer);
 
-// Get custom navbar with custom navigation
-$customnavbar = $OUTPUT->navbar();
+// Get logo URL if uploaded.
+$logofile = get_config('theme_nwverkehrserziehung', 'logo');
+$logourl = null;
+if ($logofile) {
+    $context = context_system::instance();
+    $logourl = moodle_url::make_pluginfile_url(
+        $context->id,
+        'theme_nwverkehrserziehung',
+        'logo',
+        0,
+        '/',
+        $logofile
+    );
+}
+
+// Get sidebar navigation items from page custom data.
+$sidebaritems = [];
+if (isset($PAGE->custom_data) && is_array($PAGE->custom_data) && isset($PAGE->custom_data['sidebar_items'])) {
+    $sidebaritems = $PAGE->custom_data['sidebar_items'];
+}
+
+// Prepare sidebar context if items are provided.
+$sidebarcontext = null;
+if (!empty($sidebaritems)) {
+    $sidebarcontext = [
+        'title' => $PAGE->custom_data['sidebar_title'] ?? 'Navigation',
+        'items' => $sidebaritems,
+    ];
+}
+
+// Check if user can manage pages (for admin cog in navbar).
+$canadmin = isloggedin() && !isguestuser() && has_capability(
+    'theme/nwverkehrserziehung:managepages',
+    context_system::instance()
+);
 
 $templatecontext = [
     'sitename' => format_string($SITE->shortname, true, ['context' => context_course::instance(SITEID), "escape" => false]),
@@ -92,11 +124,9 @@ $templatecontext = [
     'sidepreblocks' => $blockshtml,
     'hasblocks' => $hasblocks,
     'bodyattributes' => $bodyattributes,
-
+    'courseindexopen' => $courseindexopen,
+    'blockdraweropen' => $blockdraweropen,
     'courseindex' => $courseindex,
-    'primarymoremenu' => '',
-    'secondarymoremenu' => $secondarynavigation ?: false,
-    'mobileprimarynav' => $primarymenu['mobileprimarynav'],
     'usermenu' => $primarymenu['user'],
     'langmenu' => $primarymenu['lang'],
     'forceblockdraweropen' => $forceblockdraweropen,
@@ -106,7 +136,31 @@ $templatecontext = [
     'headercontent' => $headercontent,
     'addblockbutton' => $addblockbutton,
     'customnavigation' => $customnavigation,
-    'customnavbar' => $customnavbar,
+    'logourl' => $logourl ? $logourl->out() : null,
+    'canadmin' => $canadmin,
 ];
 
 echo $OUTPUT->render_from_template('theme_boost/drawers', $templatecontext);
+
+/**
+ * Get custom navigation menu from theme settings
+ *
+ * @return array Navigation menu array for template
+ */
+function get_custom_navigation() {
+    $navjson = get_config('theme_nwverkehrserziehung', 'customnavigation');
+
+    if (empty($navjson)) {
+        return [];
+    }
+
+    try {
+        $navigation = json_decode($navjson, true);
+        if (!is_array($navigation)) {
+            return [];
+        }
+        return $navigation;
+    } catch (\Exception $e) {
+        return [];
+    }
+}
