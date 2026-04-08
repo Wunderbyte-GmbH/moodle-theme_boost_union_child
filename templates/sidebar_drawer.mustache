@@ -1,0 +1,85 @@
+{{!
+    @template theme_nwverkehrserziehung/sidebar_drawer
+
+    Responsive sidebar drawer with mobile burger menu.
+
+    Context variables required:
+    @param string title - Drawer title
+    @param array items - List of navigation items with 'label' and 'url'
+}}
+
+<div class="sidebar-wrapper">
+    {{! Burger menu button - visible on mobile }}
+    <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle navigation menu">
+        <span class="burger-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </span>
+    </button>
+
+    {{! Sidebar drawer }}
+    <aside class="sidebar-drawer" id="sidebarDrawer">
+        <div class="sidebar-header">
+            <h3 class="sidebar-title">{{title}}</h3>
+            <button class="sidebar-close" id="sidebarClose" aria-label="Close navigation">
+                <span>×</span>
+            </button>
+        </div>
+
+        <nav class="sidebar-nav">
+            <ul class="nav-list">
+            {{#items}}
+                <li class="nav-item">
+                    <a href="{{url}}" class="nav-link">{{label}}</a>
+                </li>
+            {{/items}}
+            </ul>
+        </nav>
+    </aside>
+
+    {{! Overlay for mobile }}
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const toggle = document.getElementById('sidebarToggle');
+    const close = document.getElementById('sidebarClose');
+    const drawer = document.getElementById('sidebarDrawer');
+    const overlay = document.getElementById('sidebarOverlay');
+
+    // Open drawer
+    if (toggle) {
+        toggle.addEventListener('click', function() {
+            drawer.classList.add('active');
+            overlay.classList.add('active');
+        });
+    }
+
+    // Close drawer
+    if (close) {
+        close.addEventListener('click', function() {
+            drawer.classList.remove('active');
+            overlay.classList.remove('active');
+        });
+    }
+
+    // Close drawer on overlay click
+    if (overlay) {
+        overlay.addEventListener('click', function() {
+            drawer.classList.remove('active');
+            overlay.classList.remove('active');
+        });
+    }
+
+    // Close drawer when clicking a link
+    const navLinks = drawer.querySelectorAll('.nav-link');
+    navLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            drawer.classList.remove('active');
+            overlay.classList.remove('active');
+        });
+    });
+});
+</script>

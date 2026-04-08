@@ -1,0 +1,149 @@
+<div class="container my-5 text-center">
+
+    <div class="rainbow mx-auto position-relative">
+
+        <!-- outer arc -->
+        <div class="arc arc1">
+            <img src="{{pix_path}}/logos/ARBÖ.png" class="logo l1" alt="ARBÖ">
+            <img src="{{pix_path}}/logos/AUVA.png" class="logo l2" alt="AUVA">
+            <img src="{{pix_path}}/logos/BMB.png" class="logo l3" alt="BMB">
+            <img src="{{pix_path}}/logos/KFV.png" class="logo l4" alt="KFV">
+            <img src="{{pix_path}}/logos/klimaaktiv-mobil.png" class="logo l5" alt="klimaaktiv mobil">
+        </div>
+
+        <!-- middle arc -->
+        <div class="arc arc2">
+            <img src="{{pix_path}}/logos/ÖAMTC.png" class="logo l6" alt="ÖAMTC">
+            <img src="{{pix_path}}/logos/ÖBB.png" class="logo l7" alt="ÖBB">
+            <img src="{{pix_path}}/logos/ÖJRK.png" class="logo l8" alt="ÖJRK">
+        </div>
+
+        <!-- inner arc -->
+        <div class="arc arc3">
+            <img src="{{pix_path}}/logos/VCÖ.png" class="logo l9" alt="VCÖ">
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Austrian District Logos -->
+<div class="container my-5">
+    <div class="row g-4 d-flex justify-content-between text-center">
+        <div class="col-lg-1 col-md-3 col-sm-4 col-6">
+            <div class="district-logo-wrapper">
+                <img src="{{pix_path}}/logos/Burgenland_Wappen.png" class="district-logo" alt="Burgenland">
+            </div>
+        </div>
+        <div class="col-lg-1 col-md-3 col-sm-4 col-6">
+            <div class="district-logo-wrapper">
+                <img src="{{pix_path}}/logos/Kaernten_Wappen.png" class="district-logo" alt="Kärnten">
+            </div>
+        </div>
+        <div class="col-lg-1 col-md-3 col-sm-4 col-6">
+            <div class="district-logo-wrapper">
+                <img src="{{pix_path}}/logos/Niederösterreich_Wappen.png" class="district-logo" alt="Niederösterreich">
+            </div>
+        </div>
+        <div class="col-lg-1 col-md-3 col-sm-4 col-6">
+            <div class="district-logo-wrapper">
+                <img src="{{pix_path}}/logos/Oberoesterreich_Wappen.png" class="district-logo" alt="Oberösterreich">
+            </div>
+        </div>
+        <div class="col-lg-1 col-md-3 col-sm-4 col-6">
+            <div class="district-logo-wrapper">
+                <img src="{{pix_path}}/logos/Salzburg_Wappen.png" class="district-logo" alt="Salzburg">
+            </div>
+        </div>
+        <div class="col-lg-1 col-md-3 col-sm-4 col-6">
+            <div class="district-logo-wrapper">
+                <img src="{{pix_path}}/logos/Steiermark_Wappen.png" class="district-logo" alt="Steiermark">
+            </div>
+        </div>
+        <div class="col-lg-1 col-md-3 col-sm-4 col-6">
+            <div class="district-logo-wrapper">
+                <img src="{{pix_path}}/logos/Tirol_Wappen.png" class="district-logo" alt="Tirol">
+            </div>
+        </div>
+        <div class="col-lg-1 col-md-3 col-sm-4 col-6">
+            <div class="district-logo-wrapper">
+                <img src="{{pix_path}}/logos/Vorarlberg_Wappen.png" class="district-logo" alt="Vorarlberg">
+            </div>
+        </div>
+        <div class="col-lg-1 col-md-3 col-sm-4 col-6">
+            <div class="district-logo-wrapper">
+                <img src="{{pix_path}}/logos/Wien_Wappen.png" class="district-logo" alt="Wien">
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.rainbow{
+    width:100%;
+    height:450px;
+}
+
+.arc{
+    position:absolute;
+    left:50%;
+    transform:translateX(-50%);
+    border-radius:50% 50% 0 0;
+}
+
+.arc1{
+    width:100%;
+    height:450px;
+}
+
+.arc2{
+    width:100%;
+    height:350px;
+    bottom:0;
+}
+
+.arc3{
+    width:100%;
+    height:250px;
+    bottom:0;
+}
+
+.logo{
+    position:absolute;
+    width:80px;
+}
+
+/* position logos along arc */
+
+.l1{ top:40px; left:50px; }
+.l2{ top:10px; left:250px; }
+.l3{ top:0px; left:420px; }
+.l4{ top:10px; right:250px; }
+.l5{ top:40px; right:50px; }
+
+.l6{ top:80px; left:200px; }
+.l7{ top:60px; left:350px; }
+.l8{ top:80px; right:200px; }
+
+.l9{ top:120px; left:200px; }
+
+.district-logo-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 120px;
+    padding: 10px;
+}
+
+.district-logo {
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+    transition: transform 0.3s ease;
+}
+
+.district-logo:hover {
+    transform: scale(1.1);
+}
+</style>

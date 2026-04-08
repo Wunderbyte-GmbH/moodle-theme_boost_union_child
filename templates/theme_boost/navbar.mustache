@@ -1,0 +1,344 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template theme_boost/navbar
+    NWV Theme - Custom navbar with logo on top and navigation below
+}}
+
+{{!-- NWV Logo Header --}}
+<div id="nwv-logo-header" class="nwv-logo-header">
+    <div class="container d-flex align-items-center justify-content-between">
+        <a href="/theme/nwverkehrserziehung/" class="nwv-logo-link" title="Netzwerk Verkehrserziehung">
+                <img src="{{{ logourl }}}" class="nwv-logo-img" alt="{{sitename}}">
+        </a>
+        {{#canadmin}}
+        <div class="dropdown nwv-admin-cog" id="nwv-admin-cog-wrapper">
+            <a class="nwv-admin-cog-toggle" href="#"
+               id="nwv-admin-cog" role="button"
+               aria-haspopup="true" aria-expanded="false"
+               onclick="event.preventDefault();event.stopPropagation();var m=document.getElementById('nwv-admin-cog-menu');m.classList.toggle('show');this.setAttribute('aria-expanded',m.classList.contains('show'));"
+               title="{{#str}}page_manage, theme_nwverkehrserziehung{{/str}}">
+                <i class="fa fa-cog"></i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right dropdown-menu-end"
+                 id="nwv-admin-cog-menu"
+                 role="menu" aria-labelledby="nwv-admin-cog">
+                <a class="dropdown-item" role="menuitem"
+                   href="/theme/nwverkehrserziehung/admin/pages.php">
+                    <i class="fa fa-file-text fa-fw mr-2 me-2"></i>{{#str}}page_manage, theme_nwverkehrserziehung{{/str}}
+                </a>
+                <a class="dropdown-item" role="menuitem"
+                   href="/theme/nwverkehrserziehung/tiles.php">
+                    <i class="fa fa-th-large fa-fw mr-2 me-2"></i>{{#str}}frontpage, theme_nwverkehrserziehung{{/str}}
+                </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" role="menuitem"
+                   href="/admin/settings.php?section=theme_nwverkehrserziehung">
+                    <i class="fa fa-sliders fa-fw mr-2 me-2"></i>{{#str}}configtitle, theme_nwverkehrserziehung{{/str}}
+                </a>
+            </div>
+        </div>
+        {{/canadmin}}
+    </div>
+</div>
+
+
+{{!-- Main Navigation Bar --}}
+
+<nav id="main-navbar" class="navbar navbar-light navbar-expand-lg nwv-main-navbar">
+    <div class="container">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div id="navbarCollapse" class="collapse navbar-collapse">
+            <ul class="navbar-nav ms-auto">
+                {{#customnavigation}}
+                    {{#children}}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="{{#url}}{{{url}}}{{/url}}{{^url}}#{{/url}}" id="dropdown-{{id}}" data-bs-toggle="dropdown" role="button" aria-expanded="false">
+                                {{text}}
+                            </a>
+                            {{#children}}
+                                <ul class="dropdown-menu" aria-labelledby="dropdown-{{id}}">
+                                    <li><a class="dropdown-item" href="{{{url}}}">{{{text}}}</a></li>
+                                </ul>
+                            {{/children}}
+                        </li>
+                    {{/children}}
+                    {{^children}}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{#url}}{{{url}}}{{/url}}{{^url}}#{{/url}}">{{{text}}}</a>
+                        </li>
+                    {{/children}}
+                {{/customnavigation}}
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<style>
+/* NWV Navbar Styling */
+
+/* Logo Header */
+.nwv-logo-header {
+    background: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1031;
+}
+
+.nwv-logo-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #1a472a;
+}
+
+.nwv-logo-img {
+    max-height: 80px;
+    width: auto;
+}
+
+/* Admin Cog */
+.nwv-admin-cog-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    color: #6c757d;
+    text-decoration: none;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.nwv-admin-cog-toggle:hover,
+.nwv-admin-cog-toggle:focus {
+    background-color: #f0f0f0;
+    color: #b5001f;
+    text-decoration: none;
+}
+
+.nwv-admin-cog-toggle::after {
+    display: none; /* Hide the default dropdown caret */
+}
+
+.nwv-admin-cog .dropdown-menu {
+    min-width: 220px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.nwv-admin-cog .dropdown-item {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+}
+
+.nwv-admin-cog .dropdown-item:hover {
+    background-color: #f8f9fa;
+    color: #b5001f;
+}
+
+.nwv-admin-cog .dropdown-item i {
+    color: #6c757d;
+    width: 1.25em;
+}
+
+.nwv-admin-cog .dropdown-item:hover i {
+    color: #b5001f;
+}
+
+.nwv-logo-text {
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: #1a472a;
+}
+
+.nwv-logo-link:hover .nwv-logo-text {
+    color: #2a8d50;
+}
+
+/* Main Navigation Bar */
+#main-navbar {
+    background: #b5001f;
+    padding-top: 0;
+    padding-bottom: 0;
+    position: fixed;
+    top: 82px;
+    left: 0;
+    right: 0;
+    z-index: 1030;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+#main-navbar .navbar-nav {
+    width: 100%;
+}
+
+#main-navbar .nav-link {
+    color: white;
+    font-weight: 500;
+    padding: 1rem 1.5rem !important;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+}
+
+#main-navbar .nav-link:hover {
+    color: #000000;
+    background: #fbea2f;
+    border-left: 2px solid #b5001f;
+}
+
+#main-navbar .nav-link.active {
+    color: #000000;
+    background: #fbea2f;
+    border-left: 2px solid #b5001f;
+
+}
+
+#main-navbar .dropdown-toggle::after {
+    border-top-color: white;
+}
+
+#main-navbar .dropdown-toggle:hover::after {
+    background: yellow;
+}
+
+/* Dropdown Menus */
+#main-navbar .dropdown-menu {
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-top: 3px solid #b5001f;
+    border-radius: 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    min-width: 250px;
+}
+
+#main-navbar .dropdown-menu .dropdown-item {
+    color: #1a472a;
+    padding: 0.75rem 1.5rem;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+    border-left: 3px solid transparent;
+}
+
+#main-navbar .dropdown-menu .dropdown-item:hover {
+    background: #f0f4f1;
+    color: #b5001f;
+    border-left-color: #b5001f;
+}
+
+#main-navbar .dropdown-menu .dropdown-item.active {
+    background: #b5001f;
+    color: white;
+    border-left-color: white;
+}
+
+/* Mobile Toggle Button */
+#main-navbar .navbar-toggler {
+    border: none;
+    padding: 0.5rem;
+    margin-right: 1rem;
+}
+
+#main-navbar .navbar-toggler:focus {
+    box-shadow: none;
+    background: rgba(255, 255, 255, 0.2);
+}
+
+#main-navbar .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='white' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+
+/* Responsive Design */
+@media (max-width: 991.98px) {
+    .nwv-logo-header {
+        padding: 0.75rem 0;
+    }
+
+    .nwv-logo-img {
+        max-height: 40px;
+    }
+
+    .nwv-logo-text {
+        font-size: 0.95rem;
+    }
+
+    #main-navbar {
+        top: 70px;
+        position: relative;
+        box-shadow: none;
+    }
+
+    #main-navbar .nav-link {
+        padding: 0.75rem 1rem !important;
+        border-bottom: none;
+        border-left: 3px solid transparent;
+    }
+
+    #main-navbar .nav-link:hover {
+        background: rgba(255, 255, 255, 0.1);
+        border-left-color: white;
+        border-bottom: none;
+    }
+
+    #main-navbar .collapse {
+        padding: 0;
+    }
+
+    #main-navbar .navbar-collapse {
+        background: #b5001f;
+    }
+
+}
+
+@media (max-width: 576px) {
+    .nwv-logo-header {
+        padding: 0.5rem 0;
+    }
+
+    .nwv-logo-img {
+        max-height: 35px;
+    }
+
+    #main-navbar .nav-link {
+        padding: 0.5rem 1rem !important;
+        font-size: 0.9rem;
+    }
+
+}
+</style>
+
+<script>
+document.addEventListener('click', function(e) {
+    var wrapper = document.getElementById('nwv-admin-cog-wrapper');
+    if (wrapper && !wrapper.contains(e.target)) {
+        var menu = document.getElementById('nwv-admin-cog-menu');
+        var toggle = document.getElementById('nwv-admin-cog');
+        if (menu) menu.classList.remove('show');
+        if (toggle) toggle.setAttribute('aria-expanded', 'false');
+    }
+});
+</script>
+
+{{> theme_boost/primary-drawer-mobile }}

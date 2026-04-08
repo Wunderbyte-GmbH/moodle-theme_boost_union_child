@@ -1,0 +1,82 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    NWV Theme - Footer template
+}}
+<footer id="nwv-footer" class="nwv-theme-footer bg-dark text-white py-5">
+    <div class="container">
+        <div class="row mb-4">
+            {{#footerlinks}}
+            <div class="col-md-4 mb-3">
+                <h5>{{footer_section_title}}</h5>
+                <ul class="list-unstyled">
+                    {{#footer_items}}
+                    <li><a href="{{link}}" class="text-white-50" title="{{text}}">{{text}}</a></li>
+                    {{/footer_items}}
+                </ul>
+            </div>
+            {{/footerlinks}}
+        </div>
+        
+        <hr class="bg-white-50">
+        
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <p class="mb-0">&copy; {{year}} Netzwerk Verkehrserziehung (NWV). {{#footercopyright}}{{{footercopyright}}}{{/footercopyright}}</p>
+            </div>
+            <div class="col-md-6 text-end">
+                <small class="text-white-50">
+                    {{#footerdisclaimer}}{{{footerdisclaimer}}}{{/footerdisclaimer}}
+                </small>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<style>
+#nwv-footer {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+    margin-top: 5rem;
+    border-top: 3px solid #0c5460;
+}
+
+#nwv-footer a {
+    transition: color 0.3s ease;
+}
+
+#nwv-footer a:hover {
+    color: #ffffff !important;
+    text-decoration: underline;
+}
+
+#nwv-footer h5 {
+    color: #17a2b8;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #0c5460;
+    padding-bottom: 0.5rem;
+}
+
+#nwv-footer .text-white-50 {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+#nwv-footer .bg-white-50 {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: none;
+}
+</style>
