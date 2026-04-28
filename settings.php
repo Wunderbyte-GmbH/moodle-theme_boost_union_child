@@ -135,6 +135,111 @@ if ($hassiteconfig || has_capability('theme/boost_union:configure', context_syst
          * Add your Boost Union Child settings here.
          *********************************************************/
 
+        // ============================================================
+        // Create Quick Login settings tab.
+        // ============================================================
+        $tab = new admin_settingpage(
+            'theme_boost_union_child_quicklogin',
+            get_string('quicklogintab', 'theme_boost_union_child', null, true)
+        );
+
+        // Heading.
+        $name = 'theme_boost_union_child/quickloginheading';
+        $title = get_string('quickloginheading', 'theme_boost_union_child', null, true);
+        $description = get_string('quickloginheading_desc', 'theme_boost_union_child', null, true);
+        $setting = new admin_setting_heading($name, $title, $description);
+        $tab->add($setting);
+
+        // Setting: Enable quick login.
+        $name = 'theme_boost_union_child/quickloginenabled';
+        $title = get_string('quickloginenabledsetting', 'theme_boost_union_child', null, true);
+        $description = get_string('quickloginenabledsetting_desc', 'theme_boost_union_child', null, true);
+        $setting = new admin_setting_configselect($name, $title, $description,
+            THEME_BOOST_UNION_SETTING_SELECT_NO, $yesnooption);
+        $tab->add($setting);
+
+        // --- Admin account ---
+        $name = 'theme_boost_union_child/quickloginadminheading';
+        $title = get_string('quickloginadminheading', 'theme_boost_union_child', null, true);
+        $setting = new admin_setting_heading($name, $title, null);
+        $tab->add($setting);
+
+        $name = 'theme_boost_union_child/quickloginadminusername';
+        $title = get_string('quickloginusernamesetting', 'theme_boost_union_child', null, true);
+        $description = get_string('quickloginusernamesetting_desc', 'theme_boost_union_child', null, true);
+        $setting = new admin_setting_configtext($name, $title, $description, 'admin');
+        $tab->add($setting);
+
+        $name = 'theme_boost_union_child/quickloginadminpassword';
+        $title = get_string('quickloginpasswordsetting', 'theme_boost_union_child', null, true);
+        $description = get_string('quickloginpasswordsetting_desc', 'theme_boost_union_child', null, true);
+        $setting = new admin_setting_configpasswordunmask($name, $title, $description, '');
+        $tab->add($setting);
+
+        // --- Manager account ---
+        $name = 'theme_boost_union_child/quickloginmanagerheading';
+        $title = get_string('quickloginmanagerheading', 'theme_boost_union_child', null, true);
+        $setting = new admin_setting_heading($name, $title, null);
+        $tab->add($setting);
+
+        $name = 'theme_boost_union_child/quickloginmanagerusername';
+        $title = get_string('quickloginusernamesetting', 'theme_boost_union_child', null, true);
+        $description = get_string('quickloginusernamesetting_desc', 'theme_boost_union_child', null, true);
+        $setting = new admin_setting_configtext($name, $title, $description, '');
+        $tab->add($setting);
+
+        $name = 'theme_boost_union_child/quickloginmanagerpassword';
+        $title = get_string('quickloginpasswordsetting', 'theme_boost_union_child', null, true);
+        $description = get_string('quickloginpasswordsetting_desc', 'theme_boost_union_child', null, true);
+        $setting = new admin_setting_configpasswordunmask($name, $title, $description, '');
+        $tab->add($setting);
+
+        // --- User account ---
+        $name = 'theme_boost_union_child/quickloginuserheading';
+        $title = get_string('quickloginuserheading', 'theme_boost_union_child', null, true);
+        $setting = new admin_setting_heading($name, $title, null);
+        $tab->add($setting);
+
+        $name = 'theme_boost_union_child/quickloginuserusername';
+        $title = get_string('quickloginusernamesetting', 'theme_boost_union_child', null, true);
+        $description = get_string('quickloginusernamesetting_desc', 'theme_boost_union_child', null, true);
+        $setting = new admin_setting_configtext($name, $title, $description, '');
+        $tab->add($setting);
+
+        $name = 'theme_boost_union_child/quickloginuserpassword';
+        $title = get_string('quickloginpasswordsetting', 'theme_boost_union_child', null, true);
+        $description = get_string('quickloginpasswordsetting_desc', 'theme_boost_union_child', null, true);
+        $setting = new admin_setting_configpasswordunmask($name, $title, $description, '');
+        $tab->add($setting);
+
+        // Add Quick Login tab to settings page.
+        $page->add($tab);
+
+        // ============================================================
+        // Create Frontpage settings tab.
+        // ============================================================
+        $tab = new admin_settingpage(
+            'theme_boost_union_child_frontpage',
+            get_string('frontpagetab', 'theme_boost_union_child', null, true)
+        );
+
+        // Heading.
+        $name = 'theme_boost_union_child/frontpageheading';
+        $title = get_string('frontpageheading', 'theme_boost_union_child', null, true);
+        $description = get_string('frontpageheading_desc', 'theme_boost_union_child', null, true);
+        $setting = new admin_setting_heading($name, $title, $description);
+        $tab->add($setting);
+
+        // Setting: Booking activity cmid.
+        $name = 'theme_boost_union_child/frontpagebookingcmid';
+        $title = get_string('frontpagebookingcmidsetting', 'theme_boost_union_child', null, true);
+        $description = get_string('frontpagebookingcmidsetting_desc', 'theme_boost_union_child', null, true);
+        $setting = new admin_setting_configtext($name, $title, $description, '', PARAM_INT);
+        $tab->add($setting);
+
+        // Add Frontpage tab to settings page.
+        $page->add($tab);
+
         // Add settings page to the admin settings category.
         $ADMIN->add('theme_boost_union', $page);
     }

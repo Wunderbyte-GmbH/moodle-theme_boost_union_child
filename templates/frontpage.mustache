@@ -1,0 +1,468 @@
+<div class="bu-frontpage">
+
+  <!-- HERO -->
+  <section class="bu-hero">
+    <div class="container bu-hero-inner">
+
+      <div class="bu-hero-text">
+        <h1>Create booking systems in seconds</h1>
+        <p>Describe your service. We generate your booking setup automatically with AI.</p>
+
+        <div class="bu-hero-actions">
+          <a href="{{config.wwwroot}}/login/index.php" class="bu-btn primary">Start free</a>
+          <a href="{{config.wwwroot}}/course/index.php" class="bu-btn ghost">See demo</a>
+        </div>
+      </div>
+
+      <div class="bu-hero-visual">
+        <div class="bu-glass-card">
+          <h3>Barber Booking</h3>
+          <p>20 min slots · €18</p>
+        </div>
+        <div class="bu-glass-card small">
+          <p>Generated in 6s</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- USE CASES -->
+  <section class="bu-cards">
+    <div class="container">
+      <div class="bu-cards-grid">
+        <div class="bu-card">
+          <h3>Appointments</h3>
+          <p>Hair salons, coaching, consulting</p>
+        </div>
+        <div class="bu-card">
+          <h3>Events</h3>
+          <p>Workshops, classes, group sessions</p>
+        </div>
+        <div class="bu-card">
+          <h3>Pricing</h3>
+          <p>Flexible per slot or per date</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STEPS -->
+  <section class="bu-steps">
+    <div class="container">
+      <div class="bu-steps-inner">
+        <div class="step"><span>1</span><p>Describe</p></div>
+        <div class="step"><span>2</span><p>AI builds</p></div>
+        <div class="step"><span>3</span><p>Adjust</p></div>
+        <div class="step"><span>4</span><p>Launch</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="bu-cta">
+    <div class="container">
+      <h2>Stop wasting time on setup</h2>
+      <h2>Create your booking now</h2>
+      <div class="mt-4">
+        {{#hasaiinstructions}}
+          {{{aiinstructionshtml}}}
+        {{/hasaiinstructions}}
+    </div>
+    </div>
+  </section>
+
+  {{#hasallbookingoptions}}
+  <!-- All booking options -->
+  <section class="bu-all-booking-options">
+    <div class="container">
+      {{{allbookingoptionshtml}}}
+    </div>
+  </section>
+  {{/hasallbookingoptions}}
+
+</div>
+
+<style>
+
+/* ---------- GLOBAL ---------- */
+.bu-frontpage {
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: #0f172a;
+}
+
+.container {
+  max-width: 1150px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* ---------- HERO ---------- */
+.bu-hero {
+  padding: 140px 0 100px;
+  background: linear-gradient(135deg, #1e3a8a, #2563eb);
+  color: white;
+}
+
+.bu-hero-inner {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  align-items: center;
+  gap: 60px;
+}
+
+.bu-hero-text {
+  max-width: 520px;
+}
+
+.bu-hero h1 {
+  font-size: 52px;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.bu-hero p {
+  margin: 20px 0 30px;
+  font-size: 18px;
+  opacity: 0.9;
+}
+
+/* ---------- BUTTONS ---------- */
+.bu-btn {
+  padding: 14px 26px;
+  border-radius: 10px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  display: inline-block;
+}
+
+.bu-btn.primary {
+  background: #38bdf8;
+  color: #0f172a;
+}
+
+.bu-btn.primary:hover {
+  background: #0ea5e9;
+  transform: translateY(-2px);
+}
+
+.bu-btn.ghost {
+  border: 1px solid rgba(255,255,255,0.5);
+  color: white;
+}
+
+.bu-btn.ghost:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+.bu-hero-actions {
+  display: flex;
+  gap: 15px;
+}
+
+/* ---------- HERO VISUAL ---------- */
+.bu-hero-visual {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.bu-glass-card {
+  background: rgba(255,255,255,0.1);
+  border-radius: 14px;
+  padding: 20px;
+  backdrop-filter: blur(6px);
+}
+
+.bu-glass-card.small {
+  width: 160px;
+}
+
+/* ---------- CARDS ---------- */
+.bu-cards {
+  background: #f8fafc;
+  padding: 80px 0;
+}
+
+.bu-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
+
+.bu-card {
+  padding: 30px;
+  border-radius: 14px;
+  background: white;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+  text-align: center;
+  transition: all 0.25s ease;
+}
+
+.bu-card:hover {
+  transform: translateY(-6px);
+  border-bottom: 3px solid #2563eb;
+}
+
+.bu-card h3 {
+  border-bottom: 2px solid #2563eb;
+  display: inline-block;
+  padding-bottom: 5px;
+}
+
+/* ---------- STEPS ---------- */
+.bu-steps {
+  padding: 60px 0;
+  background: white;
+}
+
+.bu-steps-inner {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.step {
+  text-align: center;
+  max-width: 120px;
+}
+
+.step span {
+  display: inline-block;
+  width: 44px;
+  height: 44px;
+  background: #2563eb;
+  color: white;
+  border-radius: 50%;
+  line-height: 44px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* ---------- CTA ---------- */
+.bu-cta {
+  padding: 100px 0;
+  text-align: center;
+  background: linear-gradient(135deg, #1e3a8a, #2563eb);
+  color: white;
+}
+
+.bu-cta h2 {
+  font-size: 34px;
+  margin-bottom: 25px;
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 900px) {
+
+  .bu-hero-inner {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .bu-hero-actions {
+    justify-content: center;
+  }
+
+  .bu-cards-grid {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+/* ---------- FORCE FULL WIDTH IN MOODLE ---------- */
+#page.drawers .main-inner {
+  max-width: 100% !important;
+  padding: 0 !important;
+}
+
+body.path-site nav.moremenu.navigation {
+  display: none !important;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+/* Card */
+.booking-ai-chat-container {
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+  background: #fff;
+}
+
+/* Header */
+.card-header {
+  background: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 12px 16px;
+}
+
+.card-header h5 {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+/* Badge */
+.badge-success {
+  background: #22c55e;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+/* Messages */
+.booking-ai-messages {
+  background: #fafafa;
+}
+
+/* Chat bubble */
+.booking-ai-msg .bubble {
+  background: #f1f5f9;
+  border-radius: 10px;
+  padding: 10px 14px;
+  max-width: 75%;
+  font-size: 14px;
+  color: #334155;
+}
+
+/* Preview panel */
+.booking-ai-preview-pane {
+  border-left: 1px solid #e5e7eb;
+  background: #fff;
+}
+
+.booking-ai-preview-header {
+  font-weight: 600;
+  padding: 10px 12px;
+  border-bottom: 1px solid #e5e7eb;
+  background: #f9fafb;
+}
+
+/* Splitter */
+.booking-ai-splitter {
+  background: transparent;
+  cursor: col-resize;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.booking-ai-splitter-handle {
+  width: 2px;
+  height: 40px;
+  background: #d1d5db;
+  border-radius: 2px;
+}
+
+/* Footer input */
+.card-footer {
+  background: #fff;
+  border-top: 1px solid #e5e7eb;
+  padding: 12px;
+}
+
+.booking-ai-input {
+  resize: none;
+  border-radius: 8px;
+}
+
+/* Send button */
+#booking-ai-send {
+  border-radius: 8px;
+  padding: 6px 14px;
+}
+
+#booking-ai-wrapper {
+  overflow-x: hidden;
+}
+
+.booking-ai-body-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 8px minmax(0, 0.8fr);
+  width: 100%;
+  max-width: 100%;
+}
+
+.booking-ai-main-pane,
+.booking-ai-preview-pane {
+  min-width: 0; /* CRITICAL: prevents overflow in grid */
+}
+.list-group-item {
+  background: white;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+}
+
+.booking-button-mainarea.btn {
+  background: #2563eb !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 10px !important;
+  padding: 12px !important;
+  font-weight: 600 !important;
+  transition: all 0.2s ease;
+}
+
+/* HOVER */
+.booking-button-mainarea.btn:hover {
+  background: #1e40af !important;
+  transform: translateY(-1px);
+}
+
+/* REMOVE BOOTSTRAP GREY */
+.booking-button-mainarea.btn-secondary {
+  background: #2563eb !important;
+  color: white !important;
+}
+
+.booking-button-mainarea.btn {
+  box-shadow: 0 3px 5px rgba(37, 99, 235, 0.25);
+}
+
+.booking-button-mainarea.btn:hover {
+  box-shadow: 0 3px 5px rgba(37, 99, 235, 0.35);
+}
+
+.rounded-top {
+  background-image: linear-gradient(135deg, #1e3a8a, #2563eb) !important;
+  background-size:unset !important;               
+}
+
+/* TEXT OVERLAY */
+.rounded-top::before {
+    content: "Add an image";
+    position: absolute;
+    height: 20px;
+    right: 0;
+    left: 0;
+    top: 100px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 20px;
+    font-weight: 600;
+}
+</style>
+
+{{#hasallbookingoptions}}
+{{! Reload the booking options table after AI completes an action }}
+<script>
+(function() {
+    document.addEventListener('mod_booking_ai_run_completed', function() {
+        require(['local_wunderbyte_table/reload'], function(reload) {
+            reload.reloadAllTables(false);
+        });
+    });
+}());
+</script>
+{{/hasallbookingoptions}}
+</style>

@@ -46,6 +46,10 @@ $THEME->parents = ['boost_union', 'boost'];
 $THEME->extrascsscallback = 'theme_boost_union_child_get_extra_scss';
 $THEME->prescsscallback = 'theme_boost_union_child_get_pre_scss';
 
+// Use the child theme's drawers.php layout so we can inject frontpage template data.
+$THEME->layouts['frontpage']['file'] = 'drawers.php';
+$THEME->layouts['base']['file']      = 'drawers.php';
+
 // We need to duplicate the rendererfactory even if it is set to the same value as in Boost Union.
 // The theme_config::get_renderer() method needs it to be directly in the theme_config object.
 $THEME->rendererfactory = 'theme_overridden_renderer_factory';

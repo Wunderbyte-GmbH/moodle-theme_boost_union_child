@@ -3,3 +3,236 @@
  * Add your SCSS code here.
  * It will be added on top of Boost Union's SCSS code.
  ***************************************************************/
+
+// ================================================================
+// Quick Login selector — 3 role circles on the login page
+// ================================================================
+
+#quicklogin-selector {
+    padding: 1.5rem 1rem 0.5rem;
+
+    .quicklogin-hint {
+        font-size: 0.875rem;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+    }
+
+    .quicklogin-circles {
+        gap: 2rem !important;
+    }
+
+    .quicklogin-circle {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 110px;
+        height: 110px;
+        border-radius: 50%;
+        border: 3px solid transparent;
+        background: #f0f4f8;
+        cursor: pointer;
+        transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+        padding: 0;
+        gap: 0.4rem;
+        text-decoration: none;
+        outline: none;
+
+        .quicklogin-icon {
+            font-size: 2rem;
+            line-height: 1;
+        }
+
+        .quicklogin-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        &:hover,
+        &:focus-visible {
+            transform: scale(1.08);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        &:focus-visible {
+            outline: 3px solid currentColor;
+            outline-offset: 3px;
+        }
+
+        // Admin — dark red / crimson
+        &.quicklogin-admin {
+            background: #fff0f0;
+            border-color: #c0392b;
+            color: #c0392b;
+
+            &:hover,
+            &:focus-visible {
+                background: #c0392b;
+                color: #fff;
+            }
+        }
+
+        // Manager — amber / orange
+        &.quicklogin-manager {
+            background: #fff8ec;
+            border-color: #e67e22;
+            color: #e67e22;
+
+            &:hover,
+            &:focus-visible {
+                background: #e67e22;
+                color: #fff;
+            }
+        }
+
+        // User — steel blue
+        &.quicklogin-user {
+            background: #eef4fb;
+            border-color: #2980b9;
+            color: #2980b9;
+
+            &:hover,
+            &:focus-visible {
+                background: #2980b9;
+                color: #fff;
+            }
+        }
+    }
+}
+
+// ================================================================
+// Quick Login frontpage selector
+// Hidden by default; shown only on the front page when NOT logged in.
+// Moodle adds body.path-site for front page, body.notloggedin for guests.
+// ================================================================
+
+#quicklogin-frontpage {
+    display: none;
+}
+
+body.path-site.notloggedin #quicklogin-frontpage {
+    display: block;
+    padding: 2rem 1rem 1rem;
+    text-align: center;
+
+    .quicklogin-hint {
+        font-size: 0.875rem;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+    }
+
+    .quicklogin-circles {
+        gap: 2rem !important;
+    }
+
+    .quicklogin-circle {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 110px;
+        height: 110px;
+        border-radius: 50%;
+        border: 3px solid transparent;
+        background: #f0f4f8;
+        cursor: pointer;
+        transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+        padding: 0;
+        gap: 0.4rem;
+        outline: none;
+
+        .quicklogin-icon {
+            font-size: 2rem;
+            line-height: 1;
+        }
+
+        .quicklogin-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        &:hover,
+        &:focus-visible {
+            transform: scale(1.08);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        &:focus-visible {
+            outline: 3px solid currentColor;
+            outline-offset: 3px;
+        }
+
+        &.quicklogin-admin {
+            background: #fff0f0;
+            border-color: #c0392b;
+            color: #c0392b;
+
+            &:hover, &:focus-visible {
+                background: #c0392b;
+                color: #fff;
+            }
+        }
+
+        &.quicklogin-manager {
+            background: #fff8ec;
+            border-color: #e67e22;
+            color: #e67e22;
+
+            &:hover, &:focus-visible {
+                background: #e67e22;
+                color: #fff;
+            }
+        }
+
+        &.quicklogin-user {
+            background: #eef4fb;
+            border-color: #2980b9;
+            color: #2980b9;
+
+            &:hover, &:focus-visible {
+                background: #2980b9;
+                color: #fff;
+            }
+        }
+    }
+}
+
+// ================================================================
+// Hide secondary "more menu" navigation on the front page
+// ================================================================
+body.path-site nav.moremenu.navigation {
+    display: none !important;
+}
+
+// ================================================================
+// AI instructions panel on the front page
+// ================================================================
+.bu-ai-instructions {
+    padding: 60px 0;
+    background: #f8fafc;
+}
+
+// ================================================================
+// All booking options on the front page
+// ================================================================
+.bu-all-booking-options {
+    padding: 60px 0;
+    background: #ffffff;
+}
+
+// ================================================================
+// Booking activity course format — hide page header
+// ================================================================
+body.format-bookingactivity,
+body.cm-type-booking {
+    #page-header,
+    .page-header-headings,
+    .activity-header {
+        display: none !important;
+    }
+}
+
