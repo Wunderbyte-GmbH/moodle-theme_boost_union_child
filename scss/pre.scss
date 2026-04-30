@@ -3,3 +3,7 @@
  * Add your Pre-SCSS code here.
  * It will be added on top of Boost Union's Pre-SCSS code.
  ***************************************************************/
+
+// Fallback for $logincontainer-shadow which boost_union/post.scss references
+// but boost/scss/moodle/login.scss may not be imported early enough.
+$logincontainer-shadow: $box-shadow !default;
