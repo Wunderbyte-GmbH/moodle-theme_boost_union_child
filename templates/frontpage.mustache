@@ -1,69 +1,9 @@
 <div class="bu-frontpage">
-
-  <!-- HERO -->
-  <section class="bu-hero">
-    <div class="container bu-hero-inner">
-
-      <div class="bu-hero-text">
-        <h1>Create booking systems in seconds</h1>
-        <p>Describe your service. We generate your booking setup automatically with AI.</p>
-
-        <div class="bu-hero-actions">
-          <a href="{{config.wwwroot}}/login/index.php" class="bu-btn primary">Start free</a>
-          <a href="{{config.wwwroot}}/course/index.php" class="bu-btn ghost">See demo</a>
-        </div>
-      </div>
-
-      <div class="bu-hero-visual">
-        <div class="bu-glass-card">
-          <h3>Barber Booking</h3>
-          <p>20 min slots · €18</p>
-        </div>
-        <div class="bu-glass-card small">
-          <p>Generated in 6s</p>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- USE CASES -->
-  <section class="bu-cards">
-    <div class="container">
-      <div class="bu-cards-grid">
-        <div class="bu-card">
-          <h3>Appointments</h3>
-          <p>Hair salons, coaching, consulting</p>
-        </div>
-        <div class="bu-card">
-          <h3>Events</h3>
-          <p>Workshops, classes, group sessions</p>
-        </div>
-        <div class="bu-card">
-          <h3>Pricing</h3>
-          <p>Flexible per slot or per date</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- STEPS -->
-  <section class="bu-steps">
-    <div class="container">
-      <div class="bu-steps-inner">
-        <div class="step"><span>1</span><p>Describe</p></div>
-        <div class="step"><span>2</span><p>AI builds</p></div>
-        <div class="step"><span>3</span><p>Adjust</p></div>
-        <div class="step"><span>4</span><p>Launch</p></div>
-      </div>
-    </div>
-  </section>
-
   <!-- CTA -->
   <section class="bu-cta">
     <div class="container">
-      <h2>Stop wasting time on setup</h2>
-      <h2>Create your booking now</h2>
+      <h2>{{#str}}cta_headline, theme_boost_union_child{{/str}}</h2>
+      <h2>{{#str}}cta_subline, theme_boost_union_child{{/str}}</h2>
       <div class="mt-4">
         {{#hasaiinstructions}}
           {{{aiinstructionshtml}}}

@@ -89,5 +89,9 @@ $string['frontpageheading_desc'] = 'Configure what is shown on the site front pa
 $string['frontpagebookingcmidsetting'] = 'Booking activity (cmid)';
 $string['frontpagebookingcmidsetting_desc'] = 'Enter the course-module ID (cmid) of the booking activity whose AI instructions panel should be embedded on the front page. Leave empty to hide the panel.';
 
+// Front page CTA section.
+$string['cta_headline'] = 'Stop wasting time on setup';
+$string['cta_subline'] = 'Create your booking now';
+
 // Privacy API.
 $string['privacy:metadata'] = 'The Boost Union Child theme does not store any personal data about any user.';

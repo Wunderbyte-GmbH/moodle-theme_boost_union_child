@@ -237,6 +237,18 @@ body.cm-type-booking {
 }
 
 
+// ================================================================
+// Outside-top block region — full viewport width on the front page,
+// sitting above #region-main. Breaks out of the Bootstrap container
+// using the standard negative-margin / 100vw technique.
+// ================================================================
+body.path-site #theme-block-region-outside-top {
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: #0f172a;
+}
+
 .wunderbyte-table-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
