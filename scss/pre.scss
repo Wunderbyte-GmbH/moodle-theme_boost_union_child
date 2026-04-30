@@ -6,4 +6,5 @@
 
 // Fallback for $logincontainer-shadow which boost_union/post.scss references
 // but boost/scss/moodle/login.scss may not be imported early enough.
-$logincontainer-shadow: $box-shadow !default;
+// Value matches Bootstrap's default $box-shadow.
+$logincontainer-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !default;
