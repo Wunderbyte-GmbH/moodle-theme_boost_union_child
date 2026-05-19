@@ -3,3 +3,10 @@
  * Add your Pre-SCSS code here.
  * It will be added on top of Boost Union's Pre-SCSS code.
  ***************************************************************/
+#page-mod-quiz-comment #manualgradingform .tox-tinymce {
+    min-height: 300px;
+}
+
+#page-mod-quiz-comment #manualgradingform body.mce-content-body {
+    line-height: 1.4;
+}
