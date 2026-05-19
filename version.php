@@ -25,6 +25,6 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'theme_boost_union_child';
-$plugin->version = 2026012800;
+$plugin->version = 2026051900;
 $plugin->maturity = MATURITY_STABLE;
 $plugin->dependencies = ['theme_boost_union' => 2024000000];
